@@ -172,6 +172,7 @@
   .footer-bottom a { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
   .footer-bottom a:hover { color: var(--orange); text-decoration: underline; }
   .footer-bottom nav { display: flex; gap: 25px; }
+  .footer-contact { display: flex; align-items: center; flex-wrap: wrap; gap: 20px; }
   .preview-footer { font-size: 10px; color: var(--ink-secondary); margin-top: 15px; }
   .document-header { padding-block: 68px 52px; }
   .back-link { min-height: 44px; margin-bottom: 24px; text-decoration: none; }
@@ -297,7 +298,7 @@
     .document-sidebar .text-link { display: none; }
     .footer-bottom { flex-wrap: wrap; gap: 10px 30px; }
     .footer-bottom nav { order: 3; width: 100%; }
-    .footer-bottom > a { margin-left: auto; }
+    .footer-bottom > .footer-contact { margin-left: auto; }
   }
   @media (max-width: 600px) {
     .wrap { width: calc(100% - 40px); }

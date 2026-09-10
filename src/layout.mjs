@@ -28,6 +28,7 @@ export function layout({ title, description, path = '', body, base, site, releas
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  ${site.links.mastodon?`<link rel="me" href="${escape(site.links.mastodon)}">`:''}
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f7f6f2">
   <meta name="description" content="${escape(description)}">
@@ -61,7 +62,7 @@ export function layout({ title, description, path = '', body, base, site, releas
   <main id="main" tabindex="-1">${body}</main>
   <footer class="site-footer wrap">
     <div class="footer-top"><div><a class="brand" href="${url()}"><img src="${url('assets/app-icon.png')}" width="36" height="36" alt=""><span>Trayage<span class="brand-dot">.</span></span></a><p>A little order for your Downloads.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
-    <div class="footer-bottom"><p>© 2026 ${publisherBrand}</p><nav aria-label="Footer navigation"><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Roadmap</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><a href="mailto:${site.email}">Say hello ${arrow}</a></div>
+    <div class="footer-bottom"><p>© 2026 ${publisherBrand}</p><nav aria-label="Footer navigation"><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Roadmap</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:${site.email}">Say hello ${arrow}</a></div></div>
     ${!site.publicationApproved ? '<p class="preview-footer">Local review preview · Not published · Policy text remains a draft</p>' : ''}
   </footer>
 </body>

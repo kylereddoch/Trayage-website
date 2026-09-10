@@ -22,7 +22,8 @@
     "appleRefunds": "https://reportaproblem.apple.com/",
     "issues": "https://github.com/kylereddoch/Trayage-website/issues",
     "featureIdea": "https://github.com/kylereddoch/Trayage-website/issues/new?template=feature-idea.yml",
-    "bugReport": "https://github.com/kylereddoch/Trayage-website/issues/new?template=bug-report.yml"
+    "bugReport": "https://github.com/kylereddoch/Trayage-website/issues/new?template=bug-report.yml",
+    "mastodon": "https://indieapps.space/@trayage"
   },
   "pricing": {
     "oneTimeUSD": "29.99",
@@ -35,5 +36,6 @@
   "publisherURL": "https://relaybyte.dev",
   "publisherMark": "assets/relaybyte-symbol.svg",
   "studioEmail": "kyle@relaybyte.dev",
-  "effective": "September 10, 2026"
+  "effective": "September 10, 2026",
+  "mastodonReady": false
 }
