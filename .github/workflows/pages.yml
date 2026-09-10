@@ -2,6 +2,8 @@ name: Deploy Trayage website
 
 on:
   workflow_dispatch:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, deleted, transferred]
 
 permissions:
   contents: read
@@ -12,16 +14,25 @@ concurrency:
 
 jobs:
   build:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (!github.event.issue.pull_request &&
+      (contains(github.event.issue.labels.*.name, 'roadmap') || github.event.label.name == 'roadmap'))
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pages: read
+      issues: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
+      - name: Sync approved GitHub roadmap issues
+        run: npm run roadmap:sync
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm test

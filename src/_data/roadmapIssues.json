@@ -1,0 +1,85 @@
+{
+  "repository": "kylereddoch/Trayage-website",
+  "items": [
+    {
+      "number": 1,
+      "title": "The first direct Mac release",
+      "description": "Download the signed, notarized Mac app, start a seven-day trial, or activate an existing license.",
+      "area": "Release",
+      "status": "completed",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 2,
+      "title": "A Mac App Store edition",
+      "description": "Bring Trayage to the Mac App Store with purchases and restores through your Apple Account.",
+      "area": "Release",
+      "status": "in-progress",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 3,
+      "title": "Keep the review up to date",
+      "description": "Notice changes in the selected folder so new downloads can appear without a manual rescan.",
+      "area": "File review",
+      "status": "planned",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 4,
+      "title": "Your definition of old or large",
+      "description": "Choose the age and size thresholds that make sense for your files and workflow.",
+      "area": "Preferences",
+      "status": "planned",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 5,
+      "title": "Check what’s inside likely duplicates",
+      "description": "Use content hashes to verify likely matches after the initial filename and size checks.",
+      "area": "File review",
+      "status": "planned",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 6,
+      "title": "Remember what you want to keep",
+      "description": "Keep ignore decisions between reviews, so the same files do not keep asking for attention.",
+      "area": "File review",
+      "status": "planned",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 7,
+      "title": "A focused, local file review",
+      "description": "Group disk images, likely duplicates, older or larger files, and recent downloads from one selected folder.",
+      "area": "Core app",
+      "status": "completed",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 8,
+      "title": "Cleanup that waits for your decision",
+      "description": "Move selected, unchanged files to Trash after confirmation. Trayage does not empty the Trash.",
+      "area": "Core app",
+      "status": "completed",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 9,
+      "title": "At home in your menu bar",
+      "description": "A menu-bar popover, a full review window, and a choice to show Trayage in the Dock too.",
+      "area": "Interface",
+      "status": "completed",
+      "updated": "2026-09-10"
+    },
+    {
+      "number": 10,
+      "title": "Light, dark, or your Mac’s appearance",
+      "description": "Choose the look that suits your workspace, with the same review controls in each appearance.",
+      "area": "Interface",
+      "status": "completed",
+      "updated": "2026-09-10"
+    }
+  ]
+}

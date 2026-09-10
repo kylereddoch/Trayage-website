@@ -14,7 +14,8 @@
     "build:pages": "eleventy --pathprefix=/Trayage-website/ --output=dist-subpath",
     "preview": "node scripts/serve.mjs",
     "test": "playwright test",
-    "check": "npm run build && npm test"
+    "check": "npm run build && npm test",
+    "roadmap:sync": "node scripts/sync-roadmap.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",

@@ -3,7 +3,10 @@ import { readFile } from 'node:fs/promises';
 import { unzipSync, strFromU8 } from 'fflate';
 import site from '../src/_data/site.json' with {type:'json'};
 import releases from '../src/_data/releases.json' with {type:'json'};
-import roadmap from '../src/_data/roadmap.json' with {type:'json'};
+import roadmapBaseline from '../src/_data/roadmap.json' with {type:'json'};
+import roadmapIssues from '../src/_data/roadmapIssues.json' with {type:'json'};
+import {resolveRoadmap} from '../src/_lib/roadmap.js';
+const roadmap = resolveRoadmap(roadmapBaseline, roadmapIssues);
 import press from '../src/_data/press.json' with {type:'json'};
 import changelog from '../src/_data/changelog.json' with {type:'json'};
 import { entryReleases, validateChangelog } from '../src/_lib/changelog.js';
@@ -71,7 +74,7 @@ test('direct-only download is first and its checksum remains readable on mobile'
 
 test('roadmap completion is separate from a public release', () => {
   validateRoadmap(roadmap);
-  const source = structuredClone(roadmap);
+  const source = structuredClone(roadmapBaseline);
   const item = source.items.find(i=>i.id==='folder-monitoring');
   item.status='completed';
   let html=renderRoadmap({base:'/',site,roadmap:source});

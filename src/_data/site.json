@@ -19,7 +19,10 @@
     "protonPrivacy": "https://proton.me/mail/privacy-policy",
     "applePrivacy": "https://www.apple.com/legal/privacy/data/en/app-store/",
     "appleEULA": "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
-    "appleRefunds": "https://reportaproblem.apple.com/"
+    "appleRefunds": "https://reportaproblem.apple.com/",
+    "issues": "https://github.com/kylereddoch/Trayage-website/issues",
+    "featureIdea": "https://github.com/kylereddoch/Trayage-website/issues/new?template=feature-idea.yml",
+    "bugReport": "https://github.com/kylereddoch/Trayage-website/issues/new?template=bug-report.yml"
   },
   "pricing": {
     "oneTimeUSD": "29.99",

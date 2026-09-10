@@ -56,9 +56,14 @@ export function validateReleases(releases, site) {
 
 export function validateRoadmap(roadmap) {
   const ids = new Set();
+  const issues = new Set();
   for (const item of roadmap.items) {
     if (!/^[a-z0-9-]+$/.test(item.id) || ids.has(item.id)) throw new Error('Roadmap IDs must be unique URL-safe names.');
     ids.add(item.id);
+    if (item.issue !== undefined) {
+      if (!Number.isSafeInteger(item.issue) || item.issue < 1 || issues.has(item.issue)) throw new Error('Roadmap issue numbers must be positive, unique integers.');
+      issues.add(item.issue);
+    }
     if (!['planned', 'in-progress', 'completed'].includes(item.status) || !item.title || !item.description) throw new Error(`Invalid roadmap item: ${item.id}`);
     if (item.release) {
       if (item.status !== 'completed' || !item.release.version || !/^\d{4}-\d{2}-\d{2}$/.test(item.release.date)) throw new Error(`Released roadmap item ${item.id} needs completed status, version and date.`);

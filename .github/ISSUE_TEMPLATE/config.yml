@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private support, billing, licensing, and security
+    url: https://trayage.app/support/
+    about: Email trayage@relaybyte.dev. Do not post account details or security reports publicly.
+  - name: Trayage roadmap
+    url: https://trayage.app/roadmap/
+    about: See planned, in-progress, and completed improvements.

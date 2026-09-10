@@ -1,0 +1,56 @@
+name: Report a bug
+description: Report a problem with the Mac app or website.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This report is public. Remove private filenames, account details, and license keys from screenshots and logs. Email **trayage@relaybyte.dev** for private support or security reports.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong, and what did you expect?
+    validations:
+      required: true
+  - type: dropdown
+    id: edition
+    attributes:
+      label: Edition
+      options:
+        - Direct Mac download
+        - Mac App Store / TestFlight
+        - Website
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Trayage version and build
+      placeholder: "For example: 1.0 (2), or website"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: macOS version and Mac, or browser
+      placeholder: "For example: macOS 15.6, Apple silicon; or Safari 18"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include how often it happens and any relevant settings.
+      placeholder: |
+        1. Open…
+        2. Select…
+        3. See…
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Screenshots or additional details
+      description: Optional. Redact personal information before attaching anything.

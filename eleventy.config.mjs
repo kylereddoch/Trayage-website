@@ -5,6 +5,7 @@ import { normalizeBase } from './src/_lib/paths.js';
 import { validateReleases, validateRoadmap } from './src/_lib/releases.js';
 import { buildMediaKit } from './src/_lib/media-kit.js';
 import { validateChangelog } from './src/_lib/changelog.js';
+import {resolveRoadmap} from './src/_lib/roadmap.js';
 
 export default function (eleventyConfig) {
   let firstBuild = true;
@@ -29,7 +30,9 @@ export default function (eleventyConfig) {
     press = JSON.parse(await readFile(new URL('./src/_data/press.json', import.meta.url), 'utf8'));
     const roadmap = JSON.parse(await readFile(new URL('./src/_data/roadmap.json', import.meta.url), 'utf8'));
     validateReleases(releases, site);
+    const roadmapIssues = JSON.parse(await readFile(new URL('./src/_data/roadmapIssues.json', import.meta.url), 'utf8'));
     validateRoadmap(roadmap);
+    validateRoadmap(resolveRoadmap(roadmap, roadmapIssues));
     validateChangelog(JSON.parse(await readFile(new URL('./src/_data/changelog.json', import.meta.url), 'utf8')));
     const output = resolve(directories.output);
     // Never recursively remove source files through an accidental --output flag.

@@ -1,0 +1,45 @@
+name: Share an idea
+description: Suggest an improvement to Trayage.
+title: "[Idea] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tell Kyle what would make Trayage more useful. Search existing issues first; you can add a thumbs-up reaction or join the conversation on an existing idea.
+
+        This is public. For purchases, license keys, private files, or account help, email **trayage@relaybyte.dev** instead. Ideas are reviewed before they are added to the website roadmap.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe your idea in a sentence or two. This summary may appear on the roadmap if the idea is accepted.
+      placeholder: I would like Trayage to…
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - File review
+        - Cleanup
+        - Preferences
+        - Interface
+        - Accessibility
+        - Website
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would this help you do?
+      description: Explain the problem or workflow behind your idea, and any approach you use today.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Anything else?
+      description: Optional examples or screenshots. Remove personal information first.
