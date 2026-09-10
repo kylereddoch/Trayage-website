@@ -1,0 +1,36 @@
+{
+  "name": "Trayage",
+  "publisher": "Kyle Reddoch",
+  "email": "trayage@relaybyte.dev",
+  "reviewed": "September 10, 2026",
+  "publicationApproved": true,
+  "policiesApproved": true,
+  "releaseReady": false,
+  "checkoutEnabled": false,
+  "origin": "https://trayage.app",
+  "links": {
+    "oneTime": "https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02",
+    "billing": "https://billing.stripe.com/p/login/6oUfZhfzpbm8awd7pV73G00",
+    "licenses": "https://portal.keylight.dev",
+    "stripePrivacy": "https://stripe.com/privacy",
+    "keylightPrivacy": "https://keylight.dev/privacy/",
+    "keylightSDK": "https://github.com/keylight-dev/keylight-swift/blob/0.12.1/CHANGELOG.md",
+    "githubPrivacy": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+    "protonPrivacy": "https://proton.me/mail/privacy-policy",
+    "applePrivacy": "https://www.apple.com/legal/privacy/data/en/app-store/",
+    "appleEULA": "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+    "appleRefunds": "https://reportaproblem.apple.com/"
+  },
+  "pricing": {
+    "oneTimeUSD": "29.99",
+    "trialDays": 7,
+    "majorVersion": 1,
+    "directDeviceLimit": 3,
+    "directRefundDays": 14
+  },
+  "publisherBrand": "RelayByte",
+  "publisherURL": "https://relaybyte.dev",
+  "publisherMark": "assets/relaybyte-symbol.svg",
+  "studioEmail": "kyle@relaybyte.dev",
+  "effective": "September 10, 2026"
+}

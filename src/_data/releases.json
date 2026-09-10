@@ -1,0 +1,24 @@
+{
+  "updated": "2026-09-10",
+  "minimumMacOS": "14",
+  "direct": {
+    "status": "preparing",
+    "version": "",
+    "url": "",
+    "releasedAt": "",
+    "verifiedAt": "",
+    "notarized": false,
+    "architectures": "Apple silicon",
+    "format": "",
+    "size": ""
+  },
+  "appStore": {
+    "status": "preparing",
+    "appId": "6810382134",
+    "version": "",
+    "url": "",
+    "releasedAt": "",
+    "verifiedAt": "",
+    "badgePath": ""
+  }
+}

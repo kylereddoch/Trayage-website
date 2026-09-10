@@ -1,0 +1,53 @@
+{
+  "updated": "2026-09-10",
+  "tagline": "A little order for your Downloads.",
+  "shortDescription": "Trayage is a native Mac app that helps you review your Downloads folder, spot installers and likely duplicates, and decide what to keep. File analysis stays on your Mac, and moving files to Trash always requires confirmation.",
+  "longDescription": "Trayage gives the files in Downloads a more considered review. It groups disk images, likely duplicates, older or larger files, and recent downloads, with a plain-language explanation of why each file stands out. Reveal a file in Finder, ignore a suggestion for the current review, or select files to move to Trash after confirmation. Trayage lives in the menu bar, with a full review window and an optional Dock presence. Built by Kyle Reddoch under the RelayByte brand, it is designed for macOS 14 and later.",
+  "developerBio": "Kyle Reddoch is an independent developer based in Texas, United States. RelayByte is the home for his apps. His background in cybersecurity informs an emphasis on clear permissions, local processing, and controls people can understand.",
+  "screenshots": [
+    {
+      "path": "assets/media/trayage-review-light.png",
+      "title": "Review window \u00b7 light appearance",
+      "alt": "Trayage in light appearance, showing eight sample files grouped for review and details for a sample installer.",
+      "caption": "Prerelease App Store edition \u00b7 1.0 (build 1) \u00b7 2560 \u00d7 1788 PNG \u00b7 Captured September 10, 2026 on macOS 27 beta. Synthetic files and sizes; no measured disk-savings claim."
+    },
+    {
+      "path": "assets/media/trayage-review-dark.png",
+      "title": "Review window \u00b7 dark appearance",
+      "alt": "Trayage in dark appearance, showing eight sample files grouped for review and details for a sample installer.",
+      "caption": "Prerelease App Store edition \u00b7 1.0 (build 1) \u00b7 2560 \u00d7 1788 PNG \u00b7 Captured September 10, 2026 on macOS 27 beta. Synthetic files and sizes; no measured disk-savings claim."
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/media/trayage-icon-1024.png",
+      "label": "Trayage app icon",
+      "format": "PNG \u00b7 1024 \u00d7 1024",
+      "kind": "product"
+    },
+    {
+      "path": "assets/media/trayage-icon-512.png",
+      "label": "Trayage app icon, smaller",
+      "format": "PNG \u00b7 512 \u00d7 512",
+      "kind": "product"
+    },
+    {
+      "path": "assets/media/relaybyte-symbol.svg",
+      "label": "RelayByte publisher symbol",
+      "format": "SVG \u00b7 scalable",
+      "kind": "publisher"
+    },
+    {
+      "path": "assets/media/relaybyte-lockup-ink.svg",
+      "label": "RelayByte wordmark for light backgrounds",
+      "format": "SVG \u00b7 scalable",
+      "kind": "publisher"
+    },
+    {
+      "path": "assets/media/relaybyte-lockup-paper.svg",
+      "label": "RelayByte wordmark for dark backgrounds",
+      "format": "SVG \u00b7 scalable",
+      "kind": "publisher"
+    }
+  ]
+}

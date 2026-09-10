@@ -1,0 +1,25 @@
+{
+  "name": "trayage-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "eleventy --serve",
+    "dev": "eleventy --serve",
+    "watch": "eleventy --watch",
+    "build": "eleventy",
+    "build:pages": "eleventy --pathprefix=/Trayage-website/ --output=dist-subpath",
+    "preview": "node scripts/serve.mjs",
+    "test": "playwright test",
+    "check": "npm run build && npm test"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6",
+    "@axe-core/playwright": "4.11.1",
+    "@playwright/test": "1.58.2",
+    "fflate": "0.8.3"
+  }
+}
