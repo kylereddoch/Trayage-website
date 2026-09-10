@@ -60,7 +60,7 @@
   .download-help-links { display: flex; gap: 35px; margin-top: 28px; flex-wrap: wrap; }
   .media-header { display: flex; align-items: center; justify-content: space-between; gap: 40px; }
   .media-header > div { max-width: 820px; }
-  .media-header .button { margin-top: 25px; }
+  .media-header .button { margin-top: 32px; min-height: 60px; padding: 18px 30px; gap: 18px; }
   .media-hero-icon { width: 210px; height: 210px; flex-shrink: 0; }
   .media-layout { display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 70px; margin-bottom: 90px; }
   .media-sidebar nav { display: flex; flex-direction: column; position: sticky; top: 35px; }
