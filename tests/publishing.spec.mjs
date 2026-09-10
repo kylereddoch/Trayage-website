@@ -30,7 +30,7 @@ test('direct and Apple can launch independently, and shared CTAs follow availabi
     expect(page).not.toContain('href=""');
     if (isDirect && !isApple) {
       expect(page.indexOf('id="direct"')).toBeLessThan(page.indexOf('id="mac-app-store"'));
-      expect(page).toContain('The Mac App Store edition is still in preparation.');
+      expect(page).toContain('The Mac App Store edition is coming soon.');
       expect(page).toContain(direct.sha256);
     }
     const main = home('/Trayage-website/',readySite,channels);
@@ -59,7 +59,7 @@ test('direct-only download is first and its checksum remains readable on mobile'
     await page.setViewportSize({width,height:1000});
     await page.setContent(layout({title:'Get Trayage',description:'Download Trayage',path:'download/',base:'/',site:config,releases:channels,body:download({base:'/',site:config,releases:channels})}));
     await expect(page.locator('.download-option').first()).toHaveAttribute('id','direct');
-    await expect(page.locator('#mac-app-store')).toContainText('In preparation');
+    await expect(page.locator('#mac-app-store')).toContainText('Coming soon');
     await expect(page.locator('#direct')).toContainText('New license purchases are still being finalized');
     await expect(page.locator('main a[href^="https://apps.apple.com"], main a[href^="https://buy.stripe.com"]')).toHaveCount(0);
     await page.getByText('Verify your download',{exact:true}).click();

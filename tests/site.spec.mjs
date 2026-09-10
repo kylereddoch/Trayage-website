@@ -91,7 +91,7 @@ test('one-time offer uses approved pricing and only enables verified release cha
     if (!site.checkoutEnabled) await expect(page.locator('#direct')).toContainText('New license purchases are still being finalized');
   } else await expect(page.locator('#direct')).toContainText('after release checks');
   if (channelIsLive(releases,'appStore')) await expect(page.locator('#mac-app-store a')).toHaveAttribute('href',releases.appStore.url);
-  else await expect(page.locator('#mac-app-store')).toContainText('listing is live');
+  else await expect(page.locator('#mac-app-store')).toContainText('Coming soon to the Mac App Store.');
   await page.goto(hosts[0].url);
   if (channelIsLive(releases,'direct') && !site.checkoutEnabled) await expect(page.locator('#pricing')).toContainText('New license purchases are still being finalized');
   await expect(page.locator(`a[href="${site.links.licenses}"]`)).toHaveCount(1);
