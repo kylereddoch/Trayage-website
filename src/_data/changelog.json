@@ -2,14 +2,29 @@
   "entries": [
     {
       "version": "1.0",
-      "build": "1",
+      "build": "2",
       "title": "A little order for your Downloads.",
       "summary": "The first version brings file review and confirmed cleanup together in a Mac app.",
-      "releaseHistory": {},
+      "releaseHistory": {
+        "direct": "2026-09-10"
+      },
       "highlights": [
-        { "title": "Review before you clear", "description": "Review files in a selected folder, choose what to remove, and confirm before unchanged files move to Trash. Trayage never empties the Trash." },
-        { "title": "Close at hand", "description": "Open Trayage from the menu bar and move into the full review window when you need a closer look." },
-        { "title": "File review stays on your Mac", "description": "Trayage scans and groups files locally. Purchases, licensing, and support use the services described in the privacy policy." }
+        {
+          "title": "Review before you clear",
+          "description": "Review files in a selected folder, choose what to remove, and confirm before unchanged files move to Trash. Trayage never empties the Trash."
+        },
+        {
+          "title": "Close at hand",
+          "description": "Open Trayage from the menu bar and move into the full review window when you need a closer look."
+        },
+        {
+          "title": "File review stays on your Mac",
+          "description": "Trayage scans and groups files locally. Purchases, licensing, and support use the services described in the privacy policy."
+        },
+        {
+          "title": "Made for both kinds of Mac",
+          "description": "The signed and notarized direct download runs on Apple silicon and Intel Macs with macOS 14 or later."
+        }
       ]
     }
   ]

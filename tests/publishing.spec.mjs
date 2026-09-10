@@ -8,24 +8,31 @@ import press from '../src/_data/press.json' with {type:'json'};
 import changelog from '../src/_data/changelog.json' with {type:'json'};
 import { entryReleases, validateChangelog } from '../src/_lib/changelog.js';
 import renderChangelog from '../src/changelog.11ty.js';
-import { validateReleases, validateRoadmap } from '../src/_lib/releases.js';
+import { validateReleases, validateRoadmap, releaseSummary, channelIsLive } from '../src/_lib/releases.js';
 import download from '../src/download.11ty.js';
 import renderRoadmap from '../src/roadmap.11ty.js';
 import { home } from '../src/home.mjs';
+import { layout } from '../src/layout.mjs';
 
-const readySite = {...site, publicationApproved:true, policiesApproved:true, releaseReady:true};
+const readySite = {...site, publicationApproved:true, policiesApproved:true, releaseReady:true, checkoutEnabled:false};
+const preparing = {...releases, direct:{...releases.direct,status:'preparing'}, appStore:{...releases.appStore,status:'preparing'}};
 // Render-only fixtures. These links are not asserted to be published and are never requested.
-const direct = {...releases.direct,status:'available',version:'1.0',url:'https://github.com/kylereddoch/Trayage/releases/download/v1.0/Trayage.zip',releasedAt:'2026-09-10',verifiedAt:'2026-09-10',notarized:true,format:'ZIP'};
+const direct = {...releases.direct,status:'available',version:'1.0',url:'https://github.com/kylereddoch/Trayage-website/releases/download/v1.0/Trayage.dmg',releasedAt:'2026-09-10',verifiedAt:'2026-09-10',notarized:true,format:'DMG',size:'25 MB',sizeBytes:25000000,sha256:'1234567890abcdef'.repeat(4)};
 const appStore = {...releases.appStore,status:'available',version:'1.0',url:'https://apps.apple.com/app/id6810382134',releasedAt:'2026-09-10',verifiedAt:'2026-09-10'};
 
 test('direct and Apple can launch independently, and shared CTAs follow availability', () => {
   for (const [isDirect,isApple] of [[false,false],[true,false],[false,true],[true,true]]) {
-    const channels = {...releases,direct:isDirect?direct:releases.direct,appStore:isApple?appStore:releases.appStore};
+    const channels = {...preparing,direct:isDirect?direct:preparing.direct,appStore:isApple?appStore:preparing.appStore};
     validateReleases(channels,readySite);
-    const page = download({base:'/Trayage-website/',site:readySite,releases:channels});
+    const page = download({base:'/Trayage-website/',site:{...readySite,checkoutEnabled:false},releases:channels});
     expect(page.includes(`href="${direct.url}"`)).toBe(isDirect);
     expect(page.includes(`href="${appStore.url}"`)).toBe(isApple);
     expect(page).not.toContain('href=""');
+    if (isDirect && !isApple) {
+      expect(page.indexOf('id="direct"')).toBeLessThan(page.indexOf('id="mac-app-store"'));
+      expect(page).toContain('The Mac App Store edition is still in preparation.');
+      expect(page).toContain(direct.sha256);
+    }
     const main = home('/Trayage-website/',readySite,channels);
     expect(main.includes('>Get Trayage <')).toBe(isDirect||isApple);
     expect(page).not.toContain(site.links.oneTime);
@@ -35,12 +42,31 @@ test('direct and Apple can launch independently, and shared CTAs follow availabi
 });
 
 test('release switches fail closed with missing or unsafe metadata', () => {
-  expect(()=>validateReleases({...releases,direct},site)).toThrow(/approved website/);
-  for(const change of [{url:''},{url:'http://downloads.test/app.zip'},{notarized:false},{version:''},{verifiedAt:''},{format:''}]) {
+  expect(()=>validateReleases({...preparing,direct},{...site,releaseReady:false})).toThrow(/approved website/);
+  for(const change of [{url:''},{url:'http://downloads.test/app.zip'},{notarized:false},{version:''},{verifiedAt:''},{format:''},{size:''},{sizeBytes:0},{sizeBytes:null},{sha256:''},{sha256:'invalid'}]) {
     expect(()=>validateReleases({...releases,direct:{...direct,...change}},readySite)).toThrow();
   }
   expect(()=>validateReleases({...releases,appStore:{...appStore,url:'https://apps.apple.com/app/id123'}},readySite)).toThrow(/this app/);
-  expect(()=>validateReleases(releases,{...readySite,checkoutEnabled:true})).toThrow(/Direct checkout/);
+  expect(()=>validateReleases(preparing,{...readySite,checkoutEnabled:true})).toThrow(/Direct checkout/);
+});
+
+test('direct-only download is first and its checksum remains readable on mobile', async ({page}) => {
+  const channels={...preparing,direct};
+  const config={...readySite,checkoutEnabled:false};
+  await page.goto('http://127.0.0.1:4175/download/');
+  for (const colorScheme of ['light','dark']) for (const width of [320,1440]) {
+    await page.emulateMedia({colorScheme});
+    await page.setViewportSize({width,height:1000});
+    await page.setContent(layout({title:'Get Trayage',description:'Download Trayage',path:'download/',base:'/',site:config,releases:channels,body:download({base:'/',site:config,releases:channels})}));
+    await expect(page.locator('.download-option').first()).toHaveAttribute('id','direct');
+    await expect(page.locator('#mac-app-store')).toContainText('In preparation');
+    await expect(page.locator('#direct')).toContainText('New license purchases are still being finalized');
+    await expect(page.locator('main a[href^="https://apps.apple.com"], main a[href^="https://buy.stripe.com"]')).toHaveCount(0);
+    await page.getByText('Verify your download',{exact:true}).click();
+    await expect(page.locator('.download-integrity code')).toBeVisible();
+    await expect(page.locator('.download-integrity')).toContainText('25,000,000 bytes');
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+  }
 });
 
 test('roadmap completion is separate from a public release', () => {
@@ -68,7 +94,8 @@ test('media ZIP contains the same facts, artwork and screenshots as the page',as
   }
   const facts=strFromU8(archive['Trayage Media Kit/fact-sheet.txt']);
   expect(facts).toContain(press.shortDescription);
-  expect(facts).toContain('No public download yet');
+  expect(facts).toContain(releaseSummary(releases));
+  if (channelIsLive(releases,'direct') && !site.checkoutEnabled) expect(facts).toContain('new license purchases are still being finalized');
   expect(facts).toContain('US$29.99 once');
   expect(facts).toContain('free download and file review');
   expect(facts).toContain('separate US$29.99 one-time in-app unlock');
@@ -78,13 +105,14 @@ test('media ZIP contains the same facts, artwork and screenshots as the page',as
 test('changelog preserves prerelease status, separate channel dates, and older release history', () => {
   validateChangelog(changelog);
   const entry = structuredClone(changelog.entries[0]);
-  const preview = renderChangelog({base:'/Trayage-website/', changelog, releases});
-  expect(preview).toContain('Prerelease · Build 1');
+  entry.releaseHistory={};
+  const preview = renderChangelog({base:'/Trayage-website/', changelog:{entries:[entry]}, releases:preparing});
+  expect(preview).toContain(`Prerelease · Build ${entry.build}`);
   expect(preview).toContain('No public release date yet.');
   expect(preview).not.toContain('<time');
   expect(preview).toContain('/Trayage-website/roadmap/');
-  const staggered = {...releases,direct,appStore:{...appStore,releasedAt:'2026-09-12'}};
-  expect(entryReleases(entry,{...releases,direct})).toEqual({direct:'2026-09-10'});
+  const staggered = {...preparing,direct,appStore:{...appStore,releasedAt:'2026-09-12'}};
+  expect(entryReleases(entry,{...preparing,direct})).toEqual({direct:'2026-09-10'});
   expect(entryReleases(entry,staggered)).toEqual({direct:'2026-09-10',appStore:'2026-09-12'});
   const live = renderChangelog({base:'/',changelog,releases:staggered});
   expect(live).not.toContain('Prerelease · Build');
@@ -97,8 +125,9 @@ test('changelog preserves prerelease status, separate channel dates, and older r
 
 test('changelog and purchase wording retain the publisher and developer distinction', async ({page}) => {
   await page.goto('http://127.0.0.1:4176/Trayage-website/changelog/');
-  await expect(page.locator('#version-1-0')).toContainText('Prerelease · Build 1');
-  await expect(page.locator('#version-1-0 time')).toHaveCount(0);
+  const released = entryReleases(changelog.entries[0],releases);
+  if (!Object.keys(released).length) await expect(page.locator('#version-1-0')).toContainText(`Prerelease · Build ${changelog.entries[0].build}`);
+  await expect(page.locator('#version-1-0 time')).toHaveCount(Object.keys(released).length);
   await expect(page.locator('.footer-bottom')).toContainText('© 2026 RelayByte');
   await expect(page.locator('.publisher')).toContainText('Made by Kyle Reddoch.');
   await page.goto('http://127.0.0.1:4176/Trayage-website/download/');
@@ -114,11 +143,11 @@ test('roadmap anchors, download status and media archive work in the browser',as
   await page.goto('http://127.0.0.1:4176/Trayage-website/roadmap/');
   await page.getByRole('navigation',{name:'Roadmap status'}).getByRole('link',{name:/Completed/}).click();
   await expect(page).toHaveURL(/#completed$/);
-  await expect(page.locator('#completed .roadmap-item')).toHaveCount(4);
-  await expect(page.locator('#completed')).toContainText('Built · not released');
+  await expect(page.locator('#completed .roadmap-item')).toHaveCount(roadmap.items.filter(item=>item.status==='completed').length);
+  if (roadmap.items.some(item=>item.status==='completed'&&!item.release)) await expect(page.locator('#completed')).toContainText('Built · not released');
   await page.goto('http://127.0.0.1:4176/Trayage-website/download/');
-  await expect(page.locator('main a[href^="https://apps.apple.com"]')).toHaveCount(0);
-  await expect(page.locator('main a[href^="https://buy.stripe.com"]')).toHaveCount(0);
+  await expect(page.locator('main a[href^="https://apps.apple.com"]')).toHaveCount(channelIsLive(releases,'appStore')?1:0);
+  await expect(page.locator('main a[href^="https://buy.stripe.com"]')).toHaveCount(site.checkoutEnabled?1:0);
   await page.goto('http://127.0.0.1:4176/Trayage-website/media-kit/');
   const downloaded=page.waitForEvent('download');
   await page.getByRole('link',{name:'Download media kit',exact:false}).click();

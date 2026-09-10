@@ -19,7 +19,11 @@ async function fixture() {
   }
   const sitePath = join(directory, 'src/_data/site.json');
   const config = JSON.parse(await readFile(sitePath, 'utf8'));
-  await writeFile(sitePath, JSON.stringify({...config,publicationApproved:false,policiesApproved:false,origin:''}, null, 2));
+  await writeFile(sitePath, JSON.stringify({...config,publicationApproved:false,policiesApproved:false,releaseReady:false,checkoutEnabled:false,origin:''}, null, 2));
+  const releasesPath = join(directory, 'src/_data/releases.json');
+  const releases = JSON.parse(await readFile(releasesPath, 'utf8'));
+  releases.direct.status = releases.appStore.status = 'preparing';
+  await writeFile(releasesPath, JSON.stringify(releases, null, 2));
   await symlink(join(project, 'node_modules'), join(directory, 'node_modules'), 'junction');
   return directory;
 }

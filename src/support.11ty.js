@@ -13,6 +13,6 @@ export const data = {
   "order": 1
 };
 
-export default function ({ base, site }) {
-  return support(base, site);
+export default function ({ base, site, releases }) {
+  return support(base, site, releases);
 }

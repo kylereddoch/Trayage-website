@@ -53,6 +53,12 @@
   .app-store-badge { display: inline-block; padding: 13px; align-self: flex-start; }
   .app-store-badge img { height: 52px; width: auto; }
   .download-file-details { text-align: center; font-size: 11px !important; margin: 14px 0; }
+  .download-integrity { min-width: 0; color: var(--muted); font-size: 12px; }
+  .download-integrity summary { font-size: 12px; padding-block: 12px; }
+  .download-integrity summary::after { content: '+'; color: var(--orange); }
+  .download-integrity[open] summary::after { content: '−'; }
+  .download-integrity code { display: block; overflow-wrap: anywhere; margin-block: 8px; }
+  .download-integrity p:last-child { margin-bottom: 12px; }
   .download-option > .text-link { margin-top: 14px; align-self: center; }
   .download-help { max-width: 800px; margin-block: 65px 90px; }
   .download-help h2 { font-size: 31px; }

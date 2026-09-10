@@ -15,6 +15,12 @@ export function releaseSummary(releases) {
   return 'Preparing for release · No public download yet';
 }
 
+export function directPriceSummary(releases, site) {
+  const price = `US$${site.pricing.oneTimeUSD} once`;
+  if (!channelIsLive(releases, 'direct')) return `${price} at launch`;
+  return site.checkoutEnabled ? price : `${price}; new license purchases are still being finalized`;
+}
+
 function httpsURL(value, label) {
   let url;
   try { url = new URL(value); } catch { throw new Error(`${label} requires a valid HTTPS URL.`); }
@@ -39,6 +45,9 @@ export function validateReleases(releases, site) {
     }
     if (name === 'direct' && (!channel.notarized || !channel.architectures || !['DMG', 'ZIP'].includes(channel.format))) {
       throw new Error('Direct downloads require notarization, architectures, and a DMG or ZIP format.');
+    }
+    if (name === 'direct' && (!channel.size || !Number.isSafeInteger(channel.sizeBytes) || channel.sizeBytes <= 0 || !/^[a-f0-9]{64}$/i.test(channel.sha256 || ''))) {
+      throw new Error('Direct downloads require a display size, exact byte size, and SHA-256 checksum.');
     }
   }
   if (site.checkoutEnabled && !channelIsLive(releases, 'direct')) throw new Error('Direct checkout requires the direct download to be available.');

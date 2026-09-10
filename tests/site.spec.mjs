@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import site from '../src/_data/site.json' with { type: 'json' };
+import releases from '../src/_data/releases.json' with { type: 'json' };
+import { channelIsLive } from '../src/_lib/releases.js';
 import { validateLaunch } from '../src/_lib/validate-launch.js';
 
 const routes = ['', 'support/', 'privacy/', 'terms/', 'refunds/', 'roadmap/', 'download/', 'media-kit/', 'changelog/', '404.html'];
@@ -75,17 +77,23 @@ test('keyboard: skip link, category filters, and native FAQ disclosures work',as
   expect(indicator).not.toBe('none');
 });
 
-test('prelaunch one-time offer uses approved pricing and keeps purchase flow closed',async({page})=>{
+test('one-time offer uses approved pricing and only enables verified release channels',async({page})=>{
   await page.goto(hosts[0].url);
   await expect(page.locator('.price')).toContainText(['US$29.99 once']);
-  await expect(page.locator('a[href^="https://buy.stripe.com"]')).toHaveCount(0);
+  await expect(page.locator('a[href^="https://buy.stripe.com"]')).toHaveCount(site.checkoutEnabled?1:0);
   await expect(page.locator('a[download]')).toHaveCount(0);
   await expect(page.locator('.price-card .button')).toHaveCount(1);
-  await page.locator('.price-card .button').first().click();
-  await expect(page).toHaveURL(/download\/$/);
-  await expect(page.locator('#direct')).toContainText('after release checks');
-  await expect(page.locator('#mac-app-store')).toContainText('listing is live');
+  await expect(page.locator('.price-card .button')).toHaveAttribute('href',site.checkoutEnabled?site.links.oneTime:'/download/');
+  await page.goto(hosts[0].url+'download/');
+  if (channelIsLive(releases,'direct')) {
+    await expect(page.locator('#direct .button')).toHaveAttribute('href',releases.direct.url);
+    await expect(page.locator('#direct code')).toHaveText(releases.direct.sha256);
+    if (!site.checkoutEnabled) await expect(page.locator('#direct')).toContainText('New license purchases are still being finalized');
+  } else await expect(page.locator('#direct')).toContainText('after release checks');
+  if (channelIsLive(releases,'appStore')) await expect(page.locator('#mac-app-store a')).toHaveAttribute('href',releases.appStore.url);
+  else await expect(page.locator('#mac-app-store')).toContainText('listing is live');
   await page.goto(hosts[0].url);
+  if (channelIsLive(releases,'direct') && !site.checkoutEnabled) await expect(page.locator('#pricing')).toContainText('New license purchases are still being finalized');
   await expect(page.locator(`a[href="${site.links.licenses}"]`)).toHaveCount(1);
   await expect(page.locator(`a[href="${site.links.billing}"]`)).toHaveCount(1);
   await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
@@ -95,7 +103,7 @@ test('prelaunch one-time offer uses approved pricing and keeps purchase flow clo
   expect(site.links.oneTime).toBe('https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02');
   expect(()=>validateLaunch(site,true)).not.toThrow();
   expect(()=>validateLaunch({...site,publicationApproved:false},true)).toThrow(/Publication is not approved/);
-  expect(()=>validateLaunch({...site,checkoutEnabled:true})).toThrow(/Checkout requires/);
+  expect(()=>validateLaunch({...site,checkoutEnabled:true,releaseReady:false})).toThrow(/Checkout requires/);
 });
 
 test('without JavaScript: content, FAQs, and system dark mode work',async({browser})=>{
