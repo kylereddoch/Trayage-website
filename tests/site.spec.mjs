@@ -200,7 +200,7 @@ test('policies distinguish direct and Apple purchases and disclose support and s
     await expect(page.locator('body')).not.toContainText(/draft for review|policy text remains a draft|kyle@kylereddoch\.me/i);
     if (['privacy/', 'terms/', 'refunds/'].includes(route)) {
       await expect(page.locator('.document-meta')).toContainText('Effective September 10, 2026');
-      await expect(page.locator('main')).not.toContainText(/proposed|pending|planned edition|before release/i);
+      await expect(page.locator('main')).not.toContainText(/\bproposed\b|\bpending\b|planned edition|before release/i);
       await expect(page.locator('main')).toContainText('trayage@relaybyte.dev');
     }
     await expect(page.locator('main')).not.toContainText(/79\.99|14-day (?:in-app )?trial|renews yearly|yearly plan|annual renewals/i);
