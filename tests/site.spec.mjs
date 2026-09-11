@@ -120,13 +120,43 @@ test('without JavaScript: content, FAQs, and system dark mode work',async({brows
   await context.close();
 });
 
-test('default visits make no third-party requests and store no visitor state',async({page})=>{
+test('default visits load only disclosed analytics and store no visitor state',async({page})=>{
   const external=[];
   page.on('request',request=>{if(new URL(request.url()).origin!==new URL(hosts[0].url).origin)external.push(request.url());});
+  await page.route('https://tinylytics.app/**', route=>route.fulfill({status:200,contentType:'application/javascript',body:''}));
   for(const route of routes){await page.goto(hosts[0].url+route);}
-  expect(external).toEqual([]);
+  expect(new Set(external)).toEqual(new Set([site.analytics.embedURL]));
   expect(await page.context().cookies()).toEqual([]);
   expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});
+});
+
+test('Tinylytics event tracking covers outbound, contact, and download links',async({page})=>{
+  await page.route('https://tinylytics.app/**', route=>route.fulfill({status:200,contentType:'application/javascript',body:''}));
+  for (const route of routes) {
+    await page.goto(hosts[0].url+route);
+    await expect(page.locator(`script[src="${site.analytics.embedURL}"][defer]`)).toHaveCount(1);
+    const untracked = await page.locator('a[href]').evaluateAll(links => links.filter(link => {
+      const href = link.getAttribute('href') || '';
+      return (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || link.hasAttribute('download'))
+        && !link.hasAttribute('data-tinylytics-event');
+    }).map(link => link.outerHTML));
+    expect(untracked, route).toEqual([]);
+    const events = await page.locator('a[data-tinylytics-event]').evaluateAll(links => links.map(link => ({
+      name: link.dataset.tinylyticsEvent,
+      value: link.dataset.tinylyticsEventValue
+    })));
+    for (const event of events) {
+      expect(event.name).toMatch(/^[a-z][a-z0-9_-]*\.[a-z][a-z0-9_-]*$/);
+      expect(event.value).toBeTruthy();
+    }
+  }
+  await page.goto(hosts[0].url+'download/');
+  await expect(page.locator(`#direct a[href="${releases.direct.url}"]`)).toHaveAttribute('data-tinylytics-event','file.download');
+  await expect(page.locator(`a[href="${site.links.oneTime}"]`).first()).toHaveAttribute('data-tinylytics-event','purchase.checkout');
+  await page.goto(hosts[0].url+'support/');
+  await expect(page.locator(`a[href="${site.links.licenses}"]`).first()).toHaveAttribute('data-tinylytics-event','license.portal');
+  await expect(page.locator(`a[href="${site.links.billing}"]`).first()).toHaveAttribute('data-tinylytics-event','billing.portal');
+  await expect(page.locator(`a[href^="mailto:${site.email}"]`).first()).toHaveAttribute('data-tinylytics-event','support.email');
 });
 
 test('reduced motion and enlarged text retain usable content',async({page})=>{
@@ -189,6 +219,9 @@ test('policies distinguish direct and Apple purchases and disclose support and s
   await expect(page.locator('#who')).toContainText('Texas, United States');
   await expect(page.locator('#support')).toContainText('Proton Mail');
   await expect(page.locator('#website')).toContainText('trayage-appearance');
+  await expect(page.locator('#website')).toContainText('Tinylytics');
+  await expect(page.locator(`#website a[href="${site.analytics.privacyURL}"]`)).toBeVisible();
+  await expect(page.locator('.document-meta')).toContainText(`Effective ${site.analytics.effective}`);
   await expect(page.locator('#apple')).toContainText('excludes Stripe checkout and Keylight licensing');
   await page.goto(hosts[1].url+'refunds/');
   await expect(page.locator('#initial')).toContainText('within 14 days');
@@ -207,7 +240,8 @@ test('policies distinguish direct and Apple purchases and disclose support and s
     await page.goto(hosts[1].url+route);
     await expect(page.locator('body')).not.toContainText(/draft for review|policy text remains a draft|kyle@kylereddoch\.me/i);
     if (['privacy/', 'terms/', 'refunds/'].includes(route)) {
-      await expect(page.locator('.document-meta')).toContainText('Effective September 10, 2026');
+      const effective = route === 'privacy/' ? site.analytics.effective : site.effective;
+      await expect(page.locator('.document-meta')).toContainText(`Effective ${effective}`);
       await expect(page.locator('main')).not.toContainText(/\bproposed\b|\bpending\b|planned edition|before release/i);
       await expect(page.locator('main')).toContainText('trayage@relaybyte.dev');
     }

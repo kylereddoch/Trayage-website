@@ -1,6 +1,59 @@
 import { hasDownload } from './_lib/releases.js';
 export const escape = (value) => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 export const arrow = '<span aria-hidden="true">↗</span>';
+
+function linkEvent(href, tag, site) {
+  if (!site.analytics?.enabled) return null;
+  const decodedHref = href.replaceAll('&amp;', '&');
+  const download = /(?:^|\s)download(?:[\s=>]|$)/i.test(tag);
+  if (download) {
+    const filename = decodedHref.split(/[?#]/, 1)[0].split('/').pop() || 'download';
+    return ['file.download', filename];
+  }
+  if (decodedHref.startsWith('mailto:')) {
+    const subject = new URL(decodedHref).searchParams.get('subject')?.toLowerCase() || '';
+    if (subject.includes('refund')) return ['support.refund', 'email'];
+    if (subject.includes('media') || subject.includes('press')) return ['support.press', 'email'];
+    return ['support.email', 'trayage'];
+  }
+  if (!/^https?:\/\//i.test(decodedHref)) return null;
+
+  const destination = new URL(decodedHref);
+  if (decodedHref === site.links.oneTime) return ['purchase.checkout', 'direct'];
+  if (decodedHref === site.links.billing) return ['billing.portal', 'stripe'];
+  if (decodedHref === site.links.licenses) return ['license.portal', 'keylight'];
+  if (decodedHref === site.links.mastodon) return ['social.mastodon', 'trayage'];
+  if (decodedHref === site.publisherURL) return ['publisher.visit', 'relaybyte'];
+  if (destination.hostname === 'apps.apple.com') return ['store.view', 'mac-app-store'];
+  if (destination.hostname === 'reportaproblem.apple.com') return ['refund.apple', 'report-a-problem'];
+  if (destination.hostname === 'github.com' && destination.pathname.includes('/releases/download/')) {
+    return ['file.download', destination.pathname.split('/').pop() || 'trayage'];
+  }
+  if (destination.hostname === 'github.com' && destination.pathname.endsWith('/issues/new')) {
+    const template = destination.searchParams.get('template') || '';
+    if (template.includes('feature')) return ['feedback.idea', 'github'];
+    if (template.includes('bug')) return ['feedback.bug', 'github'];
+  }
+  if (destination.hostname === 'github.com' && /\/issues\/\d+$/.test(destination.pathname)) {
+    return ['roadmap.issue', destination.pathname.split('/').pop()];
+  }
+  if (destination.hostname === 'github.com' && destination.pathname.includes('/issues')) return ['feedback.issues', 'github'];
+  if (/privacy|legal/.test(destination.pathname) || decodedHref === site.analytics.privacyURL) {
+    return ['policy.provider', destination.hostname];
+  }
+  return ['outbound.click', destination.hostname];
+}
+
+export function addLinkTracking(html, site) {
+  if (!site.analytics?.enabled) return html;
+  return html.replace(/<a\b[^>]*\bhref="([^"]+)"[^>]*>/gi, (tag, href) => {
+    if (tag.includes('data-tinylytics-event=')) return tag;
+    const event = linkEvent(href, tag, site);
+    if (!event) return tag;
+    return tag.replace(/>$/, ` data-tinylytics-event="${escape(event[0])}" data-tinylytics-event-value="${escape(event[1])}">`);
+  });
+}
+
 export function icon(name, className = '') {
   const paths = {
     tray: '<path d="m3 12 3-7h12l3 7v7H3z"/><path d="M3 12h5l2 3h4l2-3h5"/>',
@@ -23,7 +76,7 @@ export function layout({ title, description, path = '', body, base, site, releas
   const publisherLabel = site.publisherMark ? `<span class="publisher-brand"><img src="${escape(url(site.publisherMark))}" alt="" width="26" height="26"><span>${publisherBrand}</span></span>` : publisherBrand;
   const publisherCredit = site.publisherURL ? `<a href="${escape(site.publisherURL)}">${publisherLabel}</a>` : publisherLabel;
   const fullTitle = isHome ? 'Trayage — A little order for your Downloads' : `${title} — Trayage`;
-  return `<!doctype html>
+  const html = `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -65,12 +118,14 @@ export function layout({ title, description, path = '', body, base, site, releas
     <div class="footer-bottom"><p>© 2026 ${publisherBrand}</p><nav aria-label="Footer navigation"><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Roadmap</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:${site.email}">Say hello ${arrow}</a></div></div>
     ${!site.publicationApproved ? '<p class="preview-footer">Local review preview · Not published · Policy text remains a draft</p>' : ''}
   </footer>
+  ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}
 </body>
 </html>`;
+  return addLinkTracking(html, site);
 }
 
-export function policyPage({ title, intro, sections, base, path, site }) {
-  return `<div class="wrap document-header"><a class="eyebrow back-link" href="${base}">← Back to Trayage</a><h1>${title}</h1><p class="lede">${intro}</p><p class="document-meta">Publisher: ${escape(site.publisher)}${site.publisherBrand ? ` · ${escape(site.publisherBrand)}` : ''} <span aria-hidden="true">/</span> ${site.policiesApproved ? `Effective ${site.effective}` : `Draft reviewed ${site.reviewed}`}</p></div>
+export function policyPage({ title, intro, sections, base, path, site, effective = site.effective }) {
+  return `<div class="wrap document-header"><a class="eyebrow back-link" href="${base}">← Back to Trayage</a><h1>${title}</h1><p class="lede">${intro}</p><p class="document-meta">Publisher: ${escape(site.publisher)}${site.publisherBrand ? ` · ${escape(site.publisherBrand)}` : ''} <span aria-hidden="true">/</span> ${site.policiesApproved ? `Effective ${effective}` : `Draft reviewed ${site.reviewed}`}</p></div>
   <div class="wrap document-layout"><aside class="document-sidebar"><nav aria-label="On this page"><p class="eyebrow">On this page</p>${sections.map(s => `<a href="#${s.id}">${s.title}</a>`).join('')}</nav><a class="text-link" href="${base}support/">Need a hand? ${arrow}</a></aside><article class="prose" aria-label="${escape(title)}">
   ${!site.policiesApproved ? '<div class="draft-notice"><strong>Draft for review</strong><p>This text describes the current prelaunch build and proposed purchase policies. It is not an effective agreement. Checkout is closed on this site while the release and final policies are reviewed.</p></div>' : ''}
   ${sections.map(s=>`<section id="${s.id}"><h2>${s.title}</h2>${s.content}</section>`).join('')}
