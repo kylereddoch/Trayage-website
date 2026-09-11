@@ -1,6 +1,9 @@
 name: Deploy Trayage website
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   issues:
     types: [opened, edited, closed, reopened, labeled, unlabeled, deleted, transferred]
@@ -15,6 +18,7 @@ concurrency:
 jobs:
   build:
     if: >-
+      github.event_name == 'push' ||
       github.event_name == 'workflow_dispatch' ||
       (!github.event.issue.pull_request &&
       (contains(github.event.issue.labels.*.name, 'roadmap') || github.event.label.name == 'roadmap'))
