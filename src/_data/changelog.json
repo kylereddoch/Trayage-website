@@ -2,6 +2,33 @@
   "entries": [
     {
       "version": "1.0",
+      "build": "4",
+      "title": "Updates, made easier.",
+      "summary": "The direct edition can now check for updates and install them from inside Trayage.",
+      "releaseHistory": {
+        "direct": "2026-09-11"
+      },
+      "highlights": [
+        {
+          "title": "Check from wherever you work",
+          "description": "Find Check for Updates in the Trayage menu, menu-bar popover, General settings, and About."
+        },
+        {
+          "title": "Daily checks, with your permission",
+          "description": "Allow automatic checks while Trayage is running. See what changed and choose when to download and install a signed update."
+        },
+        {
+          "title": "Appearance follows your Mac",
+          "description": "Switching from Light to Device appearance now follows your Mac\u2019s setting and keeps billing controls readable."
+        },
+        {
+          "title": "A one-time step for earlier builds",
+          "description": "If your current copy has no update checker, download this DMG, quit Trayage, and replace it in Applications. Keep your app data to retain settings and licensing."
+        }
+      ]
+    },
+    {
+      "version": "1.0",
       "build": "2",
       "title": "A little order for your Downloads.",
       "summary": "The first version brings file review and confirmed cleanup together in a Mac app.",

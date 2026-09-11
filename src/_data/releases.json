@@ -1,19 +1,19 @@
 {
-  "updated": "2026-09-10",
+  "updated": "2026-09-11",
   "minimumMacOS": "14",
   "direct": {
     "status": "available",
     "version": "1.0",
-    "url": "https://github.com/kylereddoch/Trayage-website/releases/download/v1.0-2/Trayage-1.0-2-universal.dmg",
-    "releasedAt": "2026-09-10",
-    "verifiedAt": "2026-09-10",
+    "url": "https://github.com/kylereddoch/Trayage-website/releases/download/v1.0-4/Trayage-1.0-4-universal.dmg",
+    "releasedAt": "2026-09-11",
+    "verifiedAt": "2026-09-11",
     "notarized": true,
     "architectures": "Apple silicon + Intel",
     "format": "DMG",
-    "size": "2.45 MB",
-    "sizeBytes": 2450429,
-    "sha256": "58feae4fbf5f50adf5e98c7222dd8872378a2c8720e54b98a9710e755269c989",
-    "build": "2"
+    "size": "3.46 MB",
+    "sizeBytes": 3458935,
+    "sha256": "1e123edbce2212dd8f2ae9823c7eec2974f2f73df53c30ef501be336950a4ab4",
+    "build": "4"
   },
   "appStore": {
     "status": "preparing",

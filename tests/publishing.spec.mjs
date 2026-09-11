@@ -21,7 +21,7 @@ const readySite = {...site, publicationApproved:true, policiesApproved:true, rel
 const preparing = {...releases, direct:{...releases.direct,status:'preparing'}, appStore:{...releases.appStore,status:'preparing'}};
 // Render-only fixtures. These links are not asserted to be published and are never requested.
 const direct = {...releases.direct,status:'available',version:'1.0',url:'https://github.com/kylereddoch/Trayage-website/releases/download/v1.0/Trayage.dmg',releasedAt:'2026-09-10',verifiedAt:'2026-09-10',notarized:true,format:'DMG',size:'25 MB',sizeBytes:25000000,sha256:'1234567890abcdef'.repeat(4)};
-const appStore = {...releases.appStore,status:'available',version:'1.0',url:'https://apps.apple.com/app/id6810382134',releasedAt:'2026-09-10',verifiedAt:'2026-09-10'};
+const appStore = {...releases.appStore,build:releases.direct.build,status:'available',version:'1.0',url:'https://apps.apple.com/app/id6810382134',releasedAt:'2026-09-10',verifiedAt:'2026-09-10'};
 
 test('direct and Apple can launch independently, and shared CTAs follow availability', () => {
   for (const [isDirect,isApple] of [[false,false],[true,false],[false,true],[true,true]]) {
@@ -122,6 +122,11 @@ test('changelog preserves prerelease status, separate channel dates, and older r
   expect(live).toContain('datetime="2026-09-12"');
   entry.releaseHistory={direct:'2026-09-10'};
   expect(entryReleases(entry,{...releases,direct:{...direct,version:'1.1',releasedAt:'2026-09-20'}})).toEqual({direct:'2026-09-10'});
+  entry.releaseHistory={};
+  expect(entryReleases(entry,{...preparing,direct:{...direct,build:'2'}})).toEqual({});
+  expect(entryReleases(entry,{...preparing,appStore:{...appStore,build:'3'}})).toEqual({});
+  expect(()=>validateChangelog({entries:[entry,{...entry,build:'2'}]})).not.toThrow();
+  expect(()=>validateChangelog({entries:[entry,entry]})).toThrow(/unique/);
   entry.releaseHistory={appStore:'2026-02-30'};
   expect(()=>validateChangelog({entries:[entry]})).toThrow(/invalid channel release date/);
 });
@@ -129,8 +134,8 @@ test('changelog preserves prerelease status, separate channel dates, and older r
 test('changelog and purchase wording retain the publisher and developer distinction', async ({page}) => {
   await page.goto('http://127.0.0.1:4176/Trayage-website/changelog/');
   const released = entryReleases(changelog.entries[0],releases);
-  if (!Object.keys(released).length) await expect(page.locator('#version-1-0')).toContainText(`Prerelease · Build ${changelog.entries[0].build}`);
-  await expect(page.locator('#version-1-0 time')).toHaveCount(Object.keys(released).length);
+  if (!Object.keys(released).length) await expect(page.locator(`#version-1-0-build-${changelog.entries[0].build}`)).toContainText(`Prerelease · Build ${changelog.entries[0].build}`);
+  await expect(page.locator(`#version-1-0-build-${changelog.entries[0].build} time`)).toHaveCount(Object.keys(released).length);
   await expect(page.locator('.footer-bottom')).toContainText('© 2026 RelayByte');
   await expect(page.locator('.publisher')).toContainText('Made by Kyle Reddoch.');
   await page.goto('http://127.0.0.1:4176/Trayage-website/download/');

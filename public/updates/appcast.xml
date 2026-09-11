@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Trayage</title>
+        <item>
+            <title>1.0</title>
+            <pubDate>Fri, 11 Sep 2026 16:39:17 -0500</pubDate>
+            <link>https://trayage.app/download/</link>
+            <sparkle:fullReleaseNotesLink>https://trayage.app/changelog/</sparkle:fullReleaseNotesLink>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h2>Trayage 1.0 (4)</h2>
+<ul>
+  <li>Check for updates from the app menu, menu-bar popover, General settings, or About.</li>
+  <li>Opt into daily update checks while Trayage is running. Review what changed and choose when to download and install.</li>
+  <li>Updates and the update feed are signed, and the app is notarized by Apple.</li>
+  <li>Fixes switching from Light to Device appearance so billing controls follow your Mac’s appearance.</li>
+</ul>
+<p>Your existing settings and direct license stay with your installation. This update does not change your purchase terms.</p>
+]]></description>
+            <enclosure url="https://github.com/kylereddoch/Trayage-website/releases/download/v1.0-4/Trayage-1.0-4-universal.dmg" length="3458935" type="application/octet-stream" sparkle:edSignature="ZF0TaRycEujgAD46spQn5CPe9kaWgZuqrcr0IOiPr5K+fz3+MGbo2ihbeV4LUY2+arPQbSLM5z1zaBfVxErBBQ=="></enclosure>
+        </item>
+    </channel>
+</rss><!-- sparkle-signatures:
+edSignature: oHi115eC9YMTMEhLuPlUQQm81PdVqxJFt7/t9qThzA+zWv8vuBigJOCycD1aRplRXgyZ3lMmjWvyUQ5qdtnnBw==
+length: 1847
+-->

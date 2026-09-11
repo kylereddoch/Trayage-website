@@ -14,6 +14,8 @@ export default function (eleventyConfig) {
   let press;
   eleventyConfig.addGlobalData('base', () => normalizeBase(eleventyConfig.pathPrefix));
   eleventyConfig.addPassthroughCopy({ 'public/assets': 'assets' });
+  // Sparkle signs the exact XML bytes; pass the feed through without rendering.
+  eleventyConfig.addPassthroughCopy({ 'public/updates': 'updates' });
   eleventyConfig.addWatchTarget('./public/assets/');
   eleventyConfig.setServerPassthroughCopyBehavior('copy');
   eleventyConfig.setServerOptions({
