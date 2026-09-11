@@ -6,7 +6,7 @@
   "publicationApproved": true,
   "policiesApproved": true,
   "releaseReady": true,
-  "checkoutEnabled": false,
+  "checkoutEnabled": true,
   "origin": "https://trayage.app",
   "links": {
     "oneTime": "https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02",

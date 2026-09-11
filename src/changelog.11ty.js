@@ -5,7 +5,7 @@ export const data = {layout:'base.11ty.js', permalink:'/changelog/index.html', p
 
 export default function ({base, changelog, releases}) {
   const channelNames = {direct:'Direct download', appStore:'Mac App Store'};
-  return `<div class="wrap document-header"><a class="eyebrow back-link" href="${base}">← Back to Trayage</a><p class="eyebrow page-kicker">Changelog</p><h1>What’s new<br>in Trayage.</h1><p class="lede">A record of what changes with each version. Prerelease entries describe the current build; they are not release announcements.</p></div>
+  return `<div class="wrap document-header"><a class="eyebrow back-link" href="${base}">← Back to Trayage</a><p class="eyebrow page-kicker">Changelog</p><h1>What’s new<br>in Trayage.</h1><p class="lede">New features, improvements, and fixes in each version of Trayage.</p></div>
   <div class="wrap changelog-list">${changelog.entries.map(entry => {
     const history = entryReleases(entry, releases);
     const released = Object.keys(history).length > 0;

@@ -10,7 +10,7 @@ export function releaseSummary(releases) {
   const direct = channelIsLive(releases, 'direct');
   const apple = channelIsLive(releases, 'appStore');
   if (direct && apple) return 'Available directly and on the Mac App Store';
-  if (direct) return 'Direct download available · Mac App Store edition in preparation';
+  if (direct) return 'Direct download available · Mac App Store edition coming soon';
   if (apple) return 'Available on the Mac App Store · Direct download in preparation';
   return 'Preparing for release · No public download yet';
 }

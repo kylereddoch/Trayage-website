@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { unzipSync, strFromU8 } from 'fflate';
 import site from '../src/_data/site.json' with {type:'json'};
 import releases from '../src/_data/releases.json' with {type:'json'};
@@ -157,4 +157,22 @@ test('roadmap anchors, download status and media archive work in the browser',as
   const zip=await downloaded;
   expect(zip.suggestedFilename()).toBe('trayage-media-kit.zip');
   expect(await zip.failure()).toBeNull();
+});
+
+
+test('published direct sales copy is ready and keeps TestFlight private', async () => {
+  expect(site.checkoutEnabled).toBe(true);
+  const files = (await readdir('dist-root', {recursive:true})).filter(file => file.endsWith('.html'));
+  for (const file of files) {
+    const html = await readFile(`dist-root/${file}`, 'utf8');
+    expect(html, file).not.toMatch(/still being finalized|release verification still underway|testflight\.apple\.com/i);
+  }
+  for (const file of ['index.html', 'download/index.html', 'support/index.html']) {
+    expect(await readFile(`dist-root/${file}`, 'utf8'), file).toContain(`href="${site.links.oneTime}"`);
+  }
+  const downloadPage = await readFile('dist-root/download/index.html', 'utf8');
+  expect(downloadPage).toContain('Coming soon to the Mac App Store.');
+  expect(downloadPage).not.toContain('href="https://apps.apple.com');
+  const facts = await readFile('dist-root/assets/media/fact-sheet.txt', 'utf8');
+  expect(facts).not.toMatch(/still being finalized|testflight\.apple\.com/i);
 });

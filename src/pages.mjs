@@ -17,7 +17,9 @@ export function support(base, site, releases) {
     ['Can I use Trayage offline?', 'File review is local. Direct-license activation and periodic validation need an internet connection. Keylight can validate a cached license locally within its offline allowance; permanent offline access is not promised. If a license check fails, reconnect and select “Check License” in Settings.'],
     ['How do refunds work?', `The direct-purchase policy allows refund requests within ${site.pricing.directRefundDays} days of the initial payment. This is separate from the ${site.pricing.trialDays}-day trial. Apple handles App Store refund requests under its own rules. Read the <a href="${base}refunds/">refund policy</a>.`]
   ];
-  if (channelIsLive(releases, 'direct') && !site.checkoutEnabled) {
+  if (channelIsLive(releases, 'direct') && site.checkoutEnabled) {
+    faqs.splice(1, 0, ['Can I buy a new direct license?', `Yes. <a href="${site.links.oneTime}">Buy a direct license for US$${site.pricing.oneTimeUSD}</a> through Stripe. It is a one-time purchase for up to ${site.pricing.directDeviceLimit} active Macs, with all Trayage ${site.pricing.majorVersion}.x updates included. Keylight emails your license key after payment. You can also <a href="${base}download/">download Trayage</a> and try cleanup free for ${site.pricing.trialDays} days, with no automatic charge.`]);
+  } else if (channelIsLive(releases, 'direct')) {
     faqs.splice(1, 0, ['Can I buy a new direct license?', `New license purchases are still being finalized. You can <a href="${base}download/">download Trayage</a>, start a ${site.pricing.trialDays}-day trial, or activate an existing license. After the trial, file review remains available; cleanup requires an active license.`]);
   }
   return `<section class="wrap document-header support-header"><p class="eyebrow">Support, from the person who makes it</p><h1>Let’s get you<br><em>sorted.</em></h1><p class="lede">Your license, your next Mac, or something that doesn’t look right. Here’s where to start.</p></section>
