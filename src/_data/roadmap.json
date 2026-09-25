@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-10",
+  "updated": "2026-09-25",
   "items": [
     {"id":"direct-launch","title":"The first direct Mac release","description":"Download the signed, notarized Mac app, start a seven-day trial, or activate an existing license.","status":"completed","area":"Release","release":{"version":"1.0","date":"2026-09-10","url":"https://github.com/kylereddoch/Trayage-website/releases/tag/v1.0-2"},"issue":1},
     {"id":"app-store","title":"A Mac App Store edition","description":"Bring Trayage to the Mac App Store with purchases and restores through your Apple Account.","status":"in-progress","area":"Release","release":null,"issue":2},
@@ -10,6 +10,7 @@
     {"id":"local-review","title":"A focused, local file review","description":"Group disk images, likely duplicates, older or larger files, and recent downloads from one selected folder.","status":"completed","area":"Core app","release":{"version":"1.0","date":"2026-09-10","url":"https://github.com/kylereddoch/Trayage-website/releases/tag/v1.0-2"},"issue":7},
     {"id":"confirmed-trash","title":"Cleanup that waits for your decision","description":"Move selected, unchanged files to Trash after confirmation. Trayage does not empty the Trash.","status":"completed","area":"Core app","release":{"version":"1.0","date":"2026-09-10","url":"https://github.com/kylereddoch/Trayage-website/releases/tag/v1.0-2"},"issue":8},
     {"id":"mac-presence","title":"At home in your menu bar","description":"A menu-bar popover, a full review window, and a choice to show Trayage in the Dock too.","status":"completed","area":"Interface","release":{"version":"1.0","date":"2026-09-10","url":"https://github.com/kylereddoch/Trayage-website/releases/tag/v1.0-2"},"issue":9},
-    {"id":"appearance","title":"Light, dark, or your Mac’s appearance","description":"Choose the look that suits your workspace, with the same review controls in each appearance.","status":"completed","area":"Interface","release":{"version":"1.0","date":"2026-09-10","url":"https://github.com/kylereddoch/Trayage-website/releases/tag/v1.0-2"},"issue":10}
+    {"id":"appearance","title":"Light, dark, or your Mac’s appearance","description":"Choose the look that suits your workspace, with the same review controls in each appearance.","status":"completed","area":"Interface","release":{"version":"1.0","date":"2026-09-10","url":"https://github.com/kylereddoch/Trayage-website/releases/tag/v1.0-2"},"issue":10},
+    {"id":"first-review-clarity","title":"Make the first review clear and safe","description":"Show which folder and files Trayage reviewed, explain each suggestion, and make the confirmed Move to Trash action and Finder recovery clear on first use.","status":"planned","area":"First-run experience","release":null,"issue":11}
   ]
 }

@@ -80,6 +80,14 @@
       "area": "Interface",
       "status": "completed",
       "updated": "2026-09-10"
+    },
+    {
+      "number": 11,
+      "title": "Make the first review clear and safe",
+      "description": "Make Trayage’s first review explain which folder and files were scanned, why each item was suggested, and the one available cleanup action: a confirmed move to Trash that the user can reverse through Finder before emptying Trash.",
+      "area": "First-run experience",
+      "status": "planned",
+      "updated": "2026-09-25"
     }
   ]
 }
