@@ -124,8 +124,11 @@ test('default visits load only disclosed analytics and store no visitor state',a
   const external=[];
   page.on('request',request=>{if(new URL(request.url()).origin!==new URL(hosts[0].url).origin)external.push(request.url());});
   await page.route('https://tinylytics.app/**', route=>route.fulfill({status:200,contentType:'application/javascript',body:''}));
+  await page.route('https://viberank.dev/badge?**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="250" height="54"/>'}));
   for(const route of routes){await page.goto(hosts[0].url+route);}
-  expect(new Set(external)).toEqual(new Set([site.analytics.embedURL]));
+  expect(external).toContain(site.analytics.embedURL);
+  expect(external.some(url=>url.startsWith('https://viberank.dev/badge?app=Trayage&theme='))).toBe(true);
+  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>/^https:\/\/viberank\.dev\/badge\?app=Trayage&theme=(light|dark)$/.test(url))).toBe(true);
   expect(await page.context().cookies()).toEqual([]);
   expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});
 });
@@ -176,10 +179,15 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   const select=page.getByLabel('Appearance');
   await expect(select).toHaveValue('system');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect(page.locator('.viberank-badge .badge-dark')).toBeVisible();
+  await expect(page.locator('.viberank-badge .badge-light')).toBeHidden();
   await page.emulateMedia({colorScheme:'light'});
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 246, 242)');
+  await expect(page.locator('.viberank-badge .badge-light')).toBeVisible();
+  await expect(page.locator('.viberank-badge .badge-dark')).toBeHidden();
   await select.selectOption('dark');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect(page.locator('.viberank-badge .badge-dark')).toBeVisible();
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Privacy',exact:true}).click();
   await expect(select).toHaveValue('dark');
   await page.reload();
@@ -220,6 +228,7 @@ test('policies distinguish direct and Apple purchases and disclose support and s
   await expect(page.locator('#support')).toContainText('Proton Mail');
   await expect(page.locator('#website')).toContainText('trayage-appearance');
   await expect(page.locator('#website')).toContainText('Tinylytics');
+  await expect(page.locator('#website')).toContainText('VibeRank');
   await expect(page.locator(`#website a[href="${site.analytics.privacyURL}"]`)).toBeVisible();
   await expect(page.locator('.document-meta')).toContainText(`Effective ${site.analytics.effective}`);
   await expect(page.locator('#apple')).toContainText('excludes Stripe checkout and Keylight licensing');

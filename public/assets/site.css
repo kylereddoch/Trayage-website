@@ -54,6 +54,17 @@
   .hero-description { font-size: 16px; line-height: 1.75; color: var(--muted); max-width: 410px; margin-top: 25px; }
   .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 30px; }
   .hero-footnote { display: flex; align-items: center; gap: 8px; font-size: 10px; margin-top: 22px; color: var(--muted); }
+  .community-badges { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+  .community-badges > * { margin-top: 0; }
+  .viberank-badge { display: inline-flex; max-width: 100%; border-radius: 12px; }
+  .viberank-badge img { display: block; max-width: 100%; height: auto; }
+  .viberank-badge .badge-dark { display: none; }
+  :root[data-theme="dark"] .viberank-badge .badge-light { display: none; }
+  :root[data-theme="dark"] .viberank-badge .badge-dark { display: block; }
+  @media screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .viberank-badge .badge-light { display: none; }
+    :root:not([data-theme="light"]) .viberank-badge .badge-dark { display: block; }
+  }
   .hero-footnote .icon { width: 14px; height: 14px; }
   .mini-dot { height: 3px; width: 3px; background: var(--muted); border-radius: 50%; }
   .product-figure { min-width: 0; }

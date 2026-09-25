@@ -13,7 +13,7 @@
     "provider": "Tinylytics",
     "embedURL": "https://tinylytics.app/embed/pyyHixpxxAjwk8mz1YBC.js?events&beacon",
     "privacyURL": "https://tinylytics.app/docs/trust/privacy",
-    "effective": "September 11, 2026"
+    "effective": "September 25, 2026"
   },
   "links": {
     "oneTime": "https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02",
@@ -30,7 +30,8 @@
     "issues": "https://github.com/kylereddoch/Trayage-website/issues",
     "featureIdea": "https://github.com/kylereddoch/Trayage-website/issues/new?template=feature-idea.yml",
     "bugReport": "https://github.com/kylereddoch/Trayage-website/issues/new?template=bug-report.yml",
-    "mastodon": "https://indieapps.space/@trayage"
+    "mastodon": "https://indieapps.space/@trayage",
+    "vibeRank": "https://viberank.dev/apps/Trayage"
   },
   "pricing": {
     "oneTimeUSD": "29.99",
