@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        This report is public. Remove private filenames, account details, and license keys from screenshots and logs. Email **trayage@relaybyte.dev** for private support or security reports.
+        This report is public. Remove private filenames, account details, and license keys from screenshots and logs. Email **support@relaybyte.dev** for private support or security reports.
   - type: textarea
     id: summary
     attributes:

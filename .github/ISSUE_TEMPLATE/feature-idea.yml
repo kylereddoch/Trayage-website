@@ -8,7 +8,7 @@ body:
       value: |
         Tell Kyle what would make Trayage more useful. Search existing issues first; you can add a thumbs-up reaction or join the conversation on an existing idea.
 
-        This is public. For purchases, license keys, private files, or account help, email **trayage@relaybyte.dev** instead. Ideas are reviewed before they are added to the website roadmap.
+        This is public. For purchases, license keys, private files, or account help, email **support@relaybyte.dev** instead. Ideas are reviewed before they are added to the website roadmap.
   - type: textarea
     id: summary
     attributes:

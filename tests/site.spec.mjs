@@ -252,7 +252,7 @@ test('policies distinguish direct and Apple purchases and disclose support and s
       const effective = route === 'privacy/' ? site.analytics.effective : site.effective;
       await expect(page.locator('.document-meta')).toContainText(`Effective ${effective}`);
       await expect(page.locator('main')).not.toContainText(/\bproposed\b|\bpending\b|planned edition|before release/i);
-      await expect(page.locator('main')).toContainText('trayage@relaybyte.dev');
+      await expect(page.locator('main')).toContainText('support@relaybyte.dev');
     }
     await expect(page.locator('main')).not.toContainText(/79\.99|14-day (?:in-app )?trial|renews yearly|yearly plan|annual renewals/i);
     await expect(page.locator('meta[name="description"]')).not.toHaveAttribute('content', /79\.99|yearly|annual renewals/i);
