@@ -32,7 +32,8 @@
     "bugReport": "https://github.com/kylereddoch/Trayage-website/issues/new?template=bug-report.yml",
     "mastodon": "https://indieapps.space/@trayage",
     "x": "https://x.com/TrayageForMac",
-    "vibeRank": "https://viberank.dev/apps/Trayage"
+    "vibeRank": "https://viberank.dev/apps/Trayage",
+    "productHunt": "https://www.producthunt.com/products/trayage"
   },
   "pricing": {
     "oneTimeUSD": "29.99",
