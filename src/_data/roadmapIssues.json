@@ -88,6 +88,14 @@
       "area": "First-run experience",
       "status": "planned",
       "updated": "2026-09-25"
+    },
+    {
+      "number": 12,
+      "title": "Next version: accessibility across all nine feature areas",
+      "description": "For the next version, improve and verify VoiceOver, Voice Control, Larger Text, Dark Interface, Differentiate Without Color Alone, Sufficient Contrast, Reduced Motion, Captions, and Audio Descriptions. Cover the main app workflows and any included instructional media, then publish only accessibility claims verified in the release build.",
+      "area": "Accessibility · Next version",
+      "status": "planned",
+      "updated": "2026-09-29"
     }
   ]
 }
