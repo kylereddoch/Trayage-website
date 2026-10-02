@@ -46,6 +46,10 @@ test('Eleventy preserves publication guards and cleans only generated output', a
     expect(JSON.parse(await readFile(join(cwd, 'dist/build-info.json'), 'utf8')).base).toBe('/');
     expect(await readFile(join(cwd, 'dist/.nojekyll'), 'utf8')).toBe('');
     expect(await readFile(join(cwd, 'dist/robots.txt'), 'utf8')).toContain('Disallow: /');
+    const previewHome = await readFile(join(cwd, 'dist/index.html'), 'utf8');
+    expect(previewHome).toContain('noindex, nofollow');
+    expect(previewHome).not.toContain('rel="canonical"');
+    expect(previewHome).not.toContain('application/ld+json');
     await expect(readFile(join(cwd, 'dist/sitemap.xml'))).rejects.toThrow(/ENOENT/);
     // Pages returns an empty base_path for a domain-root deployment.
     await build(cwd, [], { ...env, SITE_BASE_PATH: '/a-different-repository' });

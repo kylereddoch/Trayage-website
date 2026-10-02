@@ -5,6 +5,7 @@ export const data = {
   "permalink": "/support/index.html",
   "path": "support/",
   "title": "Support",
+  "seoTitle": "Support, Trials & License Help — Trayage for Mac",
   "description": "Get RelayByte support from Kyle Reddoch for your Trayage trial, one-time purchase, license, and devices.",
   "kind": "",
   "tags": [

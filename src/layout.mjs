@@ -1,4 +1,5 @@
 import { hasDownload } from './_lib/releases.js';
+import { absoluteURL, isIndexable, serializeSchema, structuredData } from './_lib/seo.js';
 export const escape = (value) => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 export const arrow = '<span aria-hidden="true">↗</span>';
 
@@ -71,13 +72,16 @@ export function icon(name, className = '') {
   };
   return `<svg class="icon ${className}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.tray}</svg>`;
 }
-export function layout({ title, description, path = '', body, base, site, releases, kind = '' }) {
+export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false }) {
   const url = (part = '') => `${base}${part}`;
   const isHome = path === '';
   const publisherBrand = escape(site.publisherBrand || site.publisher);
   const publisherLabel = site.publisherMark ? `<span class="publisher-brand"><img src="${escape(url(site.publisherMark))}" alt="" width="26" height="26"><span>${publisherBrand}</span></span>` : publisherBrand;
   const publisherCredit = site.publisherURL ? `<a href="${escape(site.publisherURL)}">${publisherLabel}</a>` : publisherLabel;
-  const fullTitle = isHome ? 'Trayage — A little order for your Downloads' : `${title} — Trayage`;
+  const fullTitle = seoTitle || (isHome ? 'Trayage — Downloads Cleanup App for Mac' : `${title} — Trayage`);
+  const indexable = isIndexable(site, path, noindex);
+  const canonical = indexable ? absoluteURL(site, base, path) : '';
+  const socialImage = site.origin ? absoluteURL(site, base, site.seo.image) : '';
   const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -87,14 +91,28 @@ export function layout({ title, description, path = '', body, base, site, releas
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f7f6f2">
   <meta name="description" content="${escape(description)}">
-  ${!site.publicationApproved || path === '404.html' ? '<meta name="robots" content="noindex, nofollow">' : ''}
+  <meta name="author" content="${escape(site.publisher)}">
+  <meta name="application-name" content="${escape(site.name)}">
+  <meta name="robots" content="${indexable ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'}">
   <title>${escape(fullTitle)}</title>
   <meta property="og:title" content="${escape(fullTitle)}">
   <meta property="og:description" content="${escape(description)}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Trayage">
-  ${site.origin ? `<link rel="canonical" href="${escape(site.origin + url(path))}"><meta property="og:url" content="${escape(site.origin + url(path))}"><meta property="og:image" content="${escape(site.origin + url('assets/app-icon.png'))}">` : ''}
-  <link rel="icon" type="image/png" href="${url('assets/favicon.png')}">
+  <meta property="og:locale" content="en_US">
+  ${canonical ? `<link rel="canonical" href="${escape(canonical)}"><meta property="og:url" content="${escape(canonical)}">` : ''}
+  ${socialImage ? `<meta property="og:image" content="${escape(socialImage)}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="${site.seo.imageWidth}">
+  <meta property="og:image:height" content="${site.seo.imageHeight}">
+  <meta property="og:image:alt" content="${escape(site.seo.imageAlt)}">` : ''}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="${escape(site.seo.twitterSite)}">
+  <meta name="twitter:title" content="${escape(fullTitle)}">
+  <meta name="twitter:description" content="${escape(description)}">
+  ${socialImage ? `<meta name="twitter:image" content="${escape(socialImage)}"><meta name="twitter:image:alt" content="${escape(site.seo.imageAlt)}">` : ''}
+  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title: fullTitle, description }))}</script>` : ''}
+  <link rel="icon" type="image/png" sizes="64x64" href="${url('assets/favicon.png')}">
   <link rel="apple-touch-icon" href="${url('assets/app-icon.png')}">
   <script src="${url('assets/theme.js')}"></script>
   <link rel="stylesheet" href="${url('assets/site.css')}">

@@ -1,7 +1,7 @@
 import { escape, arrow } from './layout.mjs';
 import { entryReleases } from './_lib/changelog.js';
 
-export const data = {layout:'base.11ty.js', permalink:'/changelog/index.html', path:'changelog/', title:'Changelog', description:'What is new in Trayage, with version highlights and release status for the direct and Mac App Store editions.', tags:['sitePages'], order:8};
+export const data = {layout:'base.11ty.js', permalink:'/changelog/index.html', path:'changelog/', title:'Changelog', seoTitle:'Release Notes & Changelog — Trayage for Mac', description:'What is new in Trayage, with version highlights and release status for the direct and Mac App Store editions.', tags:['sitePages'], order:8};
 
 export default function ({base, changelog, releases}) {
   const channelNames = {direct:'Direct download', appStore:'Mac App Store'};

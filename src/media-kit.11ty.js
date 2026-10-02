@@ -1,7 +1,7 @@
 import { escape, arrow } from './layout.mjs';
 import { releaseSummary, directPriceSummary } from './_lib/releases.js';
 
-export const data = {layout:'base.11ty.js', permalink:'/media-kit/index.html', path:'media-kit/', title:'Media kit', description:'Trayage facts, app icons, publisher artwork, screenshots, and contact details for reviewers and the media.', tags:['sitePages'], order:7};
+export const data = {layout:'base.11ty.js', permalink:'/media-kit/index.html', path:'media-kit/', title:'Media kit', seoTitle:'Media Kit: App Icons, Screenshots & Facts — Trayage', description:'Trayage facts, app icons, publisher artwork, screenshots, and contact details for reviewers and the media.', tags:['sitePages'], order:7};
 
 export default function ({base, site, releases, press}) {
   const facts = [['App','Trayage'],['Tagline',press.tagline],['Developer / publisher',`${site.publisher} / ${site.publisherBrand}`],['Based in','Texas, United States'],['Platform',`macOS ${releases.minimumMacOS} and later`],['Availability',releaseSummary(releases)],['Direct price',directPriceSummary(releases, site)],['App Store offer',`${releases.appStore.status==='available'?'':'Planned: '}free download and file review; optional ${site.pricing.trialDays}-day cleanup trial; separate US$${site.pricing.oneTimeUSD} one-time in-app unlock (local price shown by Apple)`],['Trial',`${site.pricing.trialDays} days; no automatic charge`],['Updates',`All ${site.pricing.majorVersion}.x updates included; optional paid major upgrades`]];

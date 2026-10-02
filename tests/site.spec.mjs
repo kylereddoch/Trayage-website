@@ -96,7 +96,7 @@ test('one-time offer uses approved pricing and only enables verified release cha
   if (channelIsLive(releases,'direct') && !site.checkoutEnabled) await expect(page.locator('#pricing')).toContainText('New license purchases are still being finalized');
   await expect(page.locator(`a[href="${site.links.licenses}"]`)).toHaveCount(1);
   await expect(page.locator(`a[href="${site.links.billing}"]`)).toHaveCount(1);
-  await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow, max-image-preview:large');
   expect(site.links.annual).toBeUndefined();
   await expect(page.locator('#pricing')).toContainText('7 days');
   await expect(page.locator('#pricing')).toContainText('Optional major upgrades, discounted for owners');

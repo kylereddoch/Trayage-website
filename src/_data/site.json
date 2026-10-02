@@ -8,6 +8,13 @@
   "releaseReady": true,
   "checkoutEnabled": true,
   "origin": "https://trayage.app",
+  "seo": {
+    "image": "assets/trayage-social.png",
+    "imageWidth": 1200,
+    "imageHeight": 630,
+    "imageAlt": "Trayage: A little order for your Downloads. The app icon sits in front of file cards for installers, likely duplicates, and old or large files.",
+    "twitterSite": "@TrayageForMac"
+  },
   "analytics": {
     "enabled": true,
     "provider": "Tinylytics",

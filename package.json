@@ -15,6 +15,7 @@
     "preview": "node scripts/serve.mjs",
     "test": "playwright test",
     "check": "npm run build && npm test",
+    "social:build": "node scripts/social-card.mjs",
     "roadmap:sync": "node scripts/sync-roadmap.mjs"
   },
   "devDependencies": {

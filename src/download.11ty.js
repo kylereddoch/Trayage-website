@@ -1,7 +1,7 @@
 import { escape, icon, arrow } from './layout.mjs';
 import { channelIsLive, hasDownload } from './_lib/releases.js';
 
-export const data = {layout:'base.11ty.js', permalink:'/download/index.html', path:'download/', title:'Get Trayage', description:'Download and purchase options for Trayage on Mac. Check the status of the direct and Mac App Store editions.', tags:['sitePages'], order:6};
+export const data = {layout:'base.11ty.js', permalink:'/download/index.html', path:'download/', title:'Get Trayage', seoTitle:'Download Trayage for Mac — Trial & One-Time License', description:'Download and purchase options for Trayage on Mac. Check the status of the direct and Mac App Store editions.', tags:['sitePages'], order:6};
 
 export default function ({base, site, releases}) {
   const direct = channelIsLive(releases,'direct');

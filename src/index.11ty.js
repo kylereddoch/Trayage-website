@@ -1,11 +1,12 @@
 import { home } from './home.mjs';
+import { appDescription } from './_lib/seo.js';
 
 export const data = {
   "layout": "base.11ty.js",
   "permalink": "/index.html",
   "path": "",
   "title": "Trayage",
-  "description": "A native Mac app for a clearer view of Downloads. Review installers, likely duplicates, old and large files locally. Currently in development.",
+  "description": appDescription,
   "kind": "",
   "tags": [
     "sitePages"

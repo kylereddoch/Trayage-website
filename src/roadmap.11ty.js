@@ -1,7 +1,7 @@
 import { escape, icon, arrow } from './layout.mjs';
 import {resolveRoadmap, issueTracker} from './_lib/roadmap.js';
 
-export const data = {layout:'base.11ty.js', permalink:'/roadmap/index.html', path:'roadmap/', title:'Roadmap', description:'Follow what is planned, in progress, and completed for Trayage, the Mac Downloads review app.', tags:['sitePages'], order:5};
+export const data = {layout:'base.11ty.js', permalink:'/roadmap/index.html', path:'roadmap/', title:'Roadmap', seoTitle:'Feature Roadmap — Trayage for Mac', description:'Follow what is planned, in progress, and completed for Trayage, the Mac Downloads review app.', tags:['sitePages'], order:5};
 
 export default function ({base, site, roadmap, roadmapIssues}) {
   roadmap = resolveRoadmap(roadmap, roadmapIssues);
