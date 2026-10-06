@@ -177,6 +177,7 @@
   .launch-area { border-top: 1px solid var(--line); padding-block: 24px 36px; }
   .launch-area .eyebrow { justify-content: center; color: var(--muted); }
   .launch-badges { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 24px; margin-top: 18px; }
+  .launch-badges img { width: auto; height: 48px; }
   .footer-top p { font-size: 12px; color: var(--muted); margin-top: 8px; }
   .footer-top .publisher { text-align: right; margin-top: 6px; line-height: 1.8; }
   .publisher-brand { display: inline-flex; align-items: center; vertical-align: middle; gap: 3px; color: var(--ink); font-weight: 600; white-space: nowrap; }
