@@ -118,12 +118,13 @@ test('default visits load only disclosed analytics and store no visitor state',a
   page.on('request',request=>{if(new URL(request.url()).origin!==new URL(hosts[0].url).origin)external.push(request.url());});
   await page.route('https://tinylytics.app/**', route=>route.fulfill({status:200,contentType:'application/javascript',body:''}));
   await page.route('https://launchnest.io/badge/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56"/>'}));
+  await page.route('https://www.scrolllaunch.com/api/badge/trayage*', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="220" height="48"/>'}));
   await page.route('https://api.producthunt.com/widgets/embed-image/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="250" height="54"/>'}));
   for(const route of routes){await page.goto(hosts[0].url+route);}
   expect(external).toContain(site.analytics.embedURL);
   expect(external.some(url=>url.includes('viberank.dev'))).toBe(false);
   expect(external.some(url=>url.startsWith('https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1266760&theme='))).toBe(true);
-  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||/^https:\/\/(api\.producthunt\.com\/widgets\/embed-image\/v1\/featured\.svg\?post_id=1266760)&theme=(light|dark)$/.test(url))).toBe(true);
+  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||/^https:\/\/(api\.producthunt\.com\/widgets\/embed-image\/v1\/featured\.svg\?post_id=1266760)&theme=(light|dark)$/.test(url))).toBe(true);
   expect(await page.context().cookies()).toEqual([]);
   expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});
 });
@@ -171,8 +172,12 @@ test('reduced motion and enlarged text retain usable content',async({page})=>{
 test('appearance follows the system, persists an explicit choice, and resets cleanly',async({page})=>{
   await page.emulateMedia({colorScheme:'dark'});
   await page.goto(hosts[0].url);
-  await expect(page.locator('.site-footer .launchnest-badge')).toHaveAttribute('href', 'https://launchnest.io/p/trayage');
+  await expect(page.locator('.site-footer + .launch-area .launchnest-badge')).toHaveAttribute('href', 'https://launchnest.io/p/trayage');
   await expect(page.locator('.launchnest-badge')).toHaveAttribute('rel', 'noopener noreferrer');
+  const scrollLaunch = page.getByAltText('Featured on ScrollLaunch');
+  await scrollLaunch.scrollIntoViewIfNeeded();
+  await expect(scrollLaunch).toHaveAttribute('src', 'https://www.scrolllaunch.com/api/badge/trayage');
+  await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   const select=page.getByLabel('Appearance');
   await expect(select).toHaveValue('system');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
@@ -182,12 +187,14 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect(page.locator('.launchnest-badge .badge-light')).toBeHidden();
   await page.emulateMedia({colorScheme:'light'});
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 246, 242)');
+  await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage');
   await expect(page.locator('.product-hunt-badge .badge-light')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-light')).toBeVisible();
   await expect(page.locator('.product-hunt-badge .badge-dark')).toBeHidden();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeHidden();
   await select.selectOption('dark');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   await expect(page.locator('.product-hunt-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Privacy',exact:true}).click();

@@ -12,6 +12,9 @@
     else root.dataset.theme = preference;
     const dark = preference === 'dark' || (preference === 'system' && system.matches);
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#191c1a' : '#f7f6f2');
+    document.querySelectorAll('source[data-dark-source]').forEach(source => {
+      source.media = dark ? 'all' : 'not all';
+    });
   }
   apply();
   system.addEventListener('change', apply);
@@ -23,6 +26,7 @@
     if (control) control.value = preference;
   });
   document.addEventListener('DOMContentLoaded', () => {
+    apply();
     const control = document.querySelector('#appearance');
     if (!control) return;
     control.value = preference;

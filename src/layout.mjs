@@ -134,10 +134,22 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   </header>
   <main id="main" tabindex="-1">${body}</main>
   <footer class="site-footer wrap">
-    <div class="footer-top"><div><a class="brand" href="${url()}"><img src="${url('assets/app-icon.png')}" width="36" height="36" alt=""><span>Trayage<span class="brand-dot">.</span></span></a><p>A little order for your Downloads.</p>${site.links.launchNest ? `<div class="community-badges footer-badges"><a class="launchnest-badge" href="${escape(site.links.launchNest)}" target="_blank" rel="noopener noreferrer"><img class="badge-light" src="https://launchnest.io/badge/trayage.svg?variant=featured&amp;theme=light" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"><img class="badge-dark" src="https://launchnest.io/badge/trayage.svg?variant=featured" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a></div>` : ''}</div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
+    <div class="footer-top"><div><a class="brand" href="${url()}"><img src="${url('assets/app-icon.png')}" width="36" height="36" alt=""><span>Trayage<span class="brand-dot">.</span></span></a><p>A little order for your Downloads.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
     <div class="footer-bottom"><p>© 2026 ${publisherBrand}</p><nav aria-label="Footer navigation"><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Roadmap</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
     ${!site.publicationApproved ? '<p class="preview-footer">Local review preview · Not published · Policy text remains a draft</p>' : ''}
   </footer>
+  <section class="launch-area wrap" aria-labelledby="launch-title">
+    <h2 class="eyebrow" id="launch-title">As featured in</h2>
+    <div class="community-badges launch-badges">
+      ${site.links.launchNest ? `<a class="launchnest-badge" href="${escape(site.links.launchNest)}" target="_blank" rel="noopener noreferrer"><img class="badge-light" src="https://launchnest.io/badge/trayage.svg?variant=featured&amp;theme=light" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"><img class="badge-dark" src="https://launchnest.io/badge/trayage.svg?variant=featured" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>` : ''}
+      <a href="https://www.scrolllaunch.com/products/trayage?ref=badge" target="_blank" rel="noopener">
+        <picture>
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://www.scrolllaunch.com/api/badge/trayage?theme=dark">
+          <img src="https://www.scrolllaunch.com/api/badge/trayage" alt="Featured on ScrollLaunch" width="220" height="48" loading="lazy" />
+        </picture>
+      </a>
+    </div>
+  </section>
   ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}
 </body>
 </html>`;
