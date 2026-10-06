@@ -7,7 +7,7 @@ const option = (key,fallback) => args.includes(key) ? args[args.indexOf(key)+1] 
 const root = resolve(option('--dir','dist'));
 const port = Number(option('--port', '4173'));
 const {base} = JSON.parse(await readFile(resolve(root,'build-info.json'),'utf8'));
-const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.json':'application/json','.txt':'text/plain; charset=utf-8','.xml':'application/xml'};
+const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml','.json':'application/json','.txt':'text/plain; charset=utf-8','.xml':'application/xml'};
 createServer(async (req,res)=>{
   try {
     const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);

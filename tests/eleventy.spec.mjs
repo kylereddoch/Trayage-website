@@ -94,7 +94,7 @@ test('npm run start rebuilds shared templates, data, CSS, and JS with browser re
     const cssPath = join(cwd, 'public/assets/site.css');
     await writeFile(cssPath, (await readFile(cssPath, 'utf8')) + '\n:root { --paper: rgb(240, 241, 242); }\n');
     await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(240, 241, 242)', { timeout: 15_000 });
-    const jsPath = join(cwd, 'public/assets/site.js');
+    const jsPath = join(cwd, 'public/assets/theme.js');
     await writeFile(jsPath, (await readFile(jsPath, 'utf8')) + '\ndocument.documentElement.dataset.watchVerified = "yes";\n');
     await expect(page.locator('html')).toHaveAttribute('data-watch-verified', 'yes', { timeout: 15_000 });
     await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Support', exact: true }).click();

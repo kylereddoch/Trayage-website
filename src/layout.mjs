@@ -119,7 +119,6 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <link rel="stylesheet" href="${url('assets/site.css')}">
   <link rel="stylesheet" href="${url('assets/theme.css')}">
   <link rel="stylesheet" href="${url('assets/pages.css')}">
-  <script src="${url('assets/site.js')}" defer></script>
 </head>
 <body class="${kind}">
   <a class="skip-link" href="#main">Skip to content</a>

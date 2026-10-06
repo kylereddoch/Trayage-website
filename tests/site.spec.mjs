@@ -53,20 +53,14 @@ for(const colorScheme of ['light','dark']) for(const width of [320,390,768,1440]
   });
 }
 
-test('keyboard: skip link, category filters, and native FAQ disclosures work',async({page})=>{
+test('keyboard: skip link, screenshot link, and native FAQ disclosures work',async({page})=>{
   await page.goto(hosts[1].url);
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link',{name:'Skip to content'})).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.locator('main')).toBeFocused();
-  await page.getByRole('button',{name:'Likely duplicates',exact:true}).focus();
-  await page.keyboard.press('Space');
-  await expect(page.getByRole('button',{name:'Likely duplicates',exact:true})).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('.file-row:visible')).toHaveCount(1);
-  await expect(page.getByRole('status')).toContainText('Contents not verified');
-  await page.getByRole('button',{name:'All files',exact:true}).focus();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('.file-row:visible')).toHaveCount(5);
+  await expect(page.getByRole('link',{name:'View the full Trayage app screenshot'})).toBeVisible();
+  await expect(page.locator('.macbook-lid img')).toHaveJSProperty('naturalWidth',2560);
   await page.goto(hosts[1].url+'support/');
   const question=page.locator('summary').filter({hasText:'How do I activate my license?'});
   await question.focus();
@@ -110,8 +104,7 @@ test('without JavaScript: content, FAQs, and system dark mode work',async({brows
   const context=await browser.newContext({javaScriptEnabled:false,colorScheme:'dark',viewport:{width:390,height:844}});
   const page=await context.newPage();
   await page.goto(hosts[1].url);
-  await expect(page.locator('.file-row:visible')).toHaveCount(5);
-  await expect(page.locator('.demo-filters')).toBeHidden();
+  await expect(page.locator('.macbook-lid img')).toBeVisible();
   await expect(page.getByLabel('Appearance')).toBeHidden();
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
   await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Support',exact:true}).click();
@@ -125,13 +118,12 @@ test('default visits load only disclosed analytics and store no visitor state',a
   page.on('request',request=>{if(new URL(request.url()).origin!==new URL(hosts[0].url).origin)external.push(request.url());});
   await page.route('https://tinylytics.app/**', route=>route.fulfill({status:200,contentType:'application/javascript',body:''}));
   await page.route('https://launchnest.io/badge/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56"/>'}));
-  await page.route('https://viberank.dev/badge?**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="250" height="54"/>'}));
   await page.route('https://api.producthunt.com/widgets/embed-image/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="250" height="54"/>'}));
   for(const route of routes){await page.goto(hosts[0].url+route);}
   expect(external).toContain(site.analytics.embedURL);
-  expect(external.some(url=>url.startsWith('https://viberank.dev/badge?app=Trayage&theme='))).toBe(true);
+  expect(external.some(url=>url.includes('viberank.dev'))).toBe(false);
   expect(external.some(url=>url.startsWith('https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1266760&theme='))).toBe(true);
-  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||/^https:\/\/(viberank\.dev\/badge\?app=Trayage|api\.producthunt\.com\/widgets\/embed-image\/v1\/featured\.svg\?post_id=1266760)&theme=(light|dark)$/.test(url))).toBe(true);
+  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||/^https:\/\/(api\.producthunt\.com\/widgets\/embed-image\/v1\/featured\.svg\?post_id=1266760)&theme=(light|dark)$/.test(url))).toBe(true);
   expect(await page.context().cookies()).toEqual([]);
   expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});
 });
@@ -184,23 +176,18 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   const select=page.getByLabel('Appearance');
   await expect(select).toHaveValue('system');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
-  await expect(page.locator('.viberank-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.product-hunt-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
-  await expect(page.locator('.viberank-badge .badge-light')).toBeHidden();
   await expect(page.locator('.product-hunt-badge .badge-light')).toBeHidden();
   await expect(page.locator('.launchnest-badge .badge-light')).toBeHidden();
   await page.emulateMedia({colorScheme:'light'});
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 246, 242)');
-  await expect(page.locator('.viberank-badge .badge-light')).toBeVisible();
   await expect(page.locator('.product-hunt-badge .badge-light')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-light')).toBeVisible();
-  await expect(page.locator('.viberank-badge .badge-dark')).toBeHidden();
   await expect(page.locator('.product-hunt-badge .badge-dark')).toBeHidden();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeHidden();
   await select.selectOption('dark');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
-  await expect(page.locator('.viberank-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.product-hunt-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Privacy',exact:true}).click();
@@ -243,7 +230,7 @@ test('policies distinguish direct and Apple purchases and disclose support and s
   await expect(page.locator('#support')).toContainText('Proton Mail');
   await expect(page.locator('#website')).toContainText('trayage-appearance');
   await expect(page.locator('#website')).toContainText('Tinylytics');
-  await expect(page.locator('#website')).toContainText('VibeRank');
+  await expect(page.locator('#website')).not.toContainText('VibeRank');
   await expect(page.locator('#website')).toContainText('Product Hunt');
   await expect(page.locator('#website')).toContainText('LaunchNest');
   await expect(page.locator(`#website a[href="${site.analytics.privacyURL}"]`)).toBeVisible();

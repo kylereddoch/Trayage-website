@@ -415,3 +415,12 @@
   @media (forced-colors: active) { .demo-filters button[aria-pressed="true"] { outline: 2px solid ButtonText; } .status-dot { background: CanvasText; } .button { border: 1px solid ButtonText; } }
   @media print { body { background: white; color: black; } .site-header nav, .header-cta, .document-sidebar, .hero-actions, .demo-filters, .skip-link { display: none; } .wrap { width: 100%; } .document-layout { display: block; } .section, .document-header { padding-block: 24px; } .prose section, .price-card { break-inside: avoid; } .document-header h1 { font-size: 32pt; } a { text-decoration: underline; } }
 }
+
+@layer components {
+  .macbook-preview { display: block; padding: 28px 0; text-decoration: none; }
+  .macbook-lid { position: relative; width: 92%; margin: auto; padding: 18px 9px 11px; background: #080909; border: 2px solid #666968; border-radius: 18px 18px 8px 8px; box-shadow: 0 18px 40px #0003; }
+  .macbook-lid img { display: block; width: 100%; height: auto; border-radius: 3px; }
+  .macbook-camera { position: absolute; top: 4px; left: calc(50% - 18px); width: 36px; height: 9px; border-radius: 0 0 6px 6px; background: #17191a; }
+  .macbook-base { position: relative; height: 14px; background: linear-gradient(#9da09f,#535756 65%,#222524); border-radius: 2px 2px 45% 45%; box-shadow: 0 14px 18px #0002; }
+  .macbook-base::before { content: ''; position: absolute; top: 0; left: 43%; width: 14%; height: 5px; border-radius: 0 0 8px 8px; background: #393d3b; }
+}
