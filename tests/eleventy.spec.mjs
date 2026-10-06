@@ -28,6 +28,20 @@ async function fixture() {
   return directory;
 }
 const build = (cwd, args = [], environment = env) => exec(process.execPath, [cli, '--quiet', ...args], { cwd, env: environment });
+test('Blog drafts are absent from generated pages, collections, RSS, and sitemap', async () => {
+  const cwd = await fixture();
+  try {
+    const sitePath = join(cwd, 'src/_data/site.json');
+    const site = JSON.parse(await readFile(sitePath, 'utf8'));
+    await writeFile(sitePath, JSON.stringify({ ...site, publicationApproved: true, policiesApproved: true, origin: 'https://example.test' }));
+    await writeFile(join(cwd, 'src/blog/posts/unpublished-example.md'), '---\ntitle: Secret unfinished article\ndescription: This text must stay private.\ndate: 2026-10-06\ndraft: true\n---\nDraft for review.');
+    await build(cwd);
+    await expect(readFile(join(cwd, 'dist/blog/unpublished-example/index.html'))).rejects.toThrow(/ENOENT/);
+    for (const file of ['blog/index.html', 'blog/guides/index.html', 'blog/feed.xml', 'sitemap.xml', 'blog/clean-up-mac-downloads/index.html']) {
+      expect(await readFile(join(cwd, 'dist', file), 'utf8')).not.toMatch(/Secret unfinished|unpublished-example/);
+    }
+  } finally { await rm(cwd, { recursive: true, force: true }); }
+});
 async function availablePort() {
   const server = createServer();
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));

@@ -43,7 +43,7 @@
   .brand { display: inline-flex; gap: 9px; align-items: center; font-size: 26px; font-weight: 700; letter-spacing: -.06em; text-decoration: none; }
   .brand img { object-fit: contain; }
   .brand-dot { color: var(--orange); }
-  .site-header nav { display: flex; gap: 30px; margin-left: 38px; }
+  .site-header nav { display: flex; flex-wrap: wrap; gap: 6px 24px; margin-left: 20px; }
   .site-header nav a { font-size: 13px; font-weight: 550; min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
   nav a[aria-current="page"] { color: var(--orange); text-decoration: underline; }
   .header-cta { min-height: 44px; padding: 10px 16px; display: inline-flex; align-items: center; gap: 20px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }

@@ -75,7 +75,7 @@ export function icon(name, className = '') {
   };
   return `<svg class="icon ${className}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.tray}</svg>`;
 }
-export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false }) {
+export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false, article = false, published, updated, category }) {
   const url = (part = '') => `${base}${part}`;
   const isHome = path === '';
   const publisherBrand = escape(site.publisherBrand || site.publisher);
@@ -100,7 +100,8 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <title>${escape(fullTitle)}</title>
   <meta property="og:title" content="${escape(fullTitle)}">
   <meta property="og:description" content="${escape(description)}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="${article ? 'article' : 'website'}">
+  ${article && published ? `<meta property="article:published_time" content="${new Date(published).toISOString()}">${updated ? `<meta property="article:modified_time" content="${new Date(updated).toISOString()}">` : ''}` : ''}
   <meta property="og:site_name" content="Trayage">
   <meta property="og:locale" content="en_US">
   ${canonical ? `<link rel="canonical" href="${escape(canonical)}"><meta property="og:url" content="${escape(canonical)}">` : ''}
@@ -114,13 +115,15 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <meta name="twitter:title" content="${escape(fullTitle)}">
   <meta name="twitter:description" content="${escape(description)}">
   ${socialImage ? `<meta name="twitter:image" content="${escape(socialImage)}"><meta name="twitter:image:alt" content="${escape(site.seo.imageAlt)}">` : ''}
-  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title: fullTitle, description }))}</script>` : ''}
+  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title: fullTitle, description, article, published, updated, category }))}</script>` : ''}
+  ${site.publicationApproved && site.origin ? `<link rel="alternate" type="application/rss+xml" title="Trayage Blog" href="${url('blog/feed.xml')}">` : ''}
   <link rel="icon" type="image/png" sizes="64x64" href="${url('assets/favicon.png')}">
   <link rel="apple-touch-icon" href="${url('assets/app-icon.png')}">
   <script src="${url('assets/theme.js')}"></script>
   <link rel="stylesheet" href="${url('assets/site.css')}">
   <link rel="stylesheet" href="${url('assets/theme.css')}">
   <link rel="stylesheet" href="${url('assets/pages.css')}">
+  ${path.startsWith('blog/') ? `<link rel="stylesheet" href="${url('assets/blog.css')}">` : ''}
 </head>
 <body class="${kind}">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -130,6 +133,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
       <a href="${url('#overview')}">Overview</a>
       <a href="${url('#pricing')}">Pricing</a>
       <a href="${url('roadmap/')}"${path === 'roadmap/' ? ' aria-current="page"' : ''}>Roadmap</a>
+      <a href="${url('blog/')}"${path.startsWith('blog/') ? ' aria-current="page"' : ''}>Blog</a>
       <a href="${url('support/')}"${path === 'support/' ? ' aria-current="page"' : ''}>Support</a>
     </nav>
     <div class="header-actions"><a class="header-cta" href="${url('download/')}">${hasDownload(releases) ? 'Get Trayage' : 'Coming to Mac'} ${arrow}</a><label class="appearance-control" hidden><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg><span class="sr-only">Appearance</span><select id="appearance"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></div>

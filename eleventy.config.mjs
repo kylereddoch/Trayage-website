@@ -13,6 +13,20 @@ export default function (eleventyConfig) {
   let releases;
   let press;
   eleventyConfig.addGlobalData('base', () => normalizeBase(eleventyConfig.pathPrefix));
+  eleventyConfig.amendLibrary('md', md => {
+    md.core.ruler.push('heading-anchors', state => {
+      const used = new Set();
+      state.tokens.forEach((token, index) => {
+        if (token.type !== 'heading_open') return;
+        const text = state.tokens[index + 1].content;
+        const stem = text.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-') || 'section';
+        let id = stem;
+        for (let suffix = 2; used.has(id); suffix++) id = `${stem}-${suffix}`;
+        used.add(id);
+        token.attrSet('id', id);
+      });
+    });
+  });
   eleventyConfig.addPassthroughCopy({ 'public/assets': 'assets' });
   // Sparkle signs the exact XML bytes; pass the feed through without rendering.
   eleventyConfig.addPassthroughCopy({ 'public/updates': 'updates' });
@@ -54,7 +68,7 @@ export default function (eleventyConfig) {
   });
 
   eleventyConfig.addTransform('publication-policy', function (content) {
-    if (site.publicationApproved && this.page.outputPath?.endsWith('.html') && /\bdraft\b|class="[^"]*\breview-note\b/i.test(content)) {
+    if (site.publicationApproved && typeof this.page.outputPath === 'string' && this.page.outputPath.endsWith('.html') && /\bdraft\b|class="[^"]*\breview-note\b/i.test(content)) {
       throw new Error('Unresolved draft copy remains. Finalize all customer-facing policy and support text before an approved publication build.');
     }
     return content;
