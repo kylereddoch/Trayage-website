@@ -6,6 +6,8 @@ export const arrow = '<span aria-hidden="true">↗</span>';
 function linkEvent(href, tag, site) {
   if (!site.analytics?.enabled) return null;
   const decodedHref = href.replaceAll('&amp;', '&');
+  // Preserve TinyShelf's required embed HTML exactly, including the link attributes.
+  if (decodedHref === 'https://www.tinyshelf.co/?ref=trayage.app') return null;
   const download = /(?:^|\s)download(?:[\s=>]|$)/i.test(tag);
   if (download) {
     const filename = decodedHref.split(/[?#]/, 1)[0].split('/').pop() || 'download';
@@ -148,6 +150,10 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
           <img src="https://www.scrolllaunch.com/api/badge/trayage" alt="Featured on ScrollLaunch" width="220" height="48" loading="lazy" />
         </picture>
       </a>
+<a href="https://www.tinyshelf.co/?ref=trayage.app" title="Featured on TinyShelf">
+  <img src="https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg"
+       alt="Featured on TinyShelf" width="216" height="64"/>
+</a>
     </div>
   </section>
   ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}
