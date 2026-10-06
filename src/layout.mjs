@@ -154,6 +154,12 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <img src="https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg"
        alt="Featured on TinyShelf" width="216" height="64"/>
 </a>
+      <a href="https://letslaunch.today/product/trayage" target="_blank" rel="noopener">
+        <picture>
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://letslaunch.today/badge/trayage.svg?theme=dark">
+          <img src="https://letslaunch.today/badge/trayage.svg" alt="Trayage on LetsLaunch" width="250" height="54" />
+        </picture>
+      </a>
     </div>
   </section>
   ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}
