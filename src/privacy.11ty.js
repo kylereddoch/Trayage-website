@@ -5,7 +5,7 @@ export const data = {
   "permalink": "/privacy/index.html",
   "path": "privacy/",
   "title": "Privacy",
-  "description": "Privacy details for Trayage: local file analysis, Stripe purchases, Keylight licensing and device reporting, website hosting, and support.",
+  "description": "Privacy details for Trayage: local file analysis, Apple and RevenueCat purchases, direct licensing, website hosting, and support.",
   "kind": "document-page",
   "tags": [
     "sitePages"
