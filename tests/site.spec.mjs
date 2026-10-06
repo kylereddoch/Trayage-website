@@ -60,7 +60,7 @@ test('keyboard: skip link, screenshot link, and native FAQ disclosures work',asy
   await page.keyboard.press('Enter');
   await expect(page.locator('main')).toBeFocused();
   await expect(page.getByRole('link',{name:'View the full Trayage app screenshot'})).toBeVisible();
-  await expect(page.locator('.macbook-lid img')).toHaveJSProperty('naturalWidth',2560);
+  await expect(page.locator('.macbook-screen img')).toHaveJSProperty('naturalWidth',2560);
   await page.goto(hosts[1].url+'support/');
   const question=page.locator('summary').filter({hasText:'How do I activate my license?'});
   await question.focus();
@@ -104,7 +104,7 @@ test('without JavaScript: content, FAQs, and system dark mode work',async({brows
   const context=await browser.newContext({javaScriptEnabled:false,colorScheme:'dark',viewport:{width:390,height:844}});
   const page=await context.newPage();
   await page.goto(hosts[1].url);
-  await expect(page.locator('.macbook-lid img')).toBeVisible();
+  await expect(page.locator('.macbook-screen img')).toBeVisible();
   await expect(page.getByLabel('Appearance')).toBeHidden();
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
   await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Support',exact:true}).click();
