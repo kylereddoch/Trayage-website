@@ -178,6 +178,15 @@
   .launch-area .eyebrow { justify-content: center; color: var(--muted); }
   .launch-badges { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 24px; margin-top: 18px; }
   .launch-badges img { width: auto; height: 48px; }
+  .launch-badges .tech-twitter-badge { --tt-bg: #fff; --tt-border: #e4e4e7; --tt-muted: #71717a; --tt-ink: #18181b; --tt-icon-border: rgba(0,0,0,.08); align-items: center; gap: 10px; border-radius: 16px; background: var(--tt-bg); border: 1px solid var(--tt-border); padding: 5px 18px 5px 8px; text-decoration: none; white-space: nowrap; }
+  .tech-twitter-badge img { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--tt-icon-border); }
+  .tech-twitter-copy { display: flex; flex-direction: column; line-height: 1.25; font-family: system-ui,-apple-system,'Segoe UI',sans-serif; }
+  .tech-twitter-kicker { font-size: 10px; font-weight: 600; letter-spacing: .14em; color: var(--tt-muted); }
+  .tech-twitter-name { font-size: 15px; font-weight: 700; color: var(--tt-ink); }
+  :root[data-theme="dark"] .tech-twitter-badge { --tt-bg: #0b0b0c; --tt-border: #2a2a2e; --tt-muted: #a1a1aa; --tt-ink: #f4f4f5; --tt-icon-border: rgba(255,255,255,.14); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .tech-twitter-badge { --tt-bg: #0b0b0c; --tt-border: #2a2a2e; --tt-muted: #a1a1aa; --tt-ink: #f4f4f5; --tt-icon-border: rgba(255,255,255,.14); }
+  }
   .footer-top p { font-size: 12px; color: var(--muted); margin-top: 8px; }
   .footer-top .publisher { text-align: right; margin-top: 6px; line-height: 1.8; }
   .publisher-brand { display: inline-flex; align-items: center; vertical-align: middle; gap: 3px; color: var(--ink); font-weight: 600; white-space: nowrap; }

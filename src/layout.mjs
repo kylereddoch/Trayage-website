@@ -1,5 +1,6 @@
 import { breadcrumbItems } from './_lib/content-index.js';
 import { hasDownload } from './_lib/releases.js';
+import { techTwitterBadge } from './tech-twitter-badge.mjs';
 import { absoluteURL, isIndexable, serializeSchema, structuredData } from './_lib/seo.js';
 export const escape = (value) => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 export const arrow = '<span aria-hidden="true">↗</span>';
@@ -165,6 +166,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
           <img src="https://letslaunch.today/badge/trayage.svg" alt="Trayage on LetsLaunch" width="250" height="54" />
         </picture>
       </a>
+      ${techTwitterBadge}
     </div>
   </section>
   ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}
