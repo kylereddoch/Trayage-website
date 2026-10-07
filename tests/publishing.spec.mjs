@@ -165,17 +165,21 @@ test('roadmap anchors, download status and media archive work in the browser',as
 });
 
 
-test('published direct sales copy is ready and keeps TestFlight private', async () => {
+test('published direct sales copy is ready and offers TestFlight separately on the download page', async () => {
   expect(site.checkoutEnabled).toBe(true);
   const files = (await readdir('dist-root', {recursive:true})).filter(file => file.endsWith('.html'));
   for (const file of files) {
     const html = await readFile(`dist-root/${file}`, 'utf8');
-    expect(html, file).not.toMatch(/still being finalized|release verification still underway|testflight\.apple\.com/i);
+    expect(html, file).not.toMatch(/still being finalized|release verification still underway/i);
+    if (file !== 'download/index.html') expect(html, file).not.toContain('testflight.apple.com');
   }
   for (const file of ['index.html', 'download/index.html', 'support/index.html']) {
     expect(await readFile(`dist-root/${file}`, 'utf8'), file).toContain(`href="${site.links.oneTime}"`);
   }
   const downloadPage = await readFile('dist-root/download/index.html', 'utf8');
+  expect(downloadPage).toContain(`href="${site.links.testFlight}"`);
+  expect(downloadPage).toContain('Join the TestFlight beta');
+  expect(downloadPage).toContain('Beta testing');
   expect(downloadPage).toContain('Coming soon to the Mac App Store.');
   expect(downloadPage).not.toContain('href="https://apps.apple.com');
   const facts = await readFile('dist-root/assets/media/fact-sheet.txt', 'utf8');

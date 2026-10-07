@@ -23,6 +23,7 @@
     "effective": "October 6, 2026"
   },
   "links": {
+    "testFlight": "https://testflight.apple.com/join/BtqzAZem",
     "oneTime": "https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02",
     "billing": "https://billing.stripe.com/p/login/6oUfZhfzpbm8awd7pV73G00",
     "licenses": "https://portal.keylight.dev",
