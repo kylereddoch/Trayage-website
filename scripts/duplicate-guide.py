@@ -1,6 +1,5 @@
 """Render Trayage's one-page duplicate-file field guide for print and Canva."""
 from pathlib import Path
-import json
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -108,8 +107,7 @@ text(44, 713, 'A little order for your Downloads.', 'Italic', 12)
 text(401, 715, 'Full guide', 'Bold', 10, orange)
 text(485, 715, 'Get Trayage', 'Bold', 10, orange)
 c.linkURL('https://trayage.app/blog/check-duplicate-files-on-mac/', (397, H-731, 465, H-712), relative=0, thickness=0)
-releases = json.loads((ROOT / 'src/_data/releases.json').read_text())
-c.linkURL(releases['direct']['url'], (480, H-731, 568, H-712), relative=0, thickness=0)
+c.linkURL('https://trayage.app/download/', (480, H-731, 568, H-712), relative=0, thickness=0)
 para(44, 740, 524, 'Trayage 1.0 direct edition flags likely duplicates by normalized filename and size; it does not compare contents. You choose what moves to Trash. Trayage never empties it.', 8, muted, 10.5)
 label(44, 770, 'TRAYAGE.APP', size=6.5)
 text(467, 769, 'OCTOBER 7, 2026', 'Sans', 7, muted)

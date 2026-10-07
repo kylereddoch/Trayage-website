@@ -36,7 +36,7 @@ endobj
 6 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://github.com/kylereddoch/Trayage-website/releases/download/v1.0-4/Trayage-1.0-4-universal.dmg)
+/S /URI /Type /Action /URI (https://trayage.app/download/)
 >> /Border [ 0 0 0 ] /Rect [ 480 61 568 80 ] /Subtype /Link /Type /Annot
 >>
 endobj
@@ -622,7 +622,7 @@ endobj
 endobj
 25 0 obj
 <<
-/Author (Kyle Reddoch \267 Trayage) /CreationDate (D:20261007165609-05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261007165609-05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+/Author (Kyle Reddoch \267 Trayage) /CreationDate (D:20261007173309-05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261007173309-05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
   /Subject (A printable guide to reviewing likely duplicate files on Mac before moving anything to Trash.) /Title (A second look. Less clutter. | Trayage duplicate-file field guide) /Trapped /False
 >>
 endobj
@@ -647,31 +647,31 @@ xref
 0000081228 00000 n 
 0000085102 00000 n 
 0000085286 00000 n 
-0000085515 00000 n 
-0000085797 00000 n 
-0000086545 00000 n 
-0000114110 00000 n 
-0000114367 00000 n 
-0000115539 00000 n 
-0000116282 00000 n 
-0000141718 00000 n 
-0000141970 00000 n 
-0000143151 00000 n 
-0000143902 00000 n 
-0000168357 00000 n 
-0000168619 00000 n 
-0000169808 00000 n 
-0000170552 00000 n 
-0000200617 00000 n 
-0000200863 00000 n 
+0000085445 00000 n 
+0000085727 00000 n 
+0000086475 00000 n 
+0000114040 00000 n 
+0000114297 00000 n 
+0000115469 00000 n 
+0000116212 00000 n 
+0000141648 00000 n 
+0000141900 00000 n 
+0000143081 00000 n 
+0000143832 00000 n 
+0000168287 00000 n 
+0000168549 00000 n 
+0000169738 00000 n 
+0000170482 00000 n 
+0000200547 00000 n 
+0000200793 00000 n 
+0000201923 00000 n 
 0000201993 00000 n 
-0000202063 00000 n 
-0000202480 00000 n 
-0000202540 00000 n 
+0000202410 00000 n 
+0000202470 00000 n 
 trailer
 <<
 /ID 
-[<a0c0c17bad1293ed23224e96b36e86d2><a0c0c17bad1293ed23224e96b36e86d2>]
+[<ce0079f57eb42aa6eb52774f2e608ea4><ce0079f57eb42aa6eb52774f2e608ea4>]
 % ReportLab generated PDF document -- digest (opensource)
 
 /Info 25 0 R
@@ -679,5 +679,5 @@ trailer
 /Size 28
 >>
 startxref
-205063
+204993
 %%EOF
