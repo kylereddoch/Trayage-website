@@ -3,6 +3,8 @@ title: How to clean up your Mac’s Downloads folder without losing important fi
 seoTitle: How to Clean Up Your Mac Downloads Folder — Trayage
 description: A practical routine for reviewing Downloads, keeping important files, and checking old installers before moving anything to Trash.
 date: 2026-10-06
+updated: 2026-10-07
+articleImage: assets/media/trayage-review-light.png
 featured: true
 ---
 Downloads is a convenient landing place. A receipt, an installer, a PDF someone sent you: they all arrive in the same folder, even though they matter for very different reasons.
@@ -43,8 +45,8 @@ For possible duplicates, do more than compare the names. “Invoice.pdf” and �
 Trayage brings several of those review signals into one place. Choose Downloads, or another folder, and look through installers, likely duplicates, and old or large files. The current scanner reviews top-level files in the selected folder; it does not recursively review every subfolder.
 
 <figure>
-  <img src="{{ base }}assets/media/trayage-review-light.png" alt="Trayage’s review window with sample files grouped for inspection." loading="lazy" decoding="async">
-  <figcaption>Trayage’s review window, shown with sample files. Suggestions are starting points for your own review.</figcaption>
+  <img src="{{ base }}assets/media/trayage-review-light.png" alt="Trayage’s review window with sample files grouped for inspection." width="2560" height="1600" loading="lazy" decoding="async">
+  <figcaption>Trayage’s prerelease Mac App Store review window, shown with sample files. Suggestions are starting points for your own review.</figcaption>
 </figure>
 
 Select a file to inspect its details, and reveal it in Finder when you need a closer look. Trayage’s likely duplicate suggestions use normalized filenames and file sizes, without comparing contents. Its installer check looks for a similarly named app in Applications; you still need to verify that installation yourself.

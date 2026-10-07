@@ -3,6 +3,8 @@ title: Meet Trayage 1.0. A little order for your Downloads.
 seoTitle: Meet Trayage 1.0 — A Little Order for Your Downloads
 description: Meet the Mac app that brings installers, likely duplicates, and old or large downloads together for a thoughtful review before cleanup.
 date: 2026-10-06
+updated: 2026-10-07
+articleImage: assets/media/trayage-review-dark.png
 category: Product news
 ---
 An installer you used last month. Several similarly named PDFs. A large archive you meant to come back to. Downloads collects files faster than most of us make decisions about them.
@@ -23,8 +25,8 @@ The review brings together a few useful signals:
 Each suggestion leaves the decision with you. A similar app name does not prove an installer is no longer needed, and two files with the same size do not necessarily contain the same information. You can inspect file details and reveal a file in Finder before making a choice.
 
 <figure>
-  <img src="{{ base }}assets/media/trayage-review-dark.png" alt="Trayage’s dark review window showing sample Downloads files ready for inspection." loading="lazy" decoding="async">
-  <figcaption>The Trayage review window, shown with sample files in dark appearance.</figcaption>
+  <img src="{{ base }}assets/media/trayage-review-dark.png" alt="Trayage’s dark review window showing sample Downloads files ready for inspection." width="2560" height="1600" loading="lazy" decoding="async">
+  <figcaption>The prerelease Mac App Store review window, shown with sample files in dark appearance. The direct edition has a separate purchase and update path.</figcaption>
 </figure>
 
 ## You choose what moves to Trash

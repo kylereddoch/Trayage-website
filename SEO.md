@@ -19,7 +19,20 @@ product without hardcoding an availability claim.
 
 ## Structured data and indexing
 
-`src/_lib/seo.js` creates WebSite, WebPage/ContactPage, and breadcrumb data.
+`src/_lib/seo.js` creates WebSite, page-specific WebPage/ContactPage/AboutPage/
+CollectionPage, and breadcrumb data. Visible breadcrumb links and JSON-LD share
+the same hierarchy: site → Blog → category → article. Category ItemList data
+follows the actual featured-first order of the visible cards.
+
+BlogPosting headlines match visible H1 text, rather than the shorter SEO title.
+Posts connect to a Blog entity and a named Person author with an `/about/` URL.
+Article images reference relevant, visible screenshots or diagrams. Author links,
+publication dates, and substantive update dates are visible without JavaScript.
+Support FAQPage markup uses the same questions and answers as the visible FAQ,
+including release-dependent purchasing answers. Google generally limits FAQ rich
+results to authoritative government and health sites; this markup makes no claim
+of rich-result eligibility for Trayage.
+
 SoftwareApplication data is limited to the homepage and download page. The direct
 download and version follow the verified release settings; the paid offer also
 requires checkout to be enabled. Kyle Reddoch is the Person publisher and seller;
@@ -28,10 +41,36 @@ offers are added.
 
 Publication approval, a site origin, and page indexing settings control canonical
 URLs, structured data, and sitemap membership. Error pages and `noindex: true`
-pages are excluded. Unapproved builds retain `noindex, nofollow` and a disallow-all
+pages are excluded. Drafts produce no page. Draft/noindex posts are excluded from
+Blog/category listings, structured lists, related reading, and RSS. Unapproved builds retain `noindex, nofollow` and a disallow-all
 robots file. Approved pages allow large image previews. Sitemap URLs honor the
 deployment prefix. Do not add automatic build-time `lastmod` dates; supply those
-only when real content modification dates are available.
+only when real content modification dates are available. Posts use front-matter
+`updated`, falling back to their publication date. Other pages omit `lastmod`
+unless an explicit `updated` date exists. Do not change article dates merely
+because the site was rebuilt or technical metadata changed.
+
+## AI search and answer engines
+
+Guidance checked October 7, 2026. Google's AI Overviews and AI Mode use normal
+search eligibility: crawlable, indexable pages, eligible snippets, useful text,
+clear internal links, and structured data matching visible content. There is no
+special AI schema, mandatory `llms.txt`, or guaranteed way to obtain citations.
+This site therefore keeps important facts and article content in the initial HTML,
+links authors and primary references, and avoids hidden summaries or bot-only claims.
+
+`robots.txt` explicitly allows OAI-SearchBot and PerplexityBot as well as the
+existing wildcard public access. Googlebot and bingbot inherit the wildcard rule.
+OAI-SearchBot controls ChatGPT search access; GPTBot is a separate training
+crawler. This work does not change the existing training-crawler policy. A
+successful request using a bot User-Agent checks server behavior, not proof that
+the actual crawler IP range can reach the site or that any engine has indexed it.
+
+Search Console and Bing Webmaster Tools remain the sources for actual indexing,
+impressions, crawl failures, and available AI citation reports. This repository
+contains no account verification tokens and cannot prove account-level setup.
+Keep monitoring meaningful query impressions and visits to downloads; structured
+data is descriptive, not a ranking or citation guarantee.
 
 Run `npm run check` before release. The checks cover root and GitHub project-path
 deployments, JavaScript-disabled metadata, image dimensions, sitemap membership,
@@ -56,6 +95,11 @@ alongside the existing accessibility, responsive, navigation, and purchase check
 
 - [Google software application structured data](https://developers.google.com/search/docs/appearance/structured-data/software-app)
 - [Google sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+- [Google AI features and your website](https://developers.google.com/search/docs/appearance/ai-features)
+- [Google article structured data](https://developers.google.com/search/docs/appearance/structured-data/article)
+- [Google FAQ structured data](https://developers.google.com/search/docs/appearance/structured-data/faqpage)
+- [OpenAI crawler controls](https://developers.openai.com/api/docs/bots)
+- [Perplexity crawler controls](https://docs.perplexity.ai/docs/resources/perplexity-crawlers)
 - [Open Graph image properties](https://ogp.me/)
 - Artwork research: [DaisyDisk](https://daisydiskapp.com/) and
   [CleanMyMac](https://macpaw.com/cleanmymac), inspected October 2, 2026.

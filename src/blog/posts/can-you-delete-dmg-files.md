@@ -3,10 +3,17 @@ title: Can you delete DMG files after installing a Mac app?
 seoTitle: Can You Delete DMG Files on Mac? — Trayage
 description: Usually, yes—after checking the installed app works without the disk image. Here is what to verify, what to keep, and how to remove the file.
 date: 2026-10-06
+updated: 2026-10-07
+articleImage: assets/blog/dmg-installation.svg
 ---
 **You can usually delete a downloaded DMG after the app has been installed successfully.** First, check that you are opening an installed copy of the app and that the disk image does not hold anything else you need.
 
 A `.dmg` file is a disk image. Opening it mounts a volume that can contain an app, an installer, or other files. The downloaded DMG, its mounted volume, and an app copied into Applications are distinct things.
+
+<figure>
+  <img src="{{ base }}assets/blog/dmg-installation.svg" width="1200" height="630" alt="A DMG in Downloads and the installed app in Applications are separate items. Finish installation, eject the image, then open the installed app." decoding="async">
+  <figcaption>A common app installation workflow. Follow the developer’s instructions when an installer uses a different process.</figcaption>
+</figure>
 
 ## Check that installation is finished
 

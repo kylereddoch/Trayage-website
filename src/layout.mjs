@@ -1,3 +1,4 @@
+import { breadcrumbItems } from './_lib/content-index.js';
 import { hasDownload } from './_lib/releases.js';
 import { absoluteURL, isIndexable, serializeSchema, structuredData } from './_lib/seo.js';
 export const escape = (value) => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
@@ -75,7 +76,7 @@ export function icon(name, className = '') {
   };
   return `<svg class="icon ${className}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.tray}</svg>`;
 }
-export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false, article = false, published, updated, category }) {
+export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false, article = false, published, updated, category, collections, faqs, articleImage, articleText }) {
   const url = (part = '') => `${base}${part}`;
   const isHome = path === '';
   const publisherBrand = escape(site.publisherBrand || site.publisher);
@@ -115,7 +116,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <meta name="twitter:title" content="${escape(fullTitle)}">
   <meta name="twitter:description" content="${escape(description)}">
   ${socialImage ? `<meta name="twitter:image" content="${escape(socialImage)}"><meta name="twitter:image:alt" content="${escape(site.seo.imageAlt)}">` : ''}
-  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title: fullTitle, description, article, published, updated, category }))}</script>` : ''}
+  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title, description, article, published, updated, category, collections, faqs, articleImage, articleText }))}</script>` : ''}
   ${site.publicationApproved && site.origin ? `<link rel="alternate" type="application/rss+xml" title="Trayage Blog" href="${url('blog/feed.xml')}">` : ''}
   <link rel="icon" type="image/png" sizes="64x64" href="${url('assets/favicon.png')}">
   <link rel="apple-touch-icon" href="${url('assets/app-icon.png')}">
@@ -138,10 +139,10 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
     </nav>
     <div class="header-actions"><a class="header-cta" href="${url('download/')}">${hasDownload(releases) ? 'Get Trayage' : 'Coming to Mac'} ${arrow}</a><label class="appearance-control" hidden><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg><span class="sr-only">Appearance</span><select id="appearance"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></div>
   </header>
-  <main id="main" tabindex="-1">${body}</main>
+  <main id="main" tabindex="-1">${path && path !== '404.html' ? `<nav class="wrap breadcrumbs" aria-label="Breadcrumb"><ol>${breadcrumbItems(path, title, category).map((item, index, items) => `<li>${index === items.length - 1 ? `<span aria-current="page">${escape(item.name)}</span>` : `<a href="${url(item.path)}">${escape(item.name)}</a>`}</li>`).join('')}</ol></nav>` : ''}${body}</main>
   <footer class="site-footer wrap">
     <div class="footer-top"><div><a class="brand" href="${url()}"><img src="${url('assets/app-icon.png')}" width="36" height="36" alt=""><span>Trayage<span class="brand-dot">.</span></span></a><p>A little order for your Downloads.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
-    <div class="footer-bottom"><p>© 2026 ${publisherBrand}</p><nav aria-label="Footer navigation"><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Roadmap</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
+    <div class="footer-bottom"><p>© 2026 ${publisherBrand}</p><nav aria-label="Footer navigation"><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Roadmap</a><a href="${url('blog/')}">Blog</a><a href="${url('about/')}">About</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
     ${!site.publicationApproved ? '<p class="preview-footer">Local review preview · Not published · Policy text remains a draft</p>' : ''}
   </footer>
   <section class="launch-area wrap" aria-labelledby="launch-title">
@@ -178,10 +179,10 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   return addLinkTracking(html, site);
 }
 
-export function policyPage({ title, intro, sections, base, path, site, effective = site.effective }) {
-  return `<div class="wrap document-header"><a class="eyebrow back-link" href="${base}">← Back to Trayage</a><h1>${title}</h1><p class="lede">${intro}</p><p class="document-meta">Publisher: ${escape(site.publisher)}${site.publisherBrand ? ` · ${escape(site.publisherBrand)}` : ''} <span aria-hidden="true">/</span> ${site.policiesApproved ? `Effective ${effective}` : `Draft reviewed ${site.reviewed}`}</p></div>
+export function policyPage({ title, intro, sections, base, path, site, effective = site.effective, informational = false }) {
+  return `<div class="wrap document-header"><a class="eyebrow back-link" href="${base}">← Back to Trayage</a><h1>${title}</h1><p class="lede">${intro}</p><p class="document-meta">Publisher: ${escape(site.publisher)}${site.publisherBrand ? ` · ${escape(site.publisherBrand)}` : ''} <span aria-hidden="true">/</span> ${informational ? 'About Trayage' : site.policiesApproved ? `Effective ${effective}` : `Draft reviewed ${site.reviewed}`}</p></div>
   <div class="wrap document-layout"><aside class="document-sidebar"><nav aria-label="On this page"><p class="eyebrow">On this page</p>${sections.map(s => `<a href="#${s.id}">${s.title}</a>`).join('')}</nav><a class="text-link" href="${base}support/">Need a hand? ${arrow}</a></aside><article class="prose" aria-label="${escape(title)}">
-  ${!site.policiesApproved ? '<div class="draft-notice"><strong>Draft for review</strong><p>This text describes the current prelaunch build and proposed purchase policies. It is not an effective agreement. Checkout is closed on this site while the release and final policies are reviewed.</p></div>' : ''}
+  ${!informational && !site.policiesApproved ? '<div class="draft-notice"><strong>Draft for review</strong><p>This text describes the current prelaunch build and proposed purchase policies. It is not an effective agreement. Checkout is closed on this site while the release and final policies are reviewed.</p></div>' : ''}
   ${sections.map(s=>`<section id="${s.id}"><h2>${s.title}</h2>${s.content}</section>`).join('')}
   <div class="related-links"><a href="${base}privacy/"${path==='privacy/'?' aria-current="page"':''}>Privacy</a><a href="${base}terms/"${path==='terms/'?' aria-current="page"':''}>Purchase terms</a><a href="${base}refunds/"${path==='refunds/'?' aria-current="page"':''}>Refunds</a></div></article></div>`;
 }

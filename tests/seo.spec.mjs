@@ -3,7 +3,7 @@ import site from '../src/_data/site.json' with { type: 'json' };
 import releases from '../src/_data/releases.json' with { type: 'json' };
 import { layout } from '../src/layout.mjs';
 
-const routes = ['', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/'];
+const routes = ['', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'about/'];
 for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
   test(`SEO at ${base}: all public pages expose consistent server-rendered metadata`, async ({ browser, request }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
@@ -37,7 +37,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         const publisher = graph.find(node => node['@type'] === 'Person');
         expect(publisher.name).toBe('Kyle Reddoch');
         expect(graph.some(node => node['@type'] === 'Organization')).toBe(false);
-        const webpage = graph.find(node => ['WebPage', 'ContactPage'].includes(node['@type']));
+        const webpage = graph.find(node => node['@id'] === `${canonical}#webpage`);
         expect(webpage.url).toBe(canonical);
         expect(webpage.description).toBe(description);
         const app = graph.find(node => node['@type'] === 'SoftwareApplication');
@@ -52,7 +52,10 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         } else expect(app).toBeUndefined();
         if (path) {
           const crumbs = graph.find(node => node['@type'] === 'BreadcrumbList').itemListElement;
-          expect(crumbs.map(crumb => crumb.item)).toEqual([`${site.origin}${base}`, canonical]);
+          const visible = await page.locator('.breadcrumbs li').evaluateAll(nodes => nodes.map(node => ({ name: node.textContent.trim(), url: node.querySelector('a')?.href })));
+          expect(crumbs.map(crumb => crumb.name)).toEqual(visible.map(item => item.name));
+          expect(crumbs.at(-1).item).toBe(canonical);
+          expect(crumbs.slice(0, -1).map(crumb => crumb.item)).toEqual(visible.slice(0, -1).map(item => item.url.replace(`http://127.0.0.1:${port}`, site.origin)));
         }
       }
       expect(titles.size).toBe(routes.length);

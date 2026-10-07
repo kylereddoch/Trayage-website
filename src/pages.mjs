@@ -1,7 +1,7 @@
 import { icon, arrow, policyPage } from './layout.mjs';
 import { channelIsLive } from './_lib/releases.js';
 
-export function support(base, site, releases) {
+export function supportFaqs(base, site, releases) {
   const faqs = [
     ['Where can I download Trayage?', `Visit the <a href="${base}download/">download page</a> for the current availability of the direct and Mac App Store editions. Each edition has its own download and purchase path.`],
     ['How do I update Trayage?', `Choose “Check for Updates…” in the direct app’s menu, menu-bar popover, or Settings. Automatic checks are optional and run once a day while the app is open. You choose when to download and install. If that option is missing, follow the <a href="${base}download/#updating">manual update steps</a> once to get the updater. App Store and TestFlight updates come through Apple.`],
@@ -23,6 +23,11 @@ export function support(base, site, releases) {
   } else if (channelIsLive(releases, 'direct')) {
     faqs.splice(1, 0, ['Can I buy a new direct license?', `New license purchases are still being finalized. You can <a href="${base}download/">download Trayage</a>, start a ${site.pricing.trialDays}-day trial, or activate an existing license. After the trial, file review remains available; cleanup requires an active license.`]);
   }
+  return faqs;
+}
+
+export function support(base, site, releases) {
+  const faqs = supportFaqs(base, site, releases);
   return `<section class="wrap document-header support-header"><p class="eyebrow">Support, from the person who makes it</p><h1>Let’s get you<br><em>sorted.</em></h1><p class="lede">Your license, your next Mac, or something that doesn’t look right. Here’s where to start.</p></section>
   <section class="wrap help-cards" aria-label="Support options"><article><span class="help-icon">${icon('key')}</span><h2>Direct license & devices</h2><p>Recover a Keylight license and manage the three active Macs included with a direct purchase.</p><a class="text-link" href="${site.links.licenses}">Open Keylight portal ${arrow}</a></article><article><span class="help-icon">${icon('clock')}</span><h2>Direct billing & receipts</h2><p>For direct purchases: find purchase records, recover a receipt, or ask about a charge.</p><a class="text-link" href="${site.links.billing}">Open Stripe billing ${arrow}</a></article><article><span class="help-icon">${icon('mail')}</span><h2>Talk to Kyle</h2><p>For either edition, include your macOS version, Trayage version, and what you were trying to do.</p><a class="text-link email-link" href="mailto:${site.email}">${site.email} ${arrow}</a></article></section>
   <section class="wrap support-channels" aria-labelledby="apple-help"><p class="eyebrow">Mac App Store</p><h2 id="apple-help">Apple purchase help</h2><p>The App Store edition uses your Apple Account for in-app purchases and restoring access. Apple manages billing and refund decisions; Kyle provides help with Trayage. These links are Apple’s general support tools.</p><div class="channel-actions"><a class="text-link" href="${site.links.appleRefunds}">Request an Apple refund ${arrow}</a></div></section>

@@ -115,3 +115,12 @@
   @media(max-width:600px) { .site-header nav { gap: 15px; } .site-header nav a:first-child { display: none; } .site-header nav a:nth-child(2) { display: inline-flex; } .roadmap-jump { gap: 8px; } .roadmap-jump a { padding: 9px 10px; gap: 11px; font-size: 12px; } .press-facts > div { grid-template-columns: 95px minmax(0,1fr); gap: 14px; } }
   @media(max-width:380px) { .press-assets { grid-template-columns: 1fr; } }
 }
+/* Crawlable navigation uses the same hierarchy as the JSON-LD breadcrumbs. */
+@layer components {
+  .breadcrumbs { padding-top: 24px; color: var(--muted); font-size: 12px; }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 8px 12px; list-style: none; margin: 0; padding: 0; }
+  .breadcrumbs li { display: flex; gap: 12px; align-items: baseline; }
+  .breadcrumbs li:not(:last-child)::after { content: '/'; color: var(--muted); }
+  .breadcrumbs a { display: inline-block; padding-block: 8px; }
+  .breadcrumbs span { display: inline-block; padding-block: 8px; }
+}

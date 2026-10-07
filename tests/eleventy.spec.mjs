@@ -35,10 +35,11 @@ test('Blog drafts are absent from generated pages, collections, RSS, and sitemap
     const site = JSON.parse(await readFile(sitePath, 'utf8'));
     await writeFile(sitePath, JSON.stringify({ ...site, publicationApproved: true, policiesApproved: true, origin: 'https://example.test' }));
     await writeFile(join(cwd, 'src/blog/posts/unpublished-example.md'), '---\ntitle: Secret unfinished article\ndescription: This text must stay private.\ndate: 2026-10-06\ndraft: true\n---\nDraft for review.');
+    await writeFile(join(cwd, 'src/blog/posts/noindex-example.md'), '---\ntitle: Internal unindexed article\ndescription: This article is not for discovery.\ndate: 2026-10-06\nnoindex: true\n---\nInternal article.');
     await build(cwd);
     await expect(readFile(join(cwd, 'dist/blog/unpublished-example/index.html'))).rejects.toThrow(/ENOENT/);
     for (const file of ['blog/index.html', 'blog/guides/index.html', 'blog/feed.xml', 'sitemap.xml', 'blog/clean-up-mac-downloads/index.html']) {
-      expect(await readFile(join(cwd, 'dist', file), 'utf8')).not.toMatch(/Secret unfinished|unpublished-example/);
+      expect(await readFile(join(cwd, 'dist', file), 'utf8')).not.toMatch(/Secret unfinished|unpublished-example|Internal unindexed|noindex-example/);
     }
   } finally { await rm(cwd, { recursive: true, force: true }); }
 });
