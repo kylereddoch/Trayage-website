@@ -38,7 +38,7 @@ For unfamiliar documents, select the file and press Space for Quick Look where s
 
 A downloaded disk image and the app installed from it are usually separate items. Before removing the disk image, quit the app, eject the mounted image, and open the installed copy from Applications. Our [guide to deleting DMG files]({{ base }}blog/can-you-delete-dmg-files/) walks through that check and the exceptions.
 
-For possible duplicates, do more than compare the names. “Invoice.pdf” and “Invoice (1).pdf” could be two downloads of the same invoice, or they could contain different information. Even a matching file size does not prove matching contents. Keep both when you are unsure.
+For possible duplicates, do more than compare the names. “Invoice.pdf” and “Invoice (1).pdf” could be two downloads of the same invoice, or they could contain different information. Even a matching file size does not prove matching contents. Our [guide to checking duplicate files on Mac]({{ base }}blog/check-duplicate-files-on-mac/) walks through a closer comparison. Keep both when you are unsure.
 
 ## Use Trayage for a focused review
 

@@ -45,6 +45,11 @@
   .article-body figure { margin-block: 32px; }
   .article-body figure img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
   .article-body figcaption { margin-top: 10px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .guide-download { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 28px; align-items: center; padding: 24px; margin-block: 28px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-raised); }
+  .guide-download img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 4px; }
+  .guide-download h3 { margin: 12px 0; font-size: 24px; line-height: 1.2; }
+  .guide-download p:not(.eyebrow) { font-size: 15px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 14px; }
+  .guide-download a { font-size: 15px; }
   .article-cta { margin-block: 50px; padding: 32px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-raised); }
   .article-cta h2 { margin-top: 16px; }
   .article-cta p:not(.eyebrow) { color: var(--ink-secondary); font-size: 16px; margin-bottom: 24px; }
@@ -72,5 +77,7 @@
     .article-body { font-size: 17px; }
     .article-body ul, .article-body ol { padding-left: 24px; }
     .article-cta { padding: 22px; }
+    .guide-download { grid-template-columns: 1fr; padding: 20px; gap: 18px; }
+    .guide-download img { max-width: 170px; }
   }
 }

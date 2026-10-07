@@ -3,7 +3,7 @@ import site from '../src/_data/site.json' with { type: 'json' };
 import releases from '../src/_data/releases.json' with { type: 'json' };
 import { layout } from '../src/layout.mjs';
 
-const routes = ['', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'about/'];
+const routes = ['', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/'];
 for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
   test(`SEO at ${base}: all public pages expose consistent server-rendered metadata`, async ({ browser, request }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });

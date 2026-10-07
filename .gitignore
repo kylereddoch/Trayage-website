@@ -7,6 +7,7 @@ dist-subpath/
 test-results/
 playwright-report/
 artifacts/
+output/
 .cache/
 .env
 .env.*

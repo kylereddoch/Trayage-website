@@ -25,7 +25,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         expect(items.itemListElement.map(item => item.name)).toEqual(await page.locator('.blog-card h2').allTextContents());
         expect(items.numberOfItems).toBe(await page.locator('.blog-card').count());
       }
-      for (const slug of ['clean-up-mac-downloads', 'can-you-delete-dmg-files', 'introducing-trayage']) {
+      for (const slug of ['clean-up-mac-downloads', 'can-you-delete-dmg-files', 'introducing-trayage', 'check-duplicate-files-on-mac']) {
         await page.goto(`${host}blog/${slug}/`);
         const article = (await graph()).find(node => node['@type'] === 'BlogPosting');
         expect(article.headline).toBe(await page.locator('h1').textContent());
@@ -33,7 +33,10 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         expect(article.author.url).toBe(`https://trayage.app${base}about/`);
         await expect(page.locator('[rel="author"]')).toHaveAttribute('href', `${base}about/`);
         expect(article.dateModified).toBe('2026-10-07T00:00:00.000Z');
-        await expect(page.locator('.blog-meta')).toContainText('Updated October 7, 2026');
+        if (slug === 'check-duplicate-files-on-mac') {
+          expect(article.datePublished).toBe('2026-10-07T00:00:00.000Z');
+          await expect(page.locator('.blog-meta')).not.toContainText('Updated');
+        } else await expect(page.locator('.blog-meta')).toContainText('Updated October 7, 2026');
         expect(article.wordCount).toBeGreaterThan(200);
         const image = new URL(article.image).pathname;
         await expect(page.locator(`.article-body img[src="${image}"]`)).toHaveCount(1);
@@ -48,7 +51,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         return [...doc.querySelectorAll('url')].map(node => ({ url: node.querySelector('loc').textContent, modified: node.querySelector('lastmod')?.textContent }));
       }, sitemap);
       for (const entry of dates) {
-        if (['clean-up-mac-downloads', 'can-you-delete-dmg-files', 'introducing-trayage'].some(slug => entry.url.includes(slug))) expect(entry.modified).toBe('2026-10-07T00:00:00.000Z');
+        if (['clean-up-mac-downloads', 'can-you-delete-dmg-files', 'introducing-trayage', 'check-duplicate-files-on-mac'].some(slug => entry.url.includes(slug))) expect(entry.modified).toBe('2026-10-07T00:00:00.000Z');
         else expect(entry.modified).toBeUndefined();
       }
     } finally { await context.close(); }
