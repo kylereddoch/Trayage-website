@@ -119,6 +119,7 @@ test('default visits load only disclosed analytics and store no visitor state',a
   await page.route('https://tinylytics.app/**', route=>route.fulfill({status:200,contentType:'application/javascript',body:''}));
   await page.route('https://launchnest.io/badge/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56"/>'}));
   await page.route('https://www.scrolllaunch.com/api/badge/trayage*', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="220" height="48"/>'}));
+  await page.route('https://linksalad.me/images/badges/featured-on-*.svg', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="200" height="44"/>'}));
   await page.route('https://letslaunch.today/badge/trayage.svg*', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="250" height="54"/>'}));
   await page.route('https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="216" height="64"/>'}));
   await page.route('https://api.producthunt.com/widgets/embed-image/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="250" height="54"/>'}));
@@ -126,7 +127,7 @@ test('default visits load only disclosed analytics and store no visitor state',a
   expect(external).toContain(site.analytics.embedURL);
   expect(external.some(url=>url.includes('viberank.dev'))).toBe(false);
   expect(external.some(url=>url.startsWith('https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1266760&theme='))).toBe(true);
-  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||/^https:\/\/(api\.producthunt\.com\/widgets\/embed-image\/v1\/featured\.svg\?post_id=1266760)&theme=(light|dark)$/.test(url))).toBe(true);
+  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://linksalad.me/images/badges/featured-on-light.svg'||url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||/^https:\/\/(api\.producthunt\.com\/widgets\/embed-image\/v1\/featured\.svg\?post_id=1266760)&theme=(light|dark)$/.test(url))).toBe(true);
   expect(await page.context().cookies()).toEqual([]);
   expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});
 });
@@ -177,6 +178,8 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await page.goto(hosts[0].url);
   await expect(page.locator('.site-footer + .launch-area .launchnest-badge')).toHaveAttribute('href', 'https://launchnest.io/p/trayage');
   await expect(page.locator('.launchnest-badge')).toHaveAttribute('rel', 'noopener noreferrer');
+  const linkSalad = page.getByAltText('Featured on LinkSalad');
+  await expect(linkSalad.locator('xpath=ancestor::a')).toHaveAttribute('href', 'https://linksalad.me/projects/trayage?utm_source=badge');
   const letsLaunch = page.getByAltText('Trayage on LetsLaunch');
   await expect(letsLaunch.locator('xpath=ancestor::a')).toHaveAttribute('href', 'https://letslaunch.today/product/trayage');
   const scrollLaunch = page.getByAltText('Featured on ScrollLaunch');
@@ -184,6 +187,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect(scrollLaunch).toHaveAttribute('src', 'https://www.scrolllaunch.com/api/badge/trayage');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg?theme=dark');
+  await expect.poll(() => linkSalad.evaluate(img => img.currentSrc)).toBe('https://linksalad.me/images/badges/featured-on-dark.svg');
   const select=page.getByLabel('Appearance');
   await expect(select).toHaveValue('system');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
@@ -195,6 +199,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 246, 242)');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg');
+  await expect.poll(() => linkSalad.evaluate(img => img.currentSrc)).toBe('https://linksalad.me/images/badges/featured-on-light.svg');
   await expect(page.locator('.product-hunt-badge .badge-light')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-light')).toBeVisible();
   await expect(page.locator('.product-hunt-badge .badge-dark')).toBeHidden();
@@ -203,6 +208,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg?theme=dark');
+  await expect.poll(() => linkSalad.evaluate(img => img.currentSrc)).toBe('https://linksalad.me/images/badges/featured-on-dark.svg');
   await expect(page.locator('.product-hunt-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Privacy',exact:true}).click();

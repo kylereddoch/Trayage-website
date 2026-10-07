@@ -164,6 +164,12 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
           <img src="https://letslaunch.today/badge/trayage.svg" alt="Trayage on LetsLaunch" width="250" height="54" />
         </picture>
       </a>
+      <a href="https://linksalad.me/projects/trayage?utm_source=badge" target="_blank" rel="noopener noreferrer">
+        <picture>
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://linksalad.me/images/badges/featured-on-dark.svg">
+          <img src="https://linksalad.me/images/badges/featured-on-light.svg" alt="Featured on LinkSalad" style="height:44px;width:auto"/>
+        </picture>
+      </a>
     </div>
   </section>
   ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}
