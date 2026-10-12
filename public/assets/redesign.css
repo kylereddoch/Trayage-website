@@ -40,6 +40,18 @@
   .focus-feature h3 { font-size: 1.35rem; margin-top: 28px; }
   .focus-feature p { color: var(--muted); margin-top: 14px; font-size: .98rem; }
   .focus-feature .text-link { margin-top: 16px; color: var(--orange); }
+  .overview .section-heading .review-sample-note { margin-top: 12px; font-size: .875rem; color: var(--muted); }
+  .review-samples .focus-feature { display: flex; flex-direction: column; min-width: 0; }
+  .sample-files { display: flex; flex-direction: column; justify-content: center; gap: 12px; min-height: 140px; padding: 18px; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 9px; }
+  .sample-files > div { display: flex; align-items: center; gap: 12px; }
+  .sample-files .icon { width: 23px; height: 23px; flex-shrink: 0; color: var(--orange); }
+  .sample-files span { min-width: 0; }
+  .sample-files strong { display: block; font-size: .94rem; font-weight: 600; overflow-wrap: anywhere; }
+  .sample-files small { display: block; font-size: .8rem; color: var(--muted); }
+  .sample-reason { margin: 18px 0 0; font-size: .94rem; }
+  .sample-reason dt { font-weight: 600; }
+  .sample-reason dd { margin: 5px 0 20px; color: var(--muted); }
+  .review-samples .text-link { margin-top: auto; padding-top: 4px; }
   .file-art { height: 132px; display: flex; align-items: center; justify-content: center; position: relative; }
   .paper-file { position: relative; display: grid; place-items: center; width: 86px; height: 110px; border: 1px solid var(--border-soft); border-radius: 5px 24px 5px 5px; background: linear-gradient(135deg,var(--white),var(--surface-chrome)); color: var(--ink); box-shadow: 0 12px 17px #382b1a0d; }
   .paper-file::after { content: ''; position: absolute; top: 0; right: 0; width: 23px; height: 23px; border-bottom: 1px solid var(--border-soft); border-left: 1px solid var(--border-soft); border-radius: 0 23px 0 4px; background: var(--surface-soft); }
