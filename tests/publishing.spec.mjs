@@ -179,7 +179,7 @@ test('published direct sales copy is ready and offers TestFlight separately on t
   const downloadPage = await readFile('dist-root/download/index.html', 'utf8');
   expect(downloadPage).toContain(`href="${site.links.testFlight}"`);
   expect(downloadPage).toContain('Become a beta tester');
-  expect(downloadPage).toContain('Help test Trayage 1.1.');
+  expect(downloadPage).toContain('Help test what’s next.');
   if (channelIsLive(releases, 'appStore')) {
     expect(downloadPage).not.toContain('Coming soon to the Mac App Store.');
     expect(downloadPage).toContain(`href="${releases.appStore.url}"`);
