@@ -5,7 +5,7 @@ export const data = {
   "layout": "base.11ty.js",
   "permalink": "/index.html",
   "path": "",
-  "title": "Trayage",
+  "title": "Trayage — Downloads Cleanup App for Mac",
   "description": appDescription,
   "kind": "",
   "tags": [

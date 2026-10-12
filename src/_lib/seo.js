@@ -1,7 +1,7 @@
 import { channelIsLive } from './releases.js';
 import { breadcrumbItems, listedPosts, contentDate } from './content-index.js';
 
-export const appDescription = 'Find installers, likely duplicates, and large or older downloads with Trayage for Mac. Review files free and confirm what moves to Trash.';
+export const appDescription = 'Trayage is a Downloads cleanup app for Mac that flags installers, likely duplicates, and large or older files. Review free. Confirm what moves to Trash.';
 
 export const isIndexable = (site, path, noindex = false) => Boolean(site.publicationApproved && site.origin && path !== '404.html' && !noindex);
 export const absoluteURL = (site, base, path = '') => new URL(`${base}${path}`, site.origin).href;
@@ -70,7 +70,6 @@ export function structuredData({ site, releases, base, path, title, description,
       operatingSystem: `macOS ${releases.minimumMacOS} or later`,
       image: url('assets/app-icon.png'), author: { '@id': publisher['@id'] },
       publisher: { '@id': publisher['@id'] },
-      brand: { '@type': 'Brand', name: site.publisherBrand, url: site.publisherURL },
       sameAs: [site.links.x, site.mastodonReady && site.links.mastodon, site.links.productHunt].filter(Boolean),
       featureList: ['Downloads folder review', 'Disk image and installer review', 'Likely duplicate detection by filename and size', 'Old and large file review', 'Local file analysis', 'Move selected files to Trash after confirmation']
     };

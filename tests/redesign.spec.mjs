@@ -8,7 +8,7 @@ for (const base of ['http://127.0.0.1:4175/','http://127.0.0.1:4176/Trayage-webs
  test(`Redesign at ${base}: discovery, comparison and visible FAQ stay readable without JavaScript`,async({browser})=>{
   const ctx=await browser.newContext({javaScriptEnabled:false});const page=await ctx.newPage();
   await page.goto(base);
-  await expect(page.locator('h1')).toHaveText('Find the files in Downloads you no longer need.');
+  await expect(page.locator('h1')).toHaveText('Trayage for Mac. Find downloads you no longer need.');
   await expect(page.locator('.home-post')).toHaveCount(3);
   await expect(page.locator('.home-posts')).toContainText('Guides');
   await expect(page.locator('.home-posts')).toContainText('Product news');
