@@ -12,6 +12,12 @@ for (const base of ['http://127.0.0.1:4175/','http://127.0.0.1:4176/Trayage-webs
   await expect(page.locator('.home-post')).toHaveCount(3);
   await expect(page.locator('.home-posts')).toContainText('Guides');
   await expect(page.locator('.home-posts')).toContainText('Product news');
+  await expect(page.locator('.home-faq-grid h3')).toHaveCount(3);
+  await expect(page.locator('.home-faq-grid')).toContainText('macOS Storage or Finder may be enough');
+  await expect(page.locator('.home-faq-grid')).toContainText('no automatic charge');
+  await expect(page.locator('.home-faq-grid')).toContainText('confirm before they move to Trash');
+  await page.getByText('Read the video transcript',{exact:true}).click();
+  await expect(page.locator('.walkthrough-transcript')).toContainText('Trayage 1.0 has not compared their contents');
   const graph=JSON.parse(await page.locator('script[type="application/ld+json"]').textContent())['@graph'];
   const faq=graph.find(n=>n['@type']==='FAQPage');
   expect(faq.mainEntity.map(q=>q.name)).toEqual(await page.locator('.home-faq-grid h3').allTextContents());

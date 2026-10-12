@@ -91,7 +91,8 @@ test('one-time offer uses approved pricing and only enables verified release cha
   await expect(page.locator(`a[href="${site.links.billing}"]`)).toHaveCount(1);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow, max-image-preview:large');
   expect(site.links.annual).toBeUndefined();
-  await expect(page.locator('.hero-offer')).toContainText('Try cleanup for 7 days.');
+  await expect(page.locator('.hero-offer')).toHaveCount(0);
+  await expect(page.locator('#pricing')).toContainText('7-day cleanup trial');
   await expect(page.locator('#pricing')).toContainText('Optional paid major upgrades');
   expect(site.links.oneTime).toBe('https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02');
   expect(()=>validateLaunch(site,true)).not.toThrow();
