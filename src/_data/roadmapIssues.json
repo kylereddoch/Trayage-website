@@ -96,6 +96,38 @@
       "area": "Accessibility · Next version",
       "status": "planned",
       "updated": "2026-09-29"
+    },
+    {
+      "number": 13,
+      "title": "A summary after cleanup",
+      "description": "Show which files moved to Trash, what was skipped, and how to find moved files in Finder. Explore whether this makes cleanup and recovery easier to understand.",
+      "area": "Cleanup",
+      "status": "under-consideration",
+      "updated": "2026-10-12"
+    },
+    {
+      "number": 14,
+      "title": "Saved review locations",
+      "description": "Make it easier to return to another folder, with clear permissions and a visible reminder of which folder is being reviewed.",
+      "area": "File review",
+      "status": "under-consideration",
+      "updated": "2026-10-12"
+    },
+    {
+      "number": 15,
+      "title": "More useful explanations",
+      "description": "Use first-review feedback to improve suggestion reasons and empty-state guidance, so people understand why a file appeared and what to check next.",
+      "area": "First-run experience",
+      "status": "under-consideration",
+      "updated": "2026-10-12"
+    },
+    {
+      "number": 16,
+      "title": "Apple Shortcuts support",
+      "description": "Explore ways to open a Trayage review, scan your chosen folder, and use a review summary in your own Mac shortcuts. File removal would still require your review and confirmation in Trayage.",
+      "area": "Automation",
+      "status": "under-consideration",
+      "updated": "2026-10-12"
     }
   ]
 }

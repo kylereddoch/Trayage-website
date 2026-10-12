@@ -400,10 +400,7 @@
 }
 @layer redesign {
   .roadmap-beta-summary { padding: 28px; margin-bottom: 30px; border: 1px solid var(--border-warm); border-radius: 8px; background: var(--surface-warm); }
-  .roadmap-beta-summary h2, .roadmap-exploration > h2 { font-size: 1.8rem; margin-bottom: 16px; }
-  .roadmap-exploration { padding-block: 45px; border-top: 1px solid var(--line); }
-  .roadmap-exploration > p { color: var(--muted); margin-bottom: 26px; }
-  .roadmap-exploration .comparison-details { padding-bottom: 0; }
+  .roadmap-beta-summary h2 { font-size: 1.8rem; margin-bottom: 16px; }
 }
 @layer redesign {
   /* Let enlarged text determine how many cards fit, instead of forcing columns. */

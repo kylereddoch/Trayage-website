@@ -38,6 +38,26 @@ test('GitHub lifecycle moves items, omits declined work, and keeps release annou
   expect(resolveRoadmap(baseline,from([])).items).toEqual([]);
 });
 
+test('exploratory ideas use the normal cards and follow GitHub status changes', () => {
+  const labels = [{name:'roadmap'}, {name:'under consideration'}];
+  const exploratory = issue(106, {title:'A summary after cleanup', labels});
+  const result = resolveRoadmap(baseline, from([exploratory]));
+  expect(result.items[0].status).toBe('under-consideration');
+  expect(result.items[0].release).toBeNull();
+  validateRoadmap(result);
+  const html = renderRoadmap({base:'/',site,roadmap:baseline,roadmapIssues:from([exploratory])});
+  expect(html).toContain('href="#under-consideration">Under consideration <span>1</span>');
+  expect(html).toContain('id="feature-issue-106"');
+  expect(html).toContain(`https://github.com/${issueRepository}/issues/106`);
+  expect(html.match(/<h3>/g)).toHaveLength(1);
+  expect(html).not.toContain('roadmap-exploration');
+  expect(html).not.toContain('Released in');
+  expect(from([issue(106)]).items[0].status).toBe('planned');
+  expect(from([{...exploratory, labels:[...labels, {name:'in progress'}]}]).items[0].status).toBe('in-progress');
+  expect(from([{...exploratory, state:'closed', state_reason:'completed'}]).items[0].status).toBe('completed');
+  expect(resolveRoadmap(baseline,from([{...exploratory, state:'closed', state_reason:'not_planned'}])).items).toEqual([]);
+});
+
 test('issue text is escaped and issue links cannot supply an arbitrary destination', () => {
   const malicious = from([issue(101,{title:'<img src=x onerror=alert(1)>',body:'### Summary\n\n<script>alert(1)</script>\n\n### Area\n\n<script>'})]);
   const html=renderRoadmap({base:'/',site,roadmap:baseline,roadmapIssues:malicious});
@@ -74,6 +94,13 @@ test('roadmap links open the right GitHub forms and retain private email support
   const items=resolveRoadmap(baseline,snapshot).items;
   await expect(page.locator('.roadmap-item')).toHaveCount(items.length);
   for(const item of items) await expect(page.locator(`#feature-${item.id} a[aria-label^="Follow"]`)).toHaveAttribute('href',`https://github.com/${issueRepository}/issues/${item.issue}`);
+  const exploratory = items.filter(item=>item.status==='under-consideration');
+  if (exploratory.length) {
+    await expect(page.locator('#under-consideration .roadmap-item')).toHaveCount(exploratory.length);
+    await expect(page.getByRole('link',{name:`Under consideration ${exploratory.length}`,exact:true})).toHaveAttribute('href','#under-consideration');
+    await expect(page.locator('#under-consideration')).toContainText('no scheduled version or release date');
+  }
+  await expect(page.locator('.roadmap-exploration')).toHaveCount(0);
 });
 
 test('verified release and beta delivery survive stale issue snapshots', () => {

@@ -24,7 +24,8 @@ export function normalizeRoadmapIssues(issues) {
         area: (section(issue.body, 'Area') || 'App improvement').slice(0, 60),
         status: issue.state === 'closed'
           ? issue.state_reason === 'completed' ? 'completed' : 'not-planned'
-          : issue.labels.some(label => label.name === 'in progress') ? 'in-progress' : 'planned',
+          : issue.labels.some(label => label.name === 'in progress') ? 'in-progress'
+          : issue.labels.some(label => label.name === 'under consideration') ? 'under-consideration' : 'planned',
         updated
       };
     }).sort((a, b) => a.number - b.number);
