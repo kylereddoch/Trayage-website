@@ -1,3 +1,4 @@
+import socialCards from './_data/socialCards.json' with { type: 'json' };
 import { breadcrumbItems } from './_lib/content-index.js';
 import { hasDownload } from './_lib/releases.js';
 import { techTwitterBadge } from './tech-twitter-badge.mjs';
@@ -15,12 +16,17 @@ function linkEvent(href, tag, site) {
     const filename = decodedHref.split(/[?#]/, 1)[0].split('/').pop() || 'download';
     return ['file.download', filename];
   }
+  if (decodedHref.startsWith('mailto:?')) return ['content.share', 'email'];
+  if (decodedHref.startsWith('https://twitter.com/intent/tweet?')) return ['content.share', 'x'];
   if (decodedHref.startsWith('mailto:')) {
     const subject = new URL(decodedHref).searchParams.get('subject')?.toLowerCase() || '';
+    if (subject.includes('first trayage review')) return ['feedback.review', 'email'];
     if (subject.includes('refund')) return ['support.refund', 'email'];
     if (subject.includes('media') || subject.includes('press')) return ['support.press', 'email'];
     return ['support.email', 'trayage'];
   }
+  if (/^(?:\/[^?#]*)?\/download\/$/.test(decodedHref)) return ['download.intent', 'download-page'];
+  if (/^(?:\/[^?#]*)?\/compare\/$/.test(decodedHref)) return ['content.compare', 'comparison'];
   if (!/^https?:\/\//i.test(decodedHref)) return null;
 
   const destination = new URL(decodedHref);
@@ -77,7 +83,7 @@ export function icon(name, className = '') {
   };
   return `<svg class="icon ${className}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.tray}</svg>`;
 }
-export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false, article = false, published, updated, category, collections, faqs, articleImage, articleText }) {
+export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false, article = false, published, updated, category, collections, faqs, articleImage, articleText, socialKey }) {
   const url = (part = '') => `${base}${part}`;
   const isHome = path === '';
   const publisherBrand = escape(site.publisherBrand || site.publisher);
@@ -86,7 +92,9 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   const fullTitle = seoTitle || (isHome ? 'Trayage — Downloads Cleanup App for Mac' : `${title} — Trayage`);
   const indexable = isIndexable(site, path, noindex);
   const canonical = indexable ? absoluteURL(site, base, path) : '';
-  const socialImage = site.origin ? absoluteURL(site, base, site.seo.image) : '';
+  const social = socialCards[socialKey || path.replace(/^blog\//, '').replace(/\/$/, '')];
+  const socialImage = site.origin ? absoluteURL(site, base, social ? `assets/social/${social.key}.png` : site.seo.image) : '';
+  const socialAlt = social ? `${social.title.replaceAll('|', ' ')} — Trayage` : site.seo.imageAlt;
   const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -111,13 +119,13 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="${site.seo.imageWidth}">
   <meta property="og:image:height" content="${site.seo.imageHeight}">
-  <meta property="og:image:alt" content="${escape(site.seo.imageAlt)}">` : ''}
+  <meta property="og:image:alt" content="${escape(socialAlt)}">` : ''}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="${escape(site.seo.twitterSite)}">
   <meta name="twitter:title" content="${escape(fullTitle)}">
   <meta name="twitter:description" content="${escape(description)}">
-  ${socialImage ? `<meta name="twitter:image" content="${escape(socialImage)}"><meta name="twitter:image:alt" content="${escape(site.seo.imageAlt)}">` : ''}
-  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title, description, article, published, updated, category, collections, faqs, articleImage, articleText }))}</script>` : ''}
+  ${socialImage ? `<meta name="twitter:image" content="${escape(socialImage)}"><meta name="twitter:image:alt" content="${escape(socialAlt)}">` : ''}
+  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title, description, article, published, updated, category, collections, faqs, articleImage, articleText, socialKey }))}</script>` : ''}
   ${site.publicationApproved && site.origin ? `<link rel="alternate" type="application/rss+xml" title="Trayage Blog" href="${url('blog/feed.xml')}">` : ''}
   <link rel="icon" type="image/png" sizes="64x64" href="${url('assets/favicon.png')}">
   <link rel="apple-touch-icon" href="${url('assets/app-icon.png')}">
@@ -126,15 +134,18 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <link rel="stylesheet" href="${url('assets/theme.css')}">
   <link rel="stylesheet" href="${url('assets/pages.css')}">
   ${path.startsWith('blog/') ? `<link rel="stylesheet" href="${url('assets/blog.css')}">` : ''}
+  <link rel="stylesheet" href="${url('assets/redesign.css')}">
+  <script src="${url('assets/featured.js')}" defer></script>
+  ${isHome ? `<script src="${url('assets/screenshot.js')}" defer></script>` : ''}
+  ${article ? `<script src="${url('assets/share.js')}" defer></script>` : ''}
 </head>
 <body class="${kind}">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="brand" href="${url()}" aria-label="Trayage home"><img src="${url('assets/app-icon.png')}" width="43" height="43" alt=""><span>Trayage<span class="brand-dot">.</span></span></a>
     <nav aria-label="Main navigation">
-      <a href="${url('#overview')}">Overview</a>
+      <a href="${url('#how-it-works')}">How it works</a>
       <a href="${url('#pricing')}">Pricing</a>
-      <a href="${url('roadmap/')}"${path === 'roadmap/' ? ' aria-current="page"' : ''}>Roadmap</a>
       <a href="${url('blog/')}"${path.startsWith('blog/') ? ' aria-current="page"' : ''}>Blog</a>
       <a href="${url('support/')}"${path === 'support/' ? ' aria-current="page"' : ''}>Support</a>
     </nav>
@@ -142,13 +153,14 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   </header>
   <main id="main" tabindex="-1">${path && path !== '404.html' ? `<nav class="wrap breadcrumbs" aria-label="Breadcrumb"><ol>${breadcrumbItems(path, title, category).map((item, index, items) => `<li>${index === items.length - 1 ? `<span aria-current="page">${escape(item.name)}</span>` : `<a href="${url(item.path)}">${escape(item.name)}</a>`}</li>`).join('')}</ol></nav>` : ''}${body}</main>
   <footer class="site-footer wrap">
-    <div class="footer-top"><div><a class="brand" href="${url()}"><img src="${url('assets/app-icon.png')}" width="36" height="36" alt=""><span>Trayage<span class="brand-dot">.</span></span></a><p>A little order for your Downloads.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
-    <div class="footer-bottom"><p>© 2026 ${publisherBrand}</p><nav aria-label="Footer navigation"><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Roadmap</a><a href="${url('blog/')}">Blog</a><a href="${url('about/')}">About</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
+    <div class="footer-top"><div><a class="brand" href="${url()}"><img src="${url('assets/app-icon.png')}" width="36" height="36" alt=""><span>Trayage<span class="brand-dot">.</span></span></a><p>Give Downloads a second look.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
+    <div class="footer-bottom"><p>© 2026 <a href="${escape(site.publisherURL)}">${publisherBrand}</a></p><nav aria-label="Footer navigation"><a href="${url('compare/')}">Why Trayage?</a><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Planned features</a><a href="${url('blog/')}">Blog</a><a href="${url('about/')}">About</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
     ${!site.publicationApproved ? '<p class="preview-footer">Local review preview · Not published · Policy text remains a draft</p>' : ''}
   </footer>
   <section class="launch-area wrap" aria-labelledby="launch-title">
-    <h2 class="eyebrow" id="launch-title">As featured in</h2>
-    <div class="community-badges launch-badges">
+    <div class="launch-strip"><div class="launch-label"><h2 class="eyebrow" id="launch-title">As featured in</h2><button class="launch-toggle" type="button" aria-pressed="false" aria-label="Pause featured badges" hidden>Pause <span aria-hidden="true">Ⅱ</span></button></div>
+    <div class="launch-viewport"><div class="community-badges launch-badges">
+      ${site.links.productHunt ? `<a class="product-hunt-badge" href="${escape(site.links.productHunt)}" target="_blank" rel="noopener noreferrer"><img class="badge-light" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1266760&amp;theme=light" alt="Trayage on Product Hunt" width="250" height="54" loading="lazy" decoding="async" referrerpolicy="no-referrer"><img class="badge-dark" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1266760&amp;theme=dark" alt="Trayage on Product Hunt" width="250" height="54" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>` : ''}
       ${site.links.launchNest ? `<a class="launchnest-badge" href="${escape(site.links.launchNest)}" target="_blank" rel="noopener noreferrer"><img class="badge-light" src="https://launchnest.io/badge/trayage.svg?variant=featured&amp;theme=light" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"><img class="badge-dark" src="https://launchnest.io/badge/trayage.svg?variant=featured" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>` : ''}
       <a href="https://www.scrolllaunch.com/products/trayage?ref=badge" target="_blank" rel="noopener">
         <picture>
@@ -167,7 +179,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
         </picture>
       </a>
       ${techTwitterBadge}
-    </div>
+    </div></div></div>
   </section>
   ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}
 </body>

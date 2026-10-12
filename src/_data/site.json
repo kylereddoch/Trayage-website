@@ -9,10 +9,10 @@
   "checkoutEnabled": true,
   "origin": "https://trayage.app",
   "seo": {
-    "image": "assets/trayage-social.png",
+    "image": "assets/trayage-social-v2.png",
     "imageWidth": 1200,
     "imageHeight": 630,
-    "imageAlt": "Trayage: A little order for your Downloads. The app icon sits in front of file cards for installers, likely duplicates, and old or large files.",
+    "imageAlt": "Trayage \u2014 Find downloads you no longer need. Flag installers, likely duplicates, and large or older files. Review free. Confirm before cleanup.",
     "twitterSite": "@TrayageForMac"
   },
   "analytics": {
@@ -20,7 +20,7 @@
     "provider": "Tinylytics",
     "embedURL": "https://tinylytics.app/embed/pyyHixpxxAjwk8mz1YBC.js?events&beacon",
     "privacyURL": "https://tinylytics.app/docs/trust/privacy",
-    "effective": "October 6, 2026"
+    "effective": "October 9, 2026"
   },
   "links": {
     "testFlight": "https://testflight.apple.com/join/BtqzAZem",

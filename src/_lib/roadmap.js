@@ -38,13 +38,15 @@ export function resolveRoadmap(baseline, snapshot) {
     const previous = known.get(issue.number);
     return {
       id: previous?.id || `issue-${issue.number}`,
-      title: issue.title,
-      description: issue.description,
+      title: previous?.delivery ? previous.title : issue.title,
+      description: previous?.delivery ? previous.description : issue.description,
       area: issue.area,
-      status: issue.status,
+      status: previous?.delivery?.status || issue.status,
+      ...(previous?.delivery ? {delivery: previous.delivery} : {}),
       issue: issue.number,
-      // Closing an issue does not announce a release. Release records stay separate.
-      release: issue.status === 'completed' ? previous?.release || null : null
+      // Verified delivery records are curated separately from issue activity.
+      // Syncing an older open issue must not turn a released or beta feature back into a plan.
+      release: (previous?.delivery?.status || issue.status) === 'completed' ? previous?.release || null : null
     };
   });
   return {updated: [baseline.updated, ...snapshot.items.map(issue => issue.updated)].sort().at(-1), items};

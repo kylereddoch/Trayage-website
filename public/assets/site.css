@@ -22,7 +22,7 @@
   h1 { font-size: clamp(3.3rem, 5.4vw, 5.2rem); }
   h2 { font-size: clamp(2.2rem, 3.5vw, 3.35rem); }
   h3 { font-size: 1.4rem; letter-spacing: -.035em; }
-  em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; letter-spacing: -.06em; }
+  em { font-family: inherit; letter-spacing: normal; }
   .wrap { width: min(1320px, calc(100% - 96px)); margin-inline: auto; }
   .section { padding-block: 112px; }
   .icon { flex: 0 0 auto; width: 22px; height: 22px; }

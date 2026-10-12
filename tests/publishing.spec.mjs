@@ -37,7 +37,7 @@ test('direct and Apple can launch independently, and shared CTAs follow availabi
       expect(page).toContain(direct.sha256);
     }
     const main = home('/Trayage-website/',readySite,channels);
-    expect(main.includes('>Get Trayage <')).toBe(isDirect||isApple);
+    expect(main.includes('>Try Trayage for Mac <')).toBe(isDirect||isApple);
     expect(page).not.toContain(site.links.oneTime);
   }
   const purchased = download({base:'/',site:{...readySite,checkoutEnabled:true},releases:{...releases,direct}});
@@ -139,7 +139,7 @@ test('changelog and purchase wording retain the publisher and developer distinct
   await expect(page.locator('.footer-bottom')).toContainText('© 2026 RelayByte');
   await expect(page.locator('.publisher')).toContainText('Made by Kyle Reddoch.');
   await page.goto('http://127.0.0.1:4176/Trayage-website/download/');
-  await expect(page.locator('#mac-app-store')).toContainText('free download with in-app purchases');
+  await expect(page.locator('#mac-app-store')).toContainText(/free download with in-app purchases/i);
   await expect(page.locator('#mac-app-store')).toContainText('no automatic charge');
   await expect(page.locator('#mac-app-store')).toContainText('Separate US$29.99 one-time in-app unlock');
   await page.goto('http://127.0.0.1:4176/Trayage-website/terms/');
@@ -173,15 +173,20 @@ test('published direct sales copy is ready and offers TestFlight separately on t
     expect(html, file).not.toMatch(/still being finalized|release verification still underway/i);
     if (file !== 'download/index.html') expect(html, file).not.toContain('testflight.apple.com');
   }
-  for (const file of ['index.html', 'download/index.html', 'support/index.html']) {
+  for (const file of ['download/index.html', 'support/index.html']) {
     expect(await readFile(`dist-root/${file}`, 'utf8'), file).toContain(`href="${site.links.oneTime}"`);
   }
   const downloadPage = await readFile('dist-root/download/index.html', 'utf8');
   expect(downloadPage).toContain(`href="${site.links.testFlight}"`);
-  expect(downloadPage).toContain('Join the TestFlight beta');
-  expect(downloadPage).toContain('Beta testing');
-  expect(downloadPage).toContain('Coming soon to the Mac App Store.');
-  expect(downloadPage).not.toContain('href="https://apps.apple.com');
+  expect(downloadPage).toContain('Become a beta tester');
+  expect(downloadPage).toContain('Help test Trayage 1.1.');
+  if (channelIsLive(releases, 'appStore')) {
+    expect(downloadPage).not.toContain('Coming soon to the Mac App Store.');
+    expect(downloadPage).toContain(`href="${releases.appStore.url}"`);
+  } else {
+    expect(downloadPage).toContain('Coming soon to the Mac App Store.');
+    expect(downloadPage).not.toContain('href="https://apps.apple.com');
+  }
   const facts = await readFile('dist-root/assets/media/fact-sheet.txt', 'utf8');
   expect(facts).not.toMatch(/still being finalized|testflight\.apple\.com/i);
 });

@@ -14,6 +14,6 @@ export const data = {
   "order": 0
 };
 
-export default function ({ base, site, releases }) {
-  return home(base, site, releases);
+export default function ({ base, site, releases, collections }) {
+  return home(base, site, releases, collections);
 }

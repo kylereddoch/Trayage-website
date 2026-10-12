@@ -101,7 +101,7 @@ test('npm run start rebuilds shared templates, data, CSS, and JS with browser re
     await page.goto(url);
     await expect(page.getByLabel('Appearance')).toBeVisible();
     const homePath = join(cwd, 'src/home.mjs');
-    await writeFile(homePath, (await readFile(homePath, 'utf8')).replace('Less digging.', 'Watching edits.'));
+    await writeFile(homePath, (await readFile(homePath, 'utf8')).replace('Find the files', 'Watching edits.'));
     await expect(page.locator('h1')).toContainText('Watching edits.', { timeout: 15_000 });
     const sitePath = join(cwd, 'src/_data/site.json');
     await writeFile(sitePath, (await readFile(sitePath, 'utf8')).replace('"publisher": "Kyle Reddoch"', '"publisher": "Watch verification"'));
@@ -114,7 +114,7 @@ test('npm run start rebuilds shared templates, data, CSS, and JS with browser re
     await expect(page.locator('html')).toHaveAttribute('data-watch-verified', 'yes', { timeout: 15_000 });
     await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Support', exact: true }).click();
     await expect(page).toHaveURL(url + 'support/');
-    await expect(page.locator('h1')).toContainText('sorted.');
+    await expect(page.locator('h1')).toContainText('Get help');
     expect(errors).toEqual([]);
   } finally {
     await context.close();

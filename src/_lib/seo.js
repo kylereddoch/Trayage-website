@@ -1,7 +1,7 @@
 import { channelIsLive } from './releases.js';
 import { breadcrumbItems, listedPosts, contentDate } from './content-index.js';
 
-export const appDescription = 'Review and clean up your Mac Downloads folder with Trayage. Spot installers, likely duplicates, and old or large files. File analysis stays on your Mac.';
+export const appDescription = 'Find installers, likely duplicates, and large or older downloads with Trayage for Mac. Review files free and confirm what moves to Trash.';
 
 export const isIndexable = (site, path, noindex = false) => Boolean(site.publicationApproved && site.origin && path !== '404.html' && !noindex);
 export const absoluteURL = (site, base, path = '') => new URL(`${base}${path}`, site.origin).href;
@@ -24,7 +24,11 @@ export function structuredData({ site, releases, base, path, title, description,
   const blog = { '@type': 'Blog', '@id': `${url('blog/')}#blog`, url: url('blog/'), name: 'Trayage Blog', inLanguage: 'en-US', publisher: { '@id': publisher['@id'] }, isPartOf: { '@id': website['@id'] } };
   if (path.startsWith('blog/')) graph.push(blog);
   if (path === 'about/') page.mainEntity = { '@id': publisher['@id'] };
-  if (faqs?.length) page.mainEntity = faqs.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } }));
+  if (faqs?.length) {
+    const questions = faqs.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } }));
+    if (path === 'support/') page.mainEntity = questions;
+    else graph.push({ '@type': 'FAQPage', '@id': `${canonical}#faq`, isPartOf: { '@id': page['@id'] }, mainEntity: questions });
+  }
   if (['blog/', 'blog/guides/', 'blog/product-news/'].includes(path)) {
     const filter = path === 'blog/guides/' ? 'Guides' : path === 'blog/product-news/' ? 'Product news' : '';
     const posts = listedPosts(collections?.posts, filter);
@@ -79,6 +83,11 @@ export function structuredData({ site, releases, base, path, title, description,
         seller: { '@id': publisher['@id'] },
         description: `One-time direct license for up to ${site.pricing.directDeviceLimit} Macs, including ${site.pricing.majorVersion}.x updates. Optional ${site.pricing.trialDays}-day trial with no automatic charge.`
       };
+    }
+    if (channelIsLive(releases, 'appStore')) {
+      app.installUrl = releases.appStore.url;
+      app.sameAs.push(releases.appStore.url);
+      if (!app.softwareVersion) app.softwareVersion = releases.appStore.version;
     }
     page.mainEntity = { '@id': app['@id'] };
     graph.push(app);

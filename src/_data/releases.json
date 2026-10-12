@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-11",
+  "updated": "2026-10-12",
   "minimumMacOS": "14",
   "direct": {
     "status": "available",
@@ -16,12 +16,12 @@
     "build": "4"
   },
   "appStore": {
-    "status": "preparing",
+    "status": "available",
     "appId": "6810382134",
-    "version": "",
-    "url": "",
-    "releasedAt": "",
-    "verifiedAt": "",
-    "badgePath": ""
+    "version": "1.0",
+    "url": "https://apps.apple.com/us/app/trayage/id6810382134",
+    "releasedAt": "2026-10-12",
+    "verifiedAt": "2026-10-12",
+    "badgePath": "assets/mac-app-store-badge.svg"
   }
 }

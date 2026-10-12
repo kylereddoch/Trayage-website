@@ -1,0 +1,58 @@
+{
+  "compare": {
+    "key": "compare",
+    "category": "WHY TRAYAGE?",
+    "title": "Already have Finder?|See what Trayage adds.",
+    "subtitle": "Flag downloads worth checking, with a reason for each suggestion. Review files free.",
+    "art": "review"
+  },
+  "clean-up-mac-downloads": {
+    "key": "clean-up-mac-downloads",
+    "category": "MAC FILE GUIDES",
+    "title": "How to clean up|your Downloads.",
+    "subtitle": "Keep important files. Review the rest. Start with a small batch.",
+    "art": "folder"
+  },
+  "can-you-delete-dmg-files": {
+    "key": "can-you-delete-dmg-files",
+    "category": "MAC FILE GUIDES",
+    "title": "Can you delete|that DMG file?",
+    "subtitle": "What to check after installing a Mac app.",
+    "art": "installer"
+  },
+  "check-duplicate-files-on-mac": {
+    "key": "check-duplicate-files-on-mac",
+    "category": "MAC FILE GUIDES",
+    "title": "Similar names.|Identical files?",
+    "subtitle": "How to check possible duplicate downloads on your Mac.",
+    "art": "copies"
+  },
+  "introducing-trayage": {
+    "key": "introducing-trayage",
+    "category": "PRODUCT NEWS",
+    "title": "Meet Trayage 1.0.|A second look|at Downloads.",
+    "subtitle": "A focused Mac app for reviewing files before cleanup.",
+    "art": "app"
+  },
+  "your-first-trayage-review": {
+    "key": "your-first-trayage-review",
+    "category": "GETTING STARTED",
+    "title": "Your first|Trayage review.",
+    "subtitle": "Choose a folder. Review suggestions. Confirm what moves to Trash.",
+    "art": "review"
+  },
+  "weekly-downloads-review": {
+    "key": "weekly-downloads-review",
+    "category": "MAC FILE GUIDES",
+    "title": "A small habit.|A clearer|Downloads folder.",
+    "subtitle": "A weekly routine for receipts, project files, and old installers.",
+    "art": "folder"
+  },
+  "trayage-on-the-mac-app-store": {
+    "key": "trayage-on-the-mac-app-store",
+    "category": "PRODUCT NEWS",
+    "title": "Trayage is now on|the Mac App Store.",
+    "subtitle": "Free file review. Optional 7-day cleanup trial. One-time unlock.",
+    "art": "app"
+  }
+}

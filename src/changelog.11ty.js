@@ -1,11 +1,12 @@
 import { escape, arrow } from './layout.mjs';
+import { channelIsLive } from './_lib/releases.js';
 import { entryReleases } from './_lib/changelog.js';
 
 export const data = {layout:'base.11ty.js', permalink:'/changelog/index.html', path:'changelog/', title:'Changelog', seoTitle:'Release Notes & Changelog — Trayage for Mac', description:'What is new in Trayage, with version highlights and release status for the direct and Mac App Store editions.', tags:['sitePages'], order:8};
 
 export default function ({base, changelog, releases}) {
   const channelNames = {direct:'Direct download', appStore:'Mac App Store'};
-  return `<div class="wrap document-header"><a class="eyebrow back-link" href="${base}">← Back to Trayage</a><p class="eyebrow page-kicker">Changelog</p><h1>What’s new<br>in Trayage.</h1><p class="lede">New features, improvements, and fixes in each version of Trayage.</p></div>
+  return `<div class="wrap document-header"><a class="eyebrow back-link" href="${base}">← Back to Trayage</a><h1>What’s new<br>in Trayage.</h1><p class="lede">New features, improvements, and fixes in each version of Trayage.</p>${channelIsLive(releases, "appStore") ? `<p class="document-meta">Version ${escape(releases.appStore.version)} is available on the Mac App Store · Released <time datetime="${escape(releases.appStore.releasedAt)}">${new Date(releases.appStore.releasedAt + "T12:00:00Z").toLocaleDateString("en-US", {month:"long",day:"numeric",year:"numeric",timeZone:"UTC"})}</time> · <a href="${base}download/">Download options</a></p>` : ""}</div>
   <div class="wrap changelog-list">${changelog.entries.map(entry => {
     const history = entryReleases(entry, releases);
     const released = Object.keys(history).length > 0;

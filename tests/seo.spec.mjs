@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 import site from '../src/_data/site.json' with { type: 'json' };
 import releases from '../src/_data/releases.json' with { type: 'json' };
+import socialCards from '../src/_data/socialCards.json' with { type: 'json' };
 import { layout } from '../src/layout.mjs';
 
-const routes = ['', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/'];
+const routes = ['', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/', 'compare/', 'blog/your-first-trayage-review/', 'blog/weekly-downloads-review/', 'blog/trayage-on-the-mac-app-store/'];
 for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
   test(`SEO at ${base}: all public pages expose consistent server-rendered metadata`, async ({ browser, request }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
@@ -26,9 +27,17 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', canonical);
         for (const name of ['og:title', 'twitter:title']) await expect(page.locator(`meta[property="${name}"], meta[name="${name}"]`)).toHaveAttribute('content', title);
         for (const name of ['og:description', 'twitter:description']) await expect(page.locator(`meta[property="${name}"], meta[name="${name}"]`)).toHaveAttribute('content', description);
-        await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${site.origin}${base}${site.seo.image}`);
-        await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', `${site.origin}${base}${site.seo.image}`);
-        await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute('content', site.seo.imageAlt);
+        const card = socialCards[path.replace(/^blog\//, '').replace(/\/$/, '')];
+        const image = card ? `assets/social/${card.key}.png` : site.seo.image;
+        const alt = card ? `${card.title.replaceAll('|', ' ')} — Trayage` : site.seo.imageAlt;
+        await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${site.origin}${base}${image}`);
+        await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', `${site.origin}${base}${image}`);
+        await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute('content', alt);
+        const imageResponse = await request.get(`http://127.0.0.1:${port}${base}${image}`);
+        expect(imageResponse.status()).toBe(200);
+        const bytes = await imageResponse.body();
+        expect([bytes.readUInt32BE(16), bytes.readUInt32BE(20)]).toEqual([1200, 630]);
+        expect(bytes.length).toBeLessThan(1_000_000);
         await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
         await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow, max-image-preview:large');
         const schema = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
@@ -47,6 +56,8 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
           expect(app.offers.price).toBe(site.pricing.oneTimeUSD);
           expect(app.offers.priceCurrency).toBe('USD');
           expect(app.offers.url).toBe(`${site.origin}${base}download/`);
+          expect(app.installUrl).toBe(releases.appStore.url);
+          expect(app.sameAs).toContain(releases.appStore.url);
           expect(app.aggregateRating).toBeUndefined();
           expect(app.review).toBeUndefined();
         } else expect(app).toBeUndefined();
@@ -101,7 +112,14 @@ test('SEO guards omit unpublished identities and unavailable purchase offers', a
   const app = graph.find(node => node['@type'] === 'SoftwareApplication');
   expect(app.offers).toBeUndefined();
   expect(app.downloadUrl).toBeUndefined();
-  expect(app.softwareVersion).toBeUndefined();
+  expect(app.softwareVersion).toBe(releases.appStore.version);
+  expect(app.installUrl).toBe(releases.appStore.url);
+  await page.setContent(render({ releases: { ...releases, direct: { ...releases.direct, status: 'preparing' }, appStore: { ...releases.appStore, status: 'preparing' } } }));
+  graph = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent())['@graph'];
+  const unavailable = graph.find(node => node['@type'] === 'SoftwareApplication');
+  expect(unavailable.softwareVersion).toBeUndefined();
+  expect(unavailable.installUrl).toBeUndefined();
+  expect(unavailable.sameAs).not.toContain(releases.appStore.url);
 });
 
 test('structured data safely preserves punctuation and script-like text', async ({ page }) => {

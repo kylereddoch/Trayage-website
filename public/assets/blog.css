@@ -53,7 +53,7 @@
   .article-cta { margin-block: 50px; padding: 32px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-raised); }
   .article-cta h2 { margin-top: 16px; }
   .article-cta p:not(.eyebrow) { color: var(--ink-secondary); font-size: 16px; margin-bottom: 24px; }
-  .article-cta em { font-family: Georgia, serif; letter-spacing: -.04em; }
+  .article-cta em { font-family: inherit; letter-spacing: normal; }
   .article-related { border-top: 1px solid var(--line); padding-block: 40px 64px; }
   .article-related h2 { margin-block: 18px 28px; font-size: 2rem; }
   .related-link { display: flex; justify-content: space-between; gap: 20px; max-width: 800px; padding-block: 18px; border-block: 1px solid var(--line); font-size: 19px; }

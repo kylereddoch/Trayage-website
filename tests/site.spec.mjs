@@ -5,7 +5,7 @@ import releases from '../src/_data/releases.json' with { type: 'json' };
 import { channelIsLive } from '../src/_lib/releases.js';
 import { validateLaunch } from '../src/_lib/validate-launch.js';
 
-const routes = ['', 'support/', 'privacy/', 'terms/', 'refunds/', 'roadmap/', 'download/', 'media-kit/', 'changelog/', '404.html', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/'];
+const routes = ['', 'support/', 'privacy/', 'terms/', 'refunds/', 'roadmap/', 'download/', 'media-kit/', 'changelog/', '404.html', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/', 'compare/', 'blog/your-first-trayage-review/', 'blog/weekly-downloads-review/', 'blog/trayage-on-the-mac-app-store/'];
 const hosts = [
   {name:'domain root', url:'http://127.0.0.1:4175/'},
   {name:'GitHub project path',url:'http://127.0.0.1:4176/Trayage-website/'}
@@ -74,26 +74,25 @@ test('keyboard: skip link, screenshot link, and native FAQ disclosures work',asy
 test('one-time offer uses approved pricing and only enables verified release channels',async({page})=>{
   await page.goto(hosts[0].url);
   await expect(page.locator('.price')).toContainText(['US$29.99 once']);
-  await expect(page.locator('a[href^="https://buy.stripe.com"]')).toHaveCount(site.checkoutEnabled?1:0);
+  await expect(page.locator('a[href^="https://buy.stripe.com"]')).toHaveCount(0);
   await expect(page.locator('a[download]')).toHaveCount(0);
-  await expect(page.locator('.price-card .button')).toHaveCount(1);
-  await expect(page.locator('.price-card .button')).toHaveAttribute('href',site.checkoutEnabled?site.links.oneTime:'/download/');
+  await expect(page.locator('.pricing-strip .button')).toHaveCount(1);
+  await expect(page.locator('.pricing-strip .button')).toHaveAttribute('href','/download/');
   await page.goto(hosts[0].url+'download/');
   if (channelIsLive(releases,'direct')) {
-    await expect(page.locator('#direct .button')).toHaveAttribute('href',releases.direct.url);
+    await expect(page.locator('#direct > .button')).toHaveAttribute('href',releases.direct.url);
     await expect(page.locator('#direct code')).toHaveText(releases.direct.sha256);
     if (!site.checkoutEnabled) await expect(page.locator('#direct')).toContainText('New license purchases are still being finalized');
   } else await expect(page.locator('#direct')).toContainText('after release checks');
   if (channelIsLive(releases,'appStore')) await expect(page.locator('#mac-app-store a')).toHaveAttribute('href',releases.appStore.url);
   else await expect(page.locator('#mac-app-store')).toContainText('Coming soon to the Mac App Store.');
   await page.goto(hosts[0].url);
-  if (channelIsLive(releases,'direct') && !site.checkoutEnabled) await expect(page.locator('#pricing')).toContainText('New license purchases are still being finalized');
   await expect(page.locator(`a[href="${site.links.licenses}"]`)).toHaveCount(1);
   await expect(page.locator(`a[href="${site.links.billing}"]`)).toHaveCount(1);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow, max-image-preview:large');
   expect(site.links.annual).toBeUndefined();
-  await expect(page.locator('#pricing')).toContainText('7 days');
-  await expect(page.locator('#pricing')).toContainText('Optional major upgrades, discounted for owners');
+  await expect(page.locator('.hero-offer')).toContainText('Try cleanup for 7 days.');
+  await expect(page.locator('#pricing')).toContainText('Optional paid major upgrades');
   expect(site.links.oneTime).toBe('https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02');
   expect(()=>validateLaunch(site,true)).not.toThrow();
   expect(()=>validateLaunch({...site,publicationApproved:false},true)).toThrow(/Publication is not approved/);
@@ -180,6 +179,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   const letsLaunch = page.getByAltText('Trayage on LetsLaunch');
   await expect(letsLaunch.locator('xpath=ancestor::a')).toHaveAttribute('href', 'https://letslaunch.today/product/trayage');
   const scrollLaunch = page.getByAltText('Featured on ScrollLaunch');
+  await page.getByRole('button', {name:'Pause featured badges', exact:true}).click();
   await scrollLaunch.scrollIntoViewIfNeeded();
   await expect(scrollLaunch).toHaveAttribute('src', 'https://www.scrolllaunch.com/api/badge/trayage');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');

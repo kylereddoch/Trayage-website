@@ -70,8 +70,19 @@ test('roadmap links open the right GitHub forms and retain private email support
   await expect(page.getByRole('link',{name:'Share an idea'})).toHaveAttribute('href',site.links.featureIdea);
   await expect(page.getByRole('link',{name:'Report a bug'})).toHaveAttribute('href',site.links.bugReport);
   await expect(page.locator('.roadmap-feedback')).toContainText('posts are public and need an account');
-  await expect(page.getByRole('link',{name:'email Kyle',exact:true})).toHaveAttribute('href',`mailto:${site.email}`);
+  await expect(page.getByRole('link',{name:'contact support',exact:true})).toHaveAttribute('href',`mailto:${site.email}`);
   const items=resolveRoadmap(baseline,snapshot).items;
   await expect(page.locator('.roadmap-item')).toHaveCount(items.length);
   for(const item of items) await expect(page.locator(`#feature-${item.id} a[aria-label^="Follow"]`)).toHaveAttribute('href',`https://github.com/${issueRepository}/issues/${item.issue}`);
+});
+
+test('verified release and beta delivery survive stale issue snapshots', () => {
+ const result=resolveRoadmap(baseline,from([issue(2),issue(3),issue(12)]));
+ expect(result.items[0].status).toBe('completed');
+ expect(result.items[0].release.url).toContain('apps.apple.com');
+ expect(result.items[1].status).toBe('beta');
+ expect(result.items[1].delivery.version).toBe('1.1');
+ expect(result.items[1].release).toBeNull();
+ expect(result.items[2].status).toBe('in-progress');
+ validateRoadmap(result);
 });
