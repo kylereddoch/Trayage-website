@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import socialCards from './_data/socialCards.json' with { type: 'json' };
 import { breadcrumbItems } from './_lib/content-index.js';
 import { hasDownload } from './_lib/releases.js';
@@ -5,6 +7,7 @@ import { techTwitterBadge } from './tech-twitter-badge.mjs';
 import { absoluteURL, isIndexable, serializeSchema, structuredData } from './_lib/seo.js';
 export const escape = (value) => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 export const arrow = '<span aria-hidden="true">↗</span>';
+const redesignVersion = createHash('sha256').update(readFileSync(new URL('../public/assets/redesign.css', import.meta.url))).digest('hex').slice(0, 12);
 
 function linkEvent(href, tag, site) {
   if (!site.analytics?.enabled) return null;
@@ -134,7 +137,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <link rel="stylesheet" href="${url('assets/theme.css')}">
   <link rel="stylesheet" href="${url('assets/pages.css')}">
   ${path.startsWith('blog/') ? `<link rel="stylesheet" href="${url('assets/blog.css')}">` : ''}
-  <link rel="stylesheet" href="${url('assets/redesign.css')}">
+  <link rel="stylesheet" href="${url('assets/redesign.css')}?v=${redesignVersion}">
   <script src="${url('assets/featured.js')}" defer></script>
   ${isHome ? `<script src="${url('assets/screenshot.js')}" defer></script>` : ''}
   ${article ? `<script src="${url('assets/share.js')}" defer></script>` : ''}
