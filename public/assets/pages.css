@@ -52,7 +52,8 @@
   .download-option .channel-unavailable { padding: 15px 18px; border: 1px dashed var(--border-strong); border-radius: 7px; margin-top: auto; }
   .download-option .button, .download-option .app-store-badge { margin-top: auto; }
   .app-store-badge { display: inline-block; padding: 13px; align-self: flex-start; }
-  .app-store-badge img { height: 52px; width: auto; }
+  .app-store-badge img { height: 52px; width: auto; display: block; }
+  .download-option > .store-download-note { font-size: 12px; margin: 0 0 0 13px; }
   .download-file-details { text-align: center; font-size: 11px !important; margin: 14px 0; }
   .download-integrity { min-width: 0; color: var(--muted); font-size: 12px; }
   .download-integrity summary { font-size: 12px; padding-block: 12px; }

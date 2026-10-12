@@ -1,6 +1,8 @@
+import { isDraftPreview } from './preview.js';
+
 export const categoryPath = category => category === 'Guides' ? 'blog/guides/' : category === 'Product news' ? 'blog/product-news/' : 'blog/';
 export function publicPosts(posts = [], category = '') {
-  return [...posts].filter(post => !post.data.draft && !post.data.noindex && (!category || post.data.category === category))
+  return [...posts].filter(post => (!post.data.draft || isDraftPreview(post.data)) && !post.data.noindex && (!category || post.data.category === category))
     .sort((a, b) => b.date - a.date || a.data.title.localeCompare(b.data.title));
 }
 export function listedPosts(posts, category = '') {

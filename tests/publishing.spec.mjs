@@ -139,7 +139,7 @@ test('changelog and purchase wording retain the publisher and developer distinct
   await expect(page.locator('.footer-bottom')).toContainText('© 2026 RelayByte');
   await expect(page.locator('.publisher')).toContainText('Made by Kyle Reddoch.');
   await page.goto('http://127.0.0.1:4176/Trayage-website/download/');
-  await expect(page.locator('#mac-app-store')).toContainText('free download with in-app purchases');
+  await expect(page.locator('#mac-app-store')).toContainText(/free download with in-app purchases/i);
   await expect(page.locator('#mac-app-store')).toContainText('no automatic charge');
   await expect(page.locator('#mac-app-store')).toContainText('Separate US$29.99 one-time in-app unlock');
   await page.goto('http://127.0.0.1:4176/Trayage-website/terms/');
@@ -180,8 +180,8 @@ test('published direct sales copy is ready and offers TestFlight separately on t
   expect(downloadPage).toContain(`href="${site.links.testFlight}"`);
   expect(downloadPage).toContain('Join the TestFlight beta');
   expect(downloadPage).toContain('Beta testing');
-  expect(downloadPage).toContain('Coming soon to the Mac App Store.');
-  expect(downloadPage).not.toContain('href="https://apps.apple.com');
+  expect(downloadPage).not.toContain('Coming soon to the Mac App Store.');
+  expect(downloadPage).toContain(`href="${releases.appStore.url}"`);
   const facts = await readFile('dist-root/assets/media/fact-sheet.txt', 'utf8');
   expect(facts).not.toMatch(/still being finalized|testflight\.apple\.com/i);
 });

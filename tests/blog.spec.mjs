@@ -9,20 +9,20 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
     const host = `http://127.0.0.1:${port}${base}`;
     try {
       await page.goto(`${host}blog/`);
-      await expect(page.locator('.blog-card')).toHaveCount(4);
+      await expect(page.locator('.blog-card')).toHaveCount(5);
       await expect(page.locator('.blog-featured h2')).toContainText('without losing important files');
       if (base === '/') await page.screenshot({ path: 'artifacts/blog-preview.png' });
       await page.getByRole('navigation', { name: 'Blog categories' }).getByRole('link', { name: 'Guides', exact: true }).click();
       await expect(page.locator('.blog-card')).toHaveCount(3);
       await expect(page.locator('.blog-list')).not.toContainText('Meet Trayage 1.0');
       await page.getByRole('navigation', { name: 'Blog categories' }).getByRole('link', { name: 'Product news' }).click();
-      await expect(page.locator('.blog-card')).toHaveCount(1);
-      await page.getByRole('link', { name: 'Read the story', exact: false }).click();
+      await expect(page.locator('.blog-card')).toHaveCount(2);
+      await page.locator('.blog-card').filter({hasText:'Trayage is now on the Mac App Store'}).getByRole('link', { name: 'Read the story', exact: false }).click();
       await expect(page.locator('.article-category')).toHaveAttribute('href', `${base}blog/product-news/`);
       const graph = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent())['@graph'];
       const article = graph.find(node => node['@type'] === 'BlogPosting');
       expect(article.articleSection).toBe('Product news');
-      expect(article.datePublished).toBe('2026-10-06T00:00:00.000Z');
+      expect(article.datePublished).toBe('2026-10-12T00:00:00.000Z');
       await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
       const anchors = await page.locator('.article-toc a').evaluateAll(links => links.map(link => link.hash));
       expect(anchors.length).toBeGreaterThan(2);
@@ -34,7 +34,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         return { errors: doc.querySelectorAll('parsererror').length, links: [...doc.querySelectorAll('item > link')].map(node => node.textContent) };
       }, feed);
       expect(parsed.errors).toBe(0);
-      expect(parsed.links.sort()).toEqual(['can-you-delete-dmg-files', 'clean-up-mac-downloads', 'introducing-trayage', 'check-duplicate-files-on-mac'].map(slug => `${site.origin}${base}blog/${slug}/`).sort());
+      expect(parsed.links.sort()).toEqual(['can-you-delete-dmg-files', 'clean-up-mac-downloads', 'introducing-trayage', 'check-duplicate-files-on-mac', 'trayage-on-the-mac-app-store'].map(slug => `${site.origin}${base}blog/${slug}/`).sort());
       await page.goto(`${host}blog/check-duplicate-files-on-mac/`);
       await expect(page.getByRole('link', { name: 'download the Trayage installer for Mac (DMG)', exact: true })).toHaveAttribute('href', releases.direct.url);
       await expect(page.locator('.article-body')).toContainText('It does not compare their contents.');
