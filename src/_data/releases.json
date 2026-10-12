@@ -18,6 +18,7 @@
   "appStore": {
     "status": "available",
     "appId": "6810382134",
+    "build": "3",
     "version": "1.0",
     "url": "https://apps.apple.com/us/app/trayage/id6810382134",
     "releasedAt": "2026-10-12",

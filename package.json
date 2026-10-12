@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "eleventy --serve",
+    "start:drafts": "TRAYAGE_PREVIEW_DRAFTS=1 eleventy --serve",
     "dev": "eleventy --serve",
     "watch": "eleventy --watch",
     "build": "eleventy",

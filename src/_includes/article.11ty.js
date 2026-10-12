@@ -1,3 +1,4 @@
+import { isDraftPreview } from '../_lib/preview.js';
 import { absoluteURL } from '../_lib/seo.js';
 import { layout, escape, arrow } from '../layout.mjs';
 import { dateLabel, isoDate, readingTime, newestPosts, categoryPath } from '../_lib/blog.js';
@@ -11,5 +12,5 @@ export default function (data) {
   const body = `<article class="wrap blog-article"><header class="article-header"><a class="eyebrow back-link" href="${base}blog/">← Back to Blog</a><a class="article-category" href="${base}${categoryPath(category)}">${escape(category)}</a><h1>${escape(title)}</h1><p class="blog-lede">${escape(description)}</p><div class="blog-meta"><span>By <a href="${base}about/" rel="author">${escape(site.publisher)}</a></span><time datetime="${isoDate(page.date)}">${dateLabel(page.date)}</time><span>${readingTime(content)} min read</span>${updated ? `<span>Updated <time datetime="${isoDate(updated)}">${dateLabel(updated)}</time></span>` : ''}</div></header>
   <div class="article-layout">${headings.length ? `<nav class="article-toc" aria-label="On this page"><p class="eyebrow">On this page</p>${headings.map(([, id, label]) => `<a href="#${escape(id)}">${label.replace(/<[^>]+>/g, '')}</a>`).join('')}</nav>` : ''}<div class="article-body">${content}${share}<div class="article-cta"><h2>Find downloads<br><em>worth checking.</em></h2><p>Trayage flags installers, likely duplicates, and large or older files with a reason for each suggestion. Download the Mac app and review your files free. Cleanup has a 7-day trial with no automatic charge. You confirm what moves to Trash.</p><a class="button" href="${base}download/">Try Trayage for Mac ${arrow}</a></div></div></div></article>
   ${related.length ? `<section class="wrap article-related" aria-labelledby="related-title"><h2 id="related-title">Related guides and news</h2>${related.map(post => `<a class="related-link" href="${base}${escape(post.data.path)}"><span>${escape(post.data.title)}</span>${arrow}</a>`).join('')}</section>` : ''}`;
-  return layout({ ...data, body, published: page.date, articleText: content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() });
+  return layout({ ...data, noindex: data.noindex || isDraftPreview(data), body, published: page.date, articleText: content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() });
 }
