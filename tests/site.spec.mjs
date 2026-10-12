@@ -168,6 +168,10 @@ test('reduced motion and enlarged text retain usable content',async({page})=>{
     await page.addStyleTag({content:'html { font-size: 200%; }'});
     expect(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),route).toBe(true);
+    if (route === '') {
+      await page.addStyleTag({content:'body { font-family: Verdana, sans-serif; }'});
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'homepage with wider fallback font').toBe(true);
+    }
   }
 });
 

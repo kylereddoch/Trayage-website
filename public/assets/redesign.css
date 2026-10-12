@@ -262,7 +262,7 @@
     .product-figure { max-width: 660px; margin-inline: auto; width: 100%; }
     .principles { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
     .principles p { font-size: .8rem; gap: 8px; }
-    .workflow, .compare-summary { grid-template-columns: 1fr; gap: 38px; }
+    .workflow, .compare-summary { grid-template-columns: minmax(0, 1fr); gap: 38px; }
     .workflow { padding-block: 54px; }
     .workflow-intro h2 br { display: none; }
     .workflow-intro > p:not(.eyebrow) { max-width: 560px; }
@@ -403,4 +403,10 @@
   .roadmap-exploration { padding-block: 45px; border-top: 1px solid var(--line); }
   .roadmap-exploration > p { color: var(--muted); margin-bottom: 26px; }
   .roadmap-exploration .comparison-details { padding-bottom: 0; }
+}
+@layer redesign {
+  /* Let enlarged text determine how many cards fit, instead of forcing columns. */
+  @media (max-width: 800px) {
+    .focus-grid, .use-grid, .home-posts { grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+  }
 }
