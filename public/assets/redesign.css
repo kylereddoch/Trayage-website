@@ -173,16 +173,16 @@
   .launch-viewport { min-width: 0; overflow: auto; padding: 6px 0; margin-left: 20px; }
   .launch-badges { position: relative; flex-wrap: nowrap; justify-content: flex-start; gap: 12px; margin: 0; min-height: 64px; }
   .launch-badges > a { flex: 0 0 250px; width: 250px; max-width: none; height: 56px; align-items: center; justify-content: center; }
-  .launch-badges img { height: 48px; width: auto; max-width: 250px; }
+  .launch-badges img { height: 48px; width: auto; max-width: 250px; max-height: 48px; }
   .launch-badges .tech-twitter-badge { flex-basis: 250px; }
   .launch-badges .tech-twitter-badge img { height: 36px; width: 36px; }
   @media (prefers-reduced-motion: no-preference) {
     .is-animated .launch-viewport { overflow: hidden; mask-image: linear-gradient(to right, transparent, black 18px, black calc(100% - 18px), transparent); }
-    .is-animated .launch-badges > a { position: absolute; left: 0; top: 4px; animation: featured-drift calc(var(--badge-count) * 9s) linear infinite; animation-delay: calc(var(--badge-index) * -9s); }
+    .is-animated .launch-badges > a { position: absolute; left: 0; top: 4px; animation: featured-drift calc(var(--badge-count) * 9s) linear infinite; animation-delay: calc((var(--badge-index) - var(--badge-count) + 1) * 9s); }
     .is-animated:hover .launch-badges > a, .is-paused .launch-badges > a { animation-play-state: paused; }
     /* Keyboard navigation restores the natural row so offscreen links can scroll into view. */
-    .is-animated .launch-viewport:focus-within { overflow: auto; mask-image: none; }
-    .is-animated .launch-viewport:focus-within .launch-badges > a { position: relative; top: auto; animation: none; }
+    .is-animated .launch-viewport:has(a:focus-visible) { overflow: auto; mask-image: none; }
+    .is-animated .launch-viewport:has(a:focus-visible) .launch-badges > a { position: relative; top: auto; animation: none; }
     @keyframes featured-drift { from { transform: translateX(calc((var(--badge-count) - 1) * var(--badge-slot))); } to { transform: translateX(calc(-1 * var(--badge-slot))); } }
   }
   .download-beta .beta-note { margin: 12px 0 0; color: var(--muted); font-size: .78rem; line-height: 1.6; }

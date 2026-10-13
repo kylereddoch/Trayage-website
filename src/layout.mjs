@@ -164,14 +164,14 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <section class="launch-area wrap" aria-labelledby="launch-title">
     <div class="launch-strip"><div class="launch-label"><h2 class="eyebrow" id="launch-title">As featured in</h2><button class="launch-toggle" type="button" aria-pressed="false" aria-label="Pause featured badges" hidden>Pause <span aria-hidden="true">Ⅱ</span></button></div>
     <div class="launch-viewport"><div class="community-badges launch-badges">
-      ${site.links.productHunt ? `<a class="product-hunt-badge" href="${escape(site.links.productHunt)}" target="_blank" rel="noopener noreferrer"><img class="badge-light" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1266760&amp;theme=light" alt="Trayage on Product Hunt" width="250" height="54" loading="lazy" decoding="async" referrerpolicy="no-referrer"><img class="badge-dark" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1266760&amp;theme=dark" alt="Trayage on Product Hunt" width="250" height="54" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>` : ''}
-      ${site.links.launchNest ? `<a class="launchnest-badge" href="${escape(site.links.launchNest)}" target="_blank" rel="noopener noreferrer"><img class="badge-light" src="https://launchnest.io/badge/trayage.svg?variant=featured&amp;theme=light" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"><img class="badge-dark" src="https://launchnest.io/badge/trayage.svg?variant=featured" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>` : ''}
-      <a href="https://www.scrolllaunch.com/products/trayage?ref=badge" target="_blank" rel="noopener">
+      ${techTwitterBadge}
+      <a href="https://buildhop.io/discover/trayage-c561c9c6-60cc-4549-81b2-83da959e4fba" target="_blank" rel="noopener noreferrer">
         <picture>
-          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://www.scrolllaunch.com/api/badge/trayage?theme=dark">
-          <img src="https://www.scrolllaunch.com/api/badge/trayage" alt="Featured on ScrollLaunch" width="220" height="48" loading="lazy" />
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=dark">
+          <img src="https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light" alt="Trending on BuildHop: Trayage" width="236" height="52" style="max-width:100%;height:auto" />
         </picture>
       </a>
+      ${site.links.launchNest ? `<a class="launchnest-badge" href="${escape(site.links.launchNest)}" target="_blank" rel="noopener noreferrer"><img class="badge-light" src="https://launchnest.io/badge/trayage.svg?variant=featured&amp;theme=light" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"><img class="badge-dark" src="https://launchnest.io/badge/trayage.svg?variant=featured" alt="Trayage on LaunchNest" width="220" height="56" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>` : ''}
 <a href="https://www.tinyshelf.co/?ref=trayage.app" title="Featured on TinyShelf">
   <img src="https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg"
        alt="Featured on TinyShelf" width="216" height="64"/>
@@ -182,7 +182,18 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
           <img src="https://letslaunch.today/badge/trayage.svg" alt="Trayage on LetsLaunch" width="250" height="54" />
         </picture>
       </a>
-      ${techTwitterBadge}
+      <a href="https://www.scrolllaunch.com/products/trayage?ref=badge" target="_blank" rel="noopener">
+        <picture>
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://www.scrolllaunch.com/api/badge/trayage?theme=dark">
+          <img src="https://www.scrolllaunch.com/api/badge/trayage" alt="Featured on ScrollLaunch" width="220" height="48" loading="lazy" />
+        </picture>
+      </a>
+      <a href="https://founderbattle.com/product/trayage?fb_badge=636391c548e344618c0ef26a9a4762c1" target="_blank" rel="noopener noreferrer" aria-label="Competing on Founder Battle">
+        <picture>
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://founderbattle.com/badges/competing.svg">
+          <img src="https://founderbattle.com/badges/competing-coral.svg" alt="Competing on Founder Battle" width="184" height="48">
+        </picture>
+      </a>
     </div></div></div>
   </section>
   ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}

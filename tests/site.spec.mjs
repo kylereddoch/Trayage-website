@@ -121,12 +121,13 @@ test('default visits load only disclosed analytics and store no visitor state',a
   await page.route('https://www.scrolllaunch.com/api/badge/trayage*', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="220" height="48"/>'}));
   await page.route('https://letslaunch.today/badge/trayage.svg*', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="250" height="54"/>'}));
   await page.route('https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="216" height="64"/>'}));
-  await page.route('https://api.producthunt.com/widgets/embed-image/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="250" height="54"/>'}));
+  await page.route('https://buildhop.io/api/badges/launch/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="236" height="52"/>'}));
+  await page.route('https://founderbattle.com/badges/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="184" height="48"/>'}));
   for(const route of routes){await page.goto(hosts[0].url+route);}
   expect(external).toContain(site.analytics.embedURL);
   expect(external.some(url=>url.includes('viberank.dev'))).toBe(false);
-  expect(external.some(url=>url.startsWith('https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1266760&theme='))).toBe(true);
-  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||/^https:\/\/(api\.producthunt\.com\/widgets\/embed-image\/v1\/featured\.svg\?post_id=1266760)&theme=(light|dark)$/.test(url))).toBe(true);
+  expect(external.some(url=>url.includes('api.producthunt.com'))).toBe(false);
+  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||url==='https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light'||url==='https://founderbattle.com/badges/competing-coral.svg')).toBe(true);
   expect(await page.context().cookies()).toEqual([]);
   expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});
 });
@@ -176,6 +177,37 @@ test('reduced motion and enlarged text retain usable content',async({page})=>{
   }
 });
 
+test('badge clicks keep the moving row stable while keyboard navigation reaches every badge',async({page})=>{
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(hosts[0].url);
+  const viewport = page.locator('.launch-viewport');
+  const badges = page.locator('.launch-badges > a');
+  const toggle = page.locator('.launch-toggle');
+  // Exercise real pointer focus without opening the external partner pages.
+  await viewport.evaluate(el => el.addEventListener('click', event => event.preventDefault()));
+  await toggle.scrollIntoViewIfNeeded();
+  await toggle.hover();
+  await badges.first().click();
+  await expect(badges.first()).toBeFocused();
+  await expect(viewport).toHaveCSS('overflow-x', 'hidden');
+  await expect(badges.first()).toHaveCSS('position', 'absolute');
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-label', 'Resume featured badges');
+  for (let index = 0; index < await badges.count(); index++) {
+    await page.keyboard.press('Tab');
+    await expect(badges.nth(index)).toBeFocused();
+    await expect(viewport).toHaveCSS('overflow-x', 'auto');
+    await expect(badges.nth(index)).toHaveCSS('position', 'relative');
+    await expect(badges.nth(index)).toBeInViewport({ratio: 1});
+  }
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-label', 'Pause featured badges');
+  await expect(viewport).toHaveCSS('overflow-x', 'hidden');
+  await expect.poll(() => viewport.evaluate(el => el.scrollLeft)).toBe(0);
+  await expect(badges.first()).toHaveCSS('position', 'absolute');
+});
+
 test('appearance follows the system, persists an explicit choice, and resets cleanly',async({page})=>{
   await page.emulateMedia({colorScheme:'dark'});
   await page.goto(hosts[0].url);
@@ -184,31 +216,34 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   const letsLaunch = page.getByAltText('Trayage on LetsLaunch');
   await expect(letsLaunch.locator('xpath=ancestor::a')).toHaveAttribute('href', 'https://letslaunch.today/product/trayage');
   const scrollLaunch = page.getByAltText('Featured on ScrollLaunch');
+  const buildHop = page.getByAltText('Trending on BuildHop: Trayage');
+  const founderBattle = page.getByAltText('Competing on Founder Battle');
   await page.getByRole('button', {name:'Pause featured badges', exact:true}).click();
   await scrollLaunch.scrollIntoViewIfNeeded();
   await expect(scrollLaunch).toHaveAttribute('src', 'https://www.scrolllaunch.com/api/badge/trayage');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg?theme=dark');
+  await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=dark');
+  await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing.svg');
   const select=page.getByLabel('Appearance');
   await expect(select).toHaveValue('system');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
-  await expect(page.locator('.product-hunt-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
-  await expect(page.locator('.product-hunt-badge .badge-light')).toBeHidden();
   await expect(page.locator('.launchnest-badge .badge-light')).toBeHidden();
   await page.emulateMedia({colorScheme:'light'});
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 246, 242)');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg');
-  await expect(page.locator('.product-hunt-badge .badge-light')).toBeVisible();
+  await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light');
+  await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing-coral.svg');
   await expect(page.locator('.launchnest-badge .badge-light')).toBeVisible();
-  await expect(page.locator('.product-hunt-badge .badge-dark')).toBeHidden();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeHidden();
   await select.selectOption('dark');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg?theme=dark');
-  await expect(page.locator('.product-hunt-badge .badge-dark')).toBeVisible();
+  await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=dark');
+  await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing.svg');
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Privacy',exact:true}).click();
   await expect(select).toHaveValue('dark');
@@ -251,7 +286,9 @@ test('policies distinguish direct and Apple purchases and disclose support and s
   await expect(page.locator('#website')).toContainText('trayage-appearance');
   await expect(page.locator('#website')).toContainText('Tinylytics');
   await expect(page.locator('#website')).not.toContainText('VibeRank');
-  await expect(page.locator('#website')).toContainText('Product Hunt');
+  await expect(page.locator('#website')).not.toContainText('Product Hunt');
+  await expect(page.locator('#website')).toContainText('BuildHop');
+  await expect(page.locator('#website')).toContainText('Founder Battle');
   await expect(page.locator('#website')).toContainText('LaunchNest');
   await expect(page.locator(`#website a[href="${site.analytics.privacyURL}"]`)).toBeVisible();
   await expect(page.locator('.document-meta')).toContainText(`Effective ${site.analytics.effective}`);
