@@ -23,10 +23,12 @@ for (const base of ['http://127.0.0.1:4175/','http://127.0.0.1:4176/Trayage-webs
   expect(faq.mainEntity.map(q=>q.name)).toEqual(await page.locator('.home-faq-grid h3').allTextContents());
   expect(faq.mainEntity.map(q=>q.acceptedAnswer.text)).toEqual(await page.locator('.home-faq-grid p').allTextContents());
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Why Trayage?',exact:true}).click();
-  await expect(page.locator('h1')).toContainText('Here’s what Trayage adds.');
-  await expect(page.locator('#example')).toContainText('Invoice (1).pdf');
+  await expect(page.locator('h1')).toContainText('Where should you start?');
+  await expect(page.locator('#example')).toContainText('Trayage.dmg');
   await expect(page.locator('#limits')).toContainText('does not compare file contents');
-  await expect(page.locator('main a[href^="https://"]')).toHaveCount(0);
+  await expect(page.locator('.cleanup-options-grid article')).toHaveCount(3);
+  await expect(page.locator('.cleanup-options-grid')).toContainText('US$9.99 once');
+  await expect(page.locator('#sources')).toContainText('Trayage’s developer');
   await expect(page.locator('.compare-header .button')).toHaveAttribute('href', base.includes('Trayage-website') ? '/Trayage-website/download/' : '/download/');
   await page.goto(base+'blog/your-first-trayage-review/');
   await expect(page.locator('.article-body')).toContainText('Nothing moves to Trash just because you review a folder.');

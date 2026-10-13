@@ -52,7 +52,8 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
       }, sitemap);
       for (const entry of dates) {
         if (['clean-up-mac-downloads', 'can-you-delete-dmg-files', 'introducing-trayage', 'check-duplicate-files-on-mac'].some(slug => entry.url.includes(slug))) expect(entry.modified).toBe('2026-10-07T00:00:00.000Z');
-        else if (['compare/', 'trayage-on-the-mac-app-store/'].some(slug => entry.url.endsWith(slug))) expect(entry.modified).toBe('2026-10-12T00:00:00.000Z');
+        else if (entry.url.endsWith('compare/')) expect(entry.modified).toBe('2026-10-13T00:00:00.000Z');
+        else if (['trayage-on-the-mac-app-store/'].some(slug => entry.url.endsWith(slug))) expect(entry.modified).toBe('2026-10-12T00:00:00.000Z');
         else if (['your-first-trayage-review/', 'weekly-downloads-review/'].some(slug => entry.url.endsWith(slug))) expect(entry.modified).toBe('2026-10-09T00:00:00.000Z');
         else expect(entry.modified).toBeUndefined();
       }

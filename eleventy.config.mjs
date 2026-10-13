@@ -60,7 +60,9 @@ export default function (eleventyConfig) {
       await rm(output, { recursive: true, force: true });
     }
     firstBuild = false;
-    if (!site.publicationApproved) await rm(resolve(output, 'sitemap.xml'), { force: true });
+    if (!site.publicationApproved) {
+      for (const file of ['sitemap.xml', 'llms.txt']) await rm(resolve(output, file), { force: true });
+    }
   });
 
   eleventyConfig.on('eleventy.after', async ({ directories, outputMode }) => {

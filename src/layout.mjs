@@ -118,6 +118,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <meta property="og:site_name" content="Trayage">
   <meta property="og:locale" content="en_US">
   ${canonical ? `<link rel="canonical" href="${escape(canonical)}"><meta property="og:url" content="${escape(canonical)}">` : ''}
+  ${indexable ? `<link rel="describedby" type="text/plain" href="${escape(url('llms.txt'))}">` : ''}
   ${socialImage ? `<meta property="og:image" content="${escape(socialImage)}">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="${site.seo.imageWidth}">
