@@ -60,7 +60,15 @@ test('keyboard: skip link, screenshot link, and native FAQ disclosures work',asy
   await page.keyboard.press('Enter');
   await expect(page.locator('main')).toBeFocused();
   await expect(page.getByRole('link',{name:'View the full Trayage app screenshot'})).toBeVisible();
-  await expect(page.locator('.native-preview img')).toHaveJSProperty('naturalWidth',2560);
+  await expect(page.locator('.native-preview img')).toHaveJSProperty('complete',true);
+  expect(await page.locator('.native-preview img').evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
+  const screenshotLink = page.getByRole('link',{name:'View the full Trayage app screenshot'});
+  await screenshotLink.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.locator('.screenshot-dialog img')).toHaveJSProperty('naturalWidth',2560);
+  await page.keyboard.press('Escape');
+  await expect(screenshotLink).toBeFocused();
   await page.goto(hosts[1].url+'support/');
   const question=page.locator('summary').filter({hasText:'How do I activate my license?'});
   await question.focus();

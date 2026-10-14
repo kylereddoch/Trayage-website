@@ -25,5 +25,5 @@ export function postArtwork(post, base) {
   const slug = post.data.path || '';
   const news = post.data.category === 'Product news';
   const artwork = news ? 'news' : /duplicate/.test(slug) ? 'copies' : /dmg/.test(slug) ? 'installer' : /review/.test(slug) ? 'review' : 'folder';
-  return `<div class="post-illustration art-${artwork}" aria-hidden="true">${news ? `<img src="${base}assets/brand-violet/trayage-app-icon.png" width="124" height="124" alt="" loading="lazy" decoding="async">` : `${artwork === 'copies' ? '<span class="paper-file"></span>' : ''}<span class="paper-file">${icon(artwork === 'installer' ? 'drive' : artwork === 'review' ? 'check' : artwork === 'copies' ? 'files' : 'folder')}</span>`}</div>`;
+  return `<div class="post-illustration art-${artwork}" aria-hidden="true">${news ? `<img src="${base}assets/brand-violet/trayage-app-icon-256.png" width="124" height="124" alt="" loading="lazy" decoding="async">` : `${artwork === 'copies' ? '<span class="paper-file"></span>' : ''}<span class="paper-file">${icon(artwork === 'installer' ? 'drive' : artwork === 'review' ? 'check' : artwork === 'copies' ? 'files' : 'folder')}</span>`}</div>`;
 }

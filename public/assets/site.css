@@ -224,7 +224,8 @@
   .prose section { border-bottom: 1px solid var(--line); padding-block: 34px; }
   .prose h2 { font-size: 28px; letter-spacing: -.04em; line-height: 1.25; margin-bottom: 20px; }
   .prose p + p { margin-top: 18px; }
-  .prose a { color: var(--ink-warm); overflow-wrap: anywhere; }
+  .prose a { color: var(--orange); overflow-wrap: anywhere; }
+  .prose a:hover, .prose a:focus-visible { color: var(--button-hover); }
   .prose li { padding-left: 5px; margin-block: 8px; }
   .draft-notice { padding: 23px 26px; border: 1px solid var(--border-warm); border-left: 4px solid #ad5b25; background: var(--surface-warm); border-radius: 4px; }
   .draft-notice strong { font-size: 16px; }

@@ -58,6 +58,16 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
           expect(app.offers.url).toBe(`${site.origin}${base}download/`);
           expect(app.installUrl).toBe(releases.appStore.url);
           expect(app.sameAs).toContain(releases.appStore.url);
+          expect(webpage.mainEntity).toEqual({ '@id': app['@id'] });
+          expect(webpage.about).toEqual({ '@id': app['@id'] });
+          expect(app.mainEntityOfPage).toEqual({ '@id': `${site.origin}${base}#webpage` });
+          expect(app.image).toBe(`${site.origin}${base}assets/brand-violet/trayage-app-icon-256.png`);
+          expect(app.offers['@id']).toBe(`${site.origin}${base}#direct-license`);
+          if (!path) {
+            const faq = graph.find(node => node['@type'] === 'FAQPage');
+            expect(webpage.hasPart).toEqual({ '@id': faq['@id'] });
+            expect(faq.about).toEqual({ '@id': app['@id'] });
+          }
           expect(app.aggregateRating).toBeUndefined();
           expect(app.review).toBeUndefined();
         } else expect(app).toBeUndefined();

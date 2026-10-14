@@ -27,7 +27,10 @@ export function structuredData({ site, releases, base, path, title, description,
   if (faqs?.length) {
     const questions = faqs.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } }));
     if (path === 'support/') page.mainEntity = questions;
-    else graph.push({ '@type': 'FAQPage', '@id': `${canonical}#faq`, isPartOf: { '@id': page['@id'] }, mainEntity: questions });
+    else {
+      page.hasPart = { '@id': `${canonical}#faq` };
+      graph.push({ '@type': 'FAQPage', '@id': `${canonical}#faq`, url: `${canonical}#faq-title`, isPartOf: { '@id': page['@id'] }, mainEntity: questions });
+    }
   }
   if (['blog/', 'blog/guides/', 'blog/product-news/'].includes(path)) {
     const filter = path === 'blog/guides/' ? 'Guides' : path === 'blog/product-news/' ? 'Product news' : '';
@@ -68,16 +71,18 @@ export function structuredData({ site, releases, base, path, title, description,
       '@type': 'SoftwareApplication', '@id': `${home}#app`, name: site.name,
       url: home, description: appDescription, applicationCategory: 'UtilitiesApplication',
       operatingSystem: `macOS ${releases.minimumMacOS} or later`,
-      image: url('assets/app-icon.png'), author: { '@id': publisher['@id'] },
+      image: url('assets/brand-violet/trayage-app-icon-256.png'),
+      mainEntityOfPage: { '@id': `${home}#webpage` },
+      author: { '@id': publisher['@id'] },
       publisher: { '@id': publisher['@id'] },
       sameAs: [site.links.x, site.mastodonReady && site.links.mastodon, site.links.productHunt].filter(Boolean),
-      featureList: ['Downloads folder review', 'Disk image and installer review', 'Likely duplicate detection by filename and size', 'Old and large file review', 'Local file analysis', 'Move selected files to Trash after confirmation']
+      featureList: ['Free Downloads folder review', 'Disk image and installer review', 'Likely duplicate detection by filename and size', 'Old and large file review', 'Local file analysis', 'Move selected files to Trash after confirmation']
     };
     if (channelIsLive(releases, 'direct')) {
       app.softwareVersion = releases.direct.version;
       app.downloadUrl = releases.direct.url;
       if (site.checkoutEnabled) app.offers = {
-        '@type': 'Offer', url: url('download/'), price: site.pricing.oneTimeUSD,
+        '@type': 'Offer', '@id': `${home}#direct-license`, name: 'Trayage direct license', url: url('download/'), price: site.pricing.oneTimeUSD,
         priceCurrency: 'USD', availability: 'https://schema.org/InStock',
         seller: { '@id': publisher['@id'] },
         description: `One-time direct license for up to ${site.pricing.directDeviceLimit} Macs, including ${site.pricing.majorVersion}.x updates. Optional ${site.pricing.trialDays}-day trial with no automatic charge.`
@@ -89,6 +94,10 @@ export function structuredData({ site, releases, base, path, title, description,
       if (!app.softwareVersion) app.softwareVersion = releases.appStore.version;
     }
     page.mainEntity = { '@id': app['@id'] };
+    page.about = { '@id': app['@id'] };
+    website.about = { '@id': app['@id'] };
+    const faq = graph.find(node => node['@type'] === 'FAQPage');
+    if (faq) faq.about = { '@id': app['@id'] };
     graph.push(app);
   }
   return { '@context': 'https://schema.org', '@graph': graph };
