@@ -9,7 +9,8 @@
   "checkoutEnabled": true,
   "origin": "https://trayage.app",
   "seo": {
-    "image": "assets/trayage-social-v2.png",
+    "image": "assets/social/violet-v1/home.png",
+    "socialDirectory": "assets/social/violet-v1",
     "imageWidth": 1200,
     "imageHeight": 630,
     "imageAlt": "Trayage \u2014 Find downloads you no longer need. Flag installers, likely duplicates, and large or older files. Review free. Confirm before cleanup.",

@@ -28,7 +28,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         for (const name of ['og:title', 'twitter:title']) await expect(page.locator(`meta[property="${name}"], meta[name="${name}"]`)).toHaveAttribute('content', title);
         for (const name of ['og:description', 'twitter:description']) await expect(page.locator(`meta[property="${name}"], meta[name="${name}"]`)).toHaveAttribute('content', description);
         const card = socialCards[path.replace(/^blog\//, '').replace(/\/$/, '')];
-        const image = card ? `assets/social/${card.key}.png` : site.seo.image;
+        const image = card ? `${site.seo.socialDirectory}/${card.key}.png` : site.seo.image;
         const alt = card ? `${card.title.replaceAll('|', ' ')} — Trayage` : site.seo.imageAlt;
         await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${site.origin}${base}${image}`);
         await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', `${site.origin}${base}${image}`);
