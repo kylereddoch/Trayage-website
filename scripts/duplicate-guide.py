@@ -11,11 +11,11 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'output/pdf/trayage-duplicate-file-field-guide.pdf'
 OUT.parent.mkdir(parents=True, exist_ok=True)
 FONT = Path('/System/Library/Fonts/Supplemental')
-for name, file in [('Sans', 'Arial.ttf'), ('Bold', 'Arial Bold.ttf'), ('Serif', 'Georgia.ttf'), ('Italic', 'Georgia Italic.ttf')]:
+for name, file in [('Sans', 'Arial.ttf'), ('Bold', 'Arial Bold.ttf'), ('Italic', 'Arial Bold Italic.ttf')]:
     pdfmetrics.registerFont(TTFont(name, str(FONT / file)))
 
 W, H = 612, 792
-paper, ink, muted, orange, line = map(HexColor, ['#f7f6f2', '#262722', '#65665d', '#b94117', '#deded5'])
+paper, ink, muted, orange, line = map(HexColor, ['#f7f5fc', '#2c253c', '#71687f', '#6d46bb', '#ded6eb'])
 c = canvas.Canvas(str(OUT), pagesize=(W, H), pageCompression=1)
 c.setTitle('A second look. Less clutter. | Trayage duplicate-file field guide')
 c.setAuthor('Kyle Reddoch · Trayage')
@@ -55,29 +55,29 @@ def label(x, top, value, color=muted, size=8):
     c.drawText(obj)
     c.restoreState()
 
-c.drawImage(str(ROOT / 'public/assets/app-icon.png'), 42, H-70, 34, 34, mask='auto')
+c.drawImage(str(ROOT / 'public/assets/brand-violet/trayage-app-icon.png'), 42, H-70, 34, 34, mask='auto')
 text(84, 42, 'Trayage', 'Bold', 18)
 label(397, 47, 'FIELD GUIDE / 01')
 rule(44, 84, 524)
 
-text(44, 109, 'A second look.', 'Serif', 37)
+text(44, 109, 'A second look.', 'Bold', 37)
 text(44, 151, 'Less clutter.', 'Italic', 38, orange)
 para(44, 208, 308, 'A thoughtful guide to duplicate files on your Mac.', 12, muted, 17)
 
 # An original file-card illustration: familiar names, visibly different receipts.
-box(412, 109, 119, 92, HexColor('#e8e8df'), line, 7)
+box(412, 109, 119, 92, HexColor('#e8e0f5'), line, 7)
 text(425, 119, 'Invoice.pdf', 'Bold', 9)
 rule(425, 140, 91)
 label(425, 149, 'ORDER 1042', size=6.5)
-box(433, 156, 127, 93, HexColor('#fffefa'), line, 7)
+box(433, 156, 127, 93, HexColor('#ffffff'), line, 7)
 text(446, 167, 'Invoice (1).pdf', 'Bold', 9)
 rule(446, 187, 99)
 label(446, 196, 'ORDER 1088', orange, 6.5)
-text(446, 213, '$72.00', 'Serif', 17)
+text(446, 213, '$72.00', 'Bold', 17)
 
 box(44, 270, 524, 66, ink, radius=9)
 text(61, 281, 'Same name. Different possibilities.', 'Bold', 15, paper)
-para(61, 304, 489, 'Matching filenames and sizes are clues. They do not prove matching contents.', 10.5, HexColor('#e6e6dc'), 14)
+para(61, 304, 489, 'Matching filenames and sizes are clues. They do not prove matching contents.', 10.5, HexColor('#e9e2f6'), 14)
 
 steps = [
     ('01', 'Find the context.', 'Check where each copy lives. A project may need its own copy; a backup is intentional.'),
@@ -92,14 +92,14 @@ for i, (number, title, body) in enumerate(steps):
     if i < 2:
         rule(87, y+57, 481)
 
-box(44, 561, 253, 124, HexColor('#f6e6d5'), radius=9)
+box(44, 561, 253, 124, HexColor('#eee6fb'), radius=9)
 label(60, 576, 'STILL UNSURE?', orange)
-text(60, 595, 'Keep both.', 'Serif', 23)
+text(60, 595, 'Keep both.', 'Bold', 23)
 para(60, 629, 218, 'An extra file can wait. Keep both when differences, purpose, or location remain unclear.', 10.5, ink, 14)
 
-box(309, 561, 259, 124, HexColor('#e8ece4'), radius=9)
-label(325, 576, 'UNNEEDED COPY CONFIRMED?', HexColor('#455344'), 7)
-text(325, 595, 'Move it to Trash.', 'Serif', 23)
+box(309, 561, 259, 124, HexColor('#eeebf5'), radius=9)
+label(325, 576, 'UNNEEDED COPY CONFIRMED?', HexColor('#6d46bb'), 7)
+text(325, 595, 'Move it to Trash.', 'Bold', 21)
 para(325, 629, 227, 'Check your work before emptying Trash. While the file is there, select it and use File > Put Back to restore it.', 10.5, ink, 14)
 
 rule(44, 703, 524)
@@ -110,7 +110,7 @@ c.linkURL('https://trayage.app/blog/check-duplicate-files-on-mac/', (397, H-731,
 c.linkURL('https://trayage.app/download/', (480, H-731, 568, H-712), relative=0, thickness=0)
 para(44, 740, 524, 'Trayage 1.0 direct edition flags likely duplicates by normalized filename and size; it does not compare contents. You choose what moves to Trash. Trayage never empties it.', 8, muted, 10.5)
 label(44, 770, 'TRAYAGE.APP', size=6.5)
-text(467, 769, 'OCTOBER 7, 2026', 'Sans', 7, muted)
+text(467, 769, 'OCTOBER 14, 2026', 'Sans', 7, muted)
 c.showPage()
 c.save()
 print(OUT)

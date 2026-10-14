@@ -11,7 +11,7 @@
     if (preference === 'system') root.removeAttribute('data-theme');
     else root.dataset.theme = preference;
     const dark = preference === 'dark' || (preference === 'system' && system.matches);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#191c1a' : '#f7f6f2');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#191524' : '#f7f5fc');
     document.querySelectorAll('source[data-dark-source]').forEach(source => {
       source.media = dark ? 'all' : 'not all';
     });

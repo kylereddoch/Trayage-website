@@ -45,7 +45,7 @@
   .article-body figure { margin-block: 32px; }
   .article-body figure img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
   .article-body figcaption { margin-top: 10px; font-size: 13px; line-height: 1.6; color: var(--muted); }
-  .guide-download { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 28px; align-items: center; padding: 24px; margin-block: 28px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-raised); }
+  .guide-download { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 32px; align-items: center; padding: 32px; margin-block: 32px; border: 0; border-radius: 24px; background: var(--panel-lavender); }
   .guide-download img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 4px; }
   .guide-download h3 { margin: 12px 0; font-size: 24px; line-height: 1.2; }
   .guide-download p:not(.eyebrow) { font-size: 15px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 14px; }

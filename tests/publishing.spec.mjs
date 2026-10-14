@@ -20,8 +20,8 @@ import { layout } from '../src/layout.mjs';
 const readySite = {...site, publicationApproved:true, policiesApproved:true, releaseReady:true, checkoutEnabled:false};
 const preparing = {...releases, direct:{...releases.direct,status:'preparing'}, appStore:{...releases.appStore,status:'preparing'}};
 // Render-only fixtures. These links are not asserted to be published and are never requested.
-const direct = {...releases.direct,status:'available',version:'1.0',url:'https://github.com/kylereddoch/Trayage-website/releases/download/v1.0/Trayage.dmg',releasedAt:'2026-09-10',verifiedAt:'2026-09-10',notarized:true,format:'DMG',size:'25 MB',sizeBytes:25000000,sha256:'1234567890abcdef'.repeat(4)};
-const appStore = {...releases.appStore,build:releases.direct.build,status:'available',version:'1.0',url:'https://apps.apple.com/app/id6810382134',releasedAt:'2026-09-10',verifiedAt:'2026-09-10'};
+const direct = {...releases.direct,status:'available',version:'1.0',build:'4',url:'https://github.com/kylereddoch/Trayage-website/releases/download/v1.0/Trayage.dmg',releasedAt:'2026-09-10',verifiedAt:'2026-09-10',notarized:true,format:'DMG',size:'25 MB',sizeBytes:25000000,sha256:'1234567890abcdef'.repeat(4)};
+const appStore = {...releases.appStore,build:direct.build,status:'available',version:'1.0',url:'https://apps.apple.com/app/id6810382134',releasedAt:'2026-09-10',verifiedAt:'2026-09-10'};
 
 test('direct and Apple can launch independently, and shared CTAs follow availability', () => {
   for (const [isDirect,isApple] of [[false,false],[true,false],[false,true],[true,true]]) {
@@ -77,6 +77,7 @@ test('roadmap completion is separate from a public release', () => {
   const source = structuredClone(roadmapBaseline);
   const item = source.items.find(i=>i.id==='folder-monitoring');
   item.status='completed';
+  item.release=null;
   let html=renderRoadmap({base:'/',site,roadmap:source});
   expect(html).toContain('Built · not released');
   item.release={version:'1.1',date:'2026-10-01'};
@@ -107,7 +108,7 @@ test('media ZIP contains the same facts, artwork and screenshots as the page',as
 
 test('changelog preserves prerelease status, separate channel dates, and older release history', () => {
   validateChangelog(changelog);
-  const entry = structuredClone(changelog.entries[0]);
+  const entry = structuredClone(changelog.entries.find(entry => entry.version === '1.0' && entry.build === '4'));
   entry.releaseHistory={};
   const preview = renderChangelog({base:'/Trayage-website/', changelog:{entries:[entry]}, releases:preparing});
   expect(preview).toContain(`Prerelease · Build ${entry.build}`);
@@ -134,8 +135,8 @@ test('changelog preserves prerelease status, separate channel dates, and older r
 test('changelog and purchase wording retain the publisher and developer distinction', async ({page}) => {
   await page.goto('http://127.0.0.1:4176/Trayage-website/changelog/');
   const released = entryReleases(changelog.entries[0],releases);
-  if (!Object.keys(released).length) await expect(page.locator(`#version-1-0-build-${changelog.entries[0].build}`)).toContainText(`Prerelease · Build ${changelog.entries[0].build}`);
-  await expect(page.locator(`#version-1-0-build-${changelog.entries[0].build} time`)).toHaveCount(Object.keys(released).length);
+  if (!Object.keys(released).length) await expect(page.locator(`#version-${changelog.entries[0].version.replaceAll('.', '-')}-build-${changelog.entries[0].build}`)).toContainText(`Prerelease · Build ${changelog.entries[0].build}`);
+  await expect(page.locator(`#version-${changelog.entries[0].version.replaceAll('.', '-')}-build-${changelog.entries[0].build} time`)).toHaveCount(Object.keys(released).length);
   await expect(page.locator('.footer-bottom')).toContainText('© 2026 RelayByte');
   await expect(page.locator('.publisher')).toContainText('Made by Kyle Reddoch.');
   await page.goto('http://127.0.0.1:4176/Trayage-website/download/');

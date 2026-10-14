@@ -17,7 +17,7 @@ for (const base of ['http://127.0.0.1:4175/','http://127.0.0.1:4176/Trayage-webs
   await expect(page.locator('.home-faq-grid')).toContainText('no automatic charge');
   await expect(page.locator('.home-faq-grid')).toContainText('confirm before they move to Trash');
   await page.getByText('Read the video transcript',{exact:true}).click();
-  await expect(page.locator('.walkthrough-transcript')).toContainText('Trayage 1.0 has not compared their contents');
+  await expect(page.locator('.walkthrough-transcript')).toContainText('SHA-256 content check in Trayage 1.1');
   const graph=JSON.parse(await page.locator('script[type="application/ld+json"]').textContent())['@graph'];
   const faq=graph.find(n=>n['@type']==='FAQPage');
   expect(faq.mainEntity.map(q=>q.name)).toEqual(await page.locator('.home-faq-grid h3').allTextContents());
@@ -25,7 +25,7 @@ for (const base of ['http://127.0.0.1:4175/','http://127.0.0.1:4176/Trayage-webs
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Why Trayage?',exact:true}).click();
   await expect(page.locator('h1')).toContainText('Where should you start?');
   await expect(page.locator('#example')).toContainText('Trayage.dmg');
-  await expect(page.locator('#limits')).toContainText('does not compare file contents');
+  await expect(page.locator('#limits')).toContainText('It is not a whole-disk duplicate search');
   await expect(page.locator('.cleanup-options-grid article')).toHaveCount(3);
   await expect(page.locator('.cleanup-options-grid')).toContainText('US$9.99 once');
   await expect(page.locator('#sources')).toContainText('Trayage’s developer');

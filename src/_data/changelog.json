@@ -1,6 +1,41 @@
 {
   "entries": [
     {
+      "version": "1.1",
+      "build": "7",
+      "title": "Give Downloads a second look.",
+      "summary": "A new look shaped by your feedback, with more ways to find files worth reviewing.",
+      "releaseHistory": {
+        "direct": "2026-10-14"
+      },
+      "highlights": [
+        {
+          "title": "A new look, light or dark",
+          "description": "A new tray icon, violet colors, and a redesigned overview. Choose Glance or Quick review for the menu bar."
+        },
+        {
+          "title": "Make the review your own",
+          "description": "Start with 14 smart-filter presets or save your own All/Any rules. Preview matches, pin favorites, and set age and size thresholds."
+        },
+        {
+          "title": "Check likely duplicates locally",
+          "description": "Compare candidate file contents on your Mac, then decide which copies you need. Nothing is selected automatically."
+        },
+        {
+          "title": "Keep what matters",
+          "description": "Hide a suggestion while keeping its file, and restore hidden suggestions in Settings. Optional folder-size reminders help you keep track of growing folders."
+        },
+        {
+          "title": "Clearer controls",
+          "description": "Refined Settings and Billing, text sizes up to 200%, and visible refresh feedback. A personal thank-you from Kyle is available again in About."
+        },
+        {
+          "title": "Your existing purchase stays with you",
+          "description": "The direct edition continues to use Stripe checkout and Keylight licenses. Existing settings and direct licenses stay with your installation. App Store purchases remain separate."
+        }
+      ]
+    },
+    {
       "version": "1.0",
       "build": "4",
       "title": "Updates, made easier.",
@@ -19,7 +54,7 @@
         },
         {
           "title": "Appearance follows your Mac",
-          "description": "Switching from Light to Device appearance now follows your Mac\u2019s setting and keeps billing controls readable."
+          "description": "Switching from Light to Device appearance now follows your Mac’s setting and keeps billing controls readable."
         },
         {
           "title": "A one-time step for earlier builds",

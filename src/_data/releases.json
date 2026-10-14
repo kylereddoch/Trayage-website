@@ -1,19 +1,19 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-14",
   "minimumMacOS": "14",
   "direct": {
     "status": "available",
-    "version": "1.0",
-    "url": "https://github.com/kylereddoch/Trayage-website/releases/download/v1.0-4/Trayage-1.0-4-universal.dmg",
-    "releasedAt": "2026-09-11",
-    "verifiedAt": "2026-09-11",
+    "version": "1.1",
+    "url": "https://github.com/kylereddoch/Trayage-website/releases/download/v1.1-7/Trayage-1.1-7-universal.dmg",
+    "releasedAt": "2026-10-14",
+    "verifiedAt": "2026-10-14",
     "notarized": true,
     "architectures": "Apple silicon + Intel",
     "format": "DMG",
-    "size": "3.46 MB",
-    "sizeBytes": 3458935,
-    "sha256": "1e123edbce2212dd8f2ae9823c7eec2974f2f73df53c30ef501be336950a4ab4",
-    "build": "4"
+    "size": "7.92 MB",
+    "sizeBytes": 7921328,
+    "sha256": "de8d142a10f10cbc12e8c37349398a5b3aba9da8e63930ec7ec0d177a520d42c",
+    "build": "7"
   },
   "appStore": {
     "status": "available",
@@ -23,6 +23,8 @@
     "url": "https://apps.apple.com/us/app/trayage/id6810382134",
     "releasedAt": "2026-10-12",
     "verifiedAt": "2026-10-12",
-    "badgePath": "assets/mac-app-store-badge.svg"
+    "badgePath": "assets/mac-app-store-badge.svg",
+    "pendingVersion": "1.1",
+    "updateStatus": "coming-next"
   }
 }

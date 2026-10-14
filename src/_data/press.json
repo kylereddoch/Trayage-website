@@ -1,52 +1,52 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-14",
   "tagline": "Give Downloads a second look.",
   "shortDescription": "Trayage is a Mac app that flags installers, likely duplicates, and large or older downloads with a reason for each suggestion. Start with files worth checking, review them free, and confirm what moves to Trash. File analysis stays on your Mac.",
-  "longDescription": "Trayage gives you a starting point for cleaning up Downloads. It groups disk images, likely duplicates, older or larger files, and recent downloads, with a plain-language explanation of why each file stands out. Reveal a file in Finder, ignore a suggestion for the current review, or select files to move to Trash after confirmation. Trayage lives in the menu bar, with a full review window and an optional Dock presence. Built by Kyle Reddoch under the RelayByte brand, it is designed for macOS 14 and later.",
+  "longDescription": "Trayage gives you a starting point for cleaning up Downloads. It groups disk images, likely duplicates, older or larger files, and recent downloads, with a plain-language explanation of why each file stands out. Reveal a file in Finder, hide a suggestion while keeping its file, or select files to move to Trash after confirmation. Trayage lives in the menu bar, with a full review window and an optional Dock presence. Built by Kyle Reddoch under the RelayByte brand, it is designed for macOS 14 and later.",
   "developerBio": "Kyle Reddoch is an independent developer based in Texas, United States. RelayByte is the home for his apps. His background in cybersecurity informs an emphasis on clear permissions, local processing, and controls people can understand.",
   "screenshots": [
     {
-      "path": "assets/media/trayage-review-light.png",
-      "title": "Review window \u00b7 light appearance",
-      "alt": "Trayage in light appearance, showing eight sample files grouped for review and details for a possible duplicate.",
-      "caption": "Prerelease App Store edition \u00b7 1.0 \u00b7 2560 \u00d7 1600 PNG \u00b7 Captured September 10, 2026 on macOS 27 beta. Synthetic files and sizes; no measured disk-savings claim."
+      "path": "assets/brand-violet/overview-light.png",
+      "title": "Downloads overview · light appearance",
+      "alt": "Trayage 1.1 in light appearance, showing a Downloads overview with sample files.",
+      "caption": "Trayage 1.1 · 2560 × 1600 PNG · Sample files; no measured disk-savings claim."
     },
     {
-      "path": "assets/media/trayage-review-dark.png",
-      "title": "Review window \u00b7 dark appearance",
-      "alt": "Trayage in dark appearance, showing eight sample files grouped for review and details for a large recording.",
-      "caption": "Prerelease App Store edition \u00b7 1.0 \u00b7 2560 \u00d7 1600 PNG \u00b7 Captured September 10, 2026 on macOS 27 beta. Synthetic files and sizes; no measured disk-savings claim."
+      "path": "assets/brand-violet/overview-dark.png",
+      "title": "Downloads overview · dark appearance",
+      "alt": "Trayage 1.1 in dark appearance, showing a Downloads overview with sample files.",
+      "caption": "Trayage 1.1 · 2560 × 1600 PNG · Sample files; no measured disk-savings claim."
     }
   ],
   "assets": [
     {
-      "path": "assets/media/trayage-icon-1024.png",
+      "path": "assets/brand-violet/trayage-app-icon.png",
       "label": "Trayage app icon",
-      "format": "PNG \u00b7 1024 \u00d7 1024",
+      "format": "PNG · 1024 × 1024",
       "kind": "product"
     },
     {
-      "path": "assets/media/trayage-icon-512.png",
-      "label": "Trayage app icon, smaller",
-      "format": "PNG \u00b7 512 \u00d7 512",
+      "path": "assets/brand-violet/trayage-app-icon-dark.png",
+      "label": "Trayage app icon, dark appearance",
+      "format": "PNG · 1024 × 1024",
       "kind": "product"
     },
     {
       "path": "assets/media/relaybyte-symbol.svg",
       "label": "RelayByte publisher symbol",
-      "format": "SVG \u00b7 scalable",
+      "format": "SVG · scalable",
       "kind": "publisher"
     },
     {
       "path": "assets/media/relaybyte-lockup-ink.svg",
       "label": "RelayByte wordmark for light backgrounds",
-      "format": "SVG \u00b7 scalable",
+      "format": "SVG · scalable",
       "kind": "publisher"
     },
     {
       "path": "assets/media/relaybyte-lockup-paper.svg",
       "label": "RelayByte wordmark for dark backgrounds",
-      "format": "SVG \u00b7 scalable",
+      "format": "SVG · scalable",
       "kind": "publisher"
     }
   ]

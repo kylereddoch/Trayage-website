@@ -105,7 +105,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <meta name="viewport" content="width=device-width, initial-scale=1">
   ${site.links.mastodon?`<link rel="me" href="${escape(site.links.mastodon)}">`:''}
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f7f6f2">
+  <meta name="theme-color" content="#f7f5fc">
   <meta name="description" content="${escape(description)}">
   <meta name="author" content="${escape(site.publisher)}">
   <meta name="application-name" content="${escape(site.name)}">
@@ -131,8 +131,8 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   ${socialImage ? `<meta name="twitter:image" content="${escape(socialImage)}"><meta name="twitter:image:alt" content="${escape(socialAlt)}">` : ''}
   ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title, description, article, published, updated, category, collections, faqs, articleImage, articleText, socialKey }))}</script>` : ''}
   ${site.publicationApproved && site.origin ? `<link rel="alternate" type="application/rss+xml" title="Trayage Blog" href="${url('blog/feed.xml')}">` : ''}
-  <link rel="icon" type="image/png" sizes="64x64" href="${url('assets/favicon.png')}">
-  <link rel="apple-touch-icon" href="${url('assets/app-icon.png')}">
+  <link rel="icon" type="image/png" sizes="1024x1024" href="${url('assets/brand-violet/trayage-app-icon.png')}">
+  <link rel="apple-touch-icon" href="${url('assets/brand-violet/trayage-app-icon.png')}">
   <script src="${url('assets/theme.js')}"></script>
   <link rel="stylesheet" href="${url('assets/site.css')}">
   <link rel="stylesheet" href="${url('assets/theme.css')}">
@@ -146,7 +146,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
 <body class="${kind}">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
-    <a class="brand" href="${url()}" aria-label="Trayage home"><img src="${url('assets/app-icon.png')}" width="43" height="43" alt=""><span>Trayage<span class="brand-dot">.</span></span></a>
+    <a class="brand" href="${url()}" aria-label="Trayage home"><picture><source data-dark-source media="(prefers-color-scheme: dark)" srcset="${url('assets/brand-violet/trayage-app-icon-dark.png')}"><img src="${url('assets/brand-violet/trayage-app-icon.png')}" width="43" height="43" alt=""></picture><span>Trayage<span class="brand-dot">.</span></span></a>
     <nav aria-label="Main navigation">
       <a href="${url('#how-it-works')}">How it works</a>
       <a href="${url('#pricing')}">Pricing</a>
@@ -157,7 +157,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   </header>
   <main id="main" tabindex="-1">${path && path !== '404.html' ? `<nav class="wrap breadcrumbs" aria-label="Breadcrumb"><ol>${breadcrumbItems(path, title, category).map((item, index, items) => `<li>${index === items.length - 1 ? `<span aria-current="page">${escape(item.name)}</span>` : `<a href="${url(item.path)}">${escape(item.name)}</a>`}</li>`).join('')}</ol></nav>` : ''}${body}</main>
   <footer class="site-footer wrap">
-    <div class="footer-top"><div><a class="brand" href="${url()}"><img src="${url('assets/app-icon.png')}" width="36" height="36" alt=""><span>Trayage<span class="brand-dot">.</span></span></a><p>Give Downloads a second look.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
+    <div class="footer-top"><div><a class="brand" href="${url()}"><picture><source data-dark-source media="(prefers-color-scheme: dark)" srcset="${url('assets/brand-violet/trayage-app-icon-dark.png')}"><img src="${url('assets/brand-violet/trayage-app-icon.png')}" width="36" height="36" alt=""></picture><span>Trayage<span class="brand-dot">.</span></span></a><p>Give Downloads a second look.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
     <div class="footer-bottom"><p>© 2026 <a href="${escape(site.publisherURL)}">${publisherBrand}</a></p><nav aria-label="Footer navigation"><a href="${url('compare/')}">Why Trayage?</a><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Planned features</a><a href="${url('blog/')}">Blog</a><a href="${url('about/')}">About</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
     ${!site.publicationApproved ? '<p class="preview-footer">Local review preview · Not published · Policy text remains a draft</p>' : ''}
   </footer>

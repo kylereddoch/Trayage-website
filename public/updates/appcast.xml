@@ -1,8 +1,34 @@
-<?xml version="1.0" standalone="yes"?><!-- sparkle-sign-warning:
+<?xml version="1.0" standalone="yes"?>
+<!-- sparkle-sign-warning:
 IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
---><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+-->
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
         <title>Trayage</title>
+        <item>
+            <title>1.1</title>
+            <pubDate>Wed, 14 Oct 2026 16:26:34 -0500</pubDate>
+            <link>https://trayage.app/download/</link>
+            <sparkle:fullReleaseNotesLink>https://trayage.app/changelog/</sparkle:fullReleaseNotesLink>
+            <sparkle:version>7</sparkle:version>
+            <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h2>Trayage 1.1 (7)</h2>
+<p>A new look shaped by your feedback, with more ways to give Downloads a second look.</p>
+<ul>
+  <li>A new tray icon, violet colors, and a redesigned overview in light and dark modes.</li>
+  <li>Choose Glance or Quick review for your menu bar.</li>
+  <li>Start with 14 smart-filter presets or save your own All/Any rules. Preview matches and pin favorites.</li>
+  <li>Hide suggestions while keeping their files, and restore hidden suggestions in Settings.</li>
+  <li>Compare likely duplicate downloads locally and set optional folder-size reminders.</li>
+  <li>Clearer Settings and Billing, text sizes up to 200%, and visible refresh feedback.</li>
+  <li>A personal thank-you from Kyle, available again in About.</li>
+</ul>
+<p>File review stays on your Mac. Nothing is selected or removed automatically: you choose files and confirm before they move to Trash. Trayage never empties Trash.</p>
+<p>This is the direct-download edition for macOS 14 or later, on Apple silicon and Intel Macs. Your existing settings and direct license stay with your installation. Stripe checkout and Keylight licenses remain unchanged; Apple purchases are separate.</p>
+]]></description>
+            <enclosure url="https://github.com/kylereddoch/Trayage-website/releases/download/v1.1-7/Trayage-1.1-7-universal.dmg" length="7921328" type="application/octet-stream" sparkle:edSignature="HdWDzyyjnx5egDgNWPTC4z1bvhc4o0QrmHzG44TlY6nLcb0gGGDpjcQOOibiL2N+683Vjpv5L7c+7SKhjd83Bg=="/>
+        </item>
         <item>
             <title>1.0</title>
             <pubDate>Fri, 11 Sep 2026 16:39:17 -0500</pubDate>
@@ -20,10 +46,11 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
 </ul>
 <p>Your existing settings and direct license stay with your installation. This update does not change your purchase terms.</p>
 ]]></description>
-            <enclosure url="https://github.com/kylereddoch/Trayage-website/releases/download/v1.0-4/Trayage-1.0-4-universal.dmg" length="3458935" type="application/octet-stream" sparkle:edSignature="ZF0TaRycEujgAD46spQn5CPe9kaWgZuqrcr0IOiPr5K+fz3+MGbo2ihbeV4LUY2+arPQbSLM5z1zaBfVxErBBQ=="></enclosure>
+            <enclosure url="https://github.com/kylereddoch/Trayage-website/releases/download/v1.1-7/Trayage-1.0-4-universal.dmg" length="3458935" type="application/octet-stream" sparkle:edSignature="ZF0TaRycEujgAD46spQn5CPe9kaWgZuqrcr0IOiPr5K+fz3+MGbo2ihbeV4LUY2+arPQbSLM5z1zaBfVxErBBQ=="/>
         </item>
     </channel>
-</rss><!-- sparkle-signatures:
-edSignature: oHi115eC9YMTMEhLuPlUQQm81PdVqxJFt7/t9qThzA+zWv8vuBigJOCycD1aRplRXgyZ3lMmjWvyUQ5qdtnnBw==
-length: 1847
+</rss>
+<!-- sparkle-signatures:
+edSignature: xKzK+SBqqc5ACFkJCu1yXtBCqJbKREDvlXRArIqtyznw+ILzksGPxCnM+ticuC4JPWMJuT1STUhMJNlAmqjxBg==
+length: 3841
 -->

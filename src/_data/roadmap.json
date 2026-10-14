@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-14",
   "items": [
     {
       "id": "direct-launch",
@@ -36,56 +36,72 @@
       "id": "folder-monitoring",
       "title": "Keep the review up to date",
       "description": "Choose how often Trayage checks the selected folder for changes, then refresh suggestions as downloads arrive.",
-      "status": "beta",
+      "status": "completed",
       "area": "File review",
-      "release": null,
+      "release": {
+        "version": "1.1",
+        "date": "2026-10-14",
+        "url": "https://github.com/kylereddoch/Trayage-website/releases/tag/v1.1-7"
+      },
       "issue": 3,
       "delivery": {
-        "status": "beta",
+        "status": "completed",
         "version": "1.1",
-        "verifiedAt": "2026-10-12"
+        "verifiedAt": "2026-10-14"
       }
     },
     {
       "id": "custom-thresholds",
       "title": "Your definition of old or large",
       "description": "Set the age and file-size thresholds used to flag downloads for review.",
-      "status": "beta",
+      "status": "completed",
       "area": "Preferences",
-      "release": null,
+      "release": {
+        "version": "1.1",
+        "date": "2026-10-14",
+        "url": "https://github.com/kylereddoch/Trayage-website/releases/tag/v1.1-7"
+      },
       "issue": 4,
       "delivery": {
-        "status": "beta",
+        "status": "completed",
         "version": "1.1",
-        "verifiedAt": "2026-10-12"
+        "verifiedAt": "2026-10-14"
       }
     },
     {
       "id": "content-verification",
-      "title": "Check what\u2019s inside likely duplicates",
+      "title": "Check what’s inside likely duplicates",
       "description": "Check candidate duplicates locally using file contents, beyond the initial filename and size suggestions.",
-      "status": "beta",
+      "status": "completed",
       "area": "File review",
-      "release": null,
+      "release": {
+        "version": "1.1",
+        "date": "2026-10-14",
+        "url": "https://github.com/kylereddoch/Trayage-website/releases/tag/v1.1-7"
+      },
       "issue": 5,
       "delivery": {
-        "status": "beta",
+        "status": "completed",
         "version": "1.1",
-        "verifiedAt": "2026-10-12"
+        "verifiedAt": "2026-10-14"
       }
     },
     {
       "id": "persistent-ignores",
       "title": "Remember what you want to keep",
       "description": "Remember ignored files between reviews and restore them to the review when you need to.",
-      "status": "beta",
+      "status": "completed",
       "area": "File review",
-      "release": null,
+      "release": {
+        "version": "1.1",
+        "date": "2026-10-14",
+        "url": "https://github.com/kylereddoch/Trayage-website/releases/tag/v1.1-7"
+      },
       "issue": 6,
       "delivery": {
-        "status": "beta",
+        "status": "completed",
         "version": "1.1",
-        "verifiedAt": "2026-10-12"
+        "verifiedAt": "2026-10-14"
       }
     },
     {
@@ -129,7 +145,7 @@
     },
     {
       "id": "appearance",
-      "title": "Light, dark, or your Mac\u2019s appearance",
+      "title": "Light, dark, or your Mac’s appearance",
       "description": "Choose the look that suits your workspace, with the same review controls in each appearance.",
       "status": "completed",
       "area": "Interface",
@@ -143,22 +159,26 @@
     {
       "id": "first-review-clarity",
       "title": "Make the first review clear and safe",
-      "description": "Use clearer review guidance, file reasons, storage-by-type views, filters, sorting, and Workspace or Sidebar layouts.",
-      "status": "beta",
+      "description": "A redesigned overview, clearer file reasons, smart filters, sorting, and Glance or Quick review menu-bar views.",
+      "status": "completed",
       "area": "First-run experience",
-      "release": null,
+      "release": {
+        "version": "1.1",
+        "date": "2026-10-14",
+        "url": "https://github.com/kylereddoch/Trayage-website/releases/tag/v1.1-7"
+      },
       "issue": 11,
       "delivery": {
-        "status": "beta",
+        "status": "completed",
         "version": "1.1",
-        "verifiedAt": "2026-10-12"
+        "verifiedAt": "2026-10-14"
       }
     },
     {
       "id": "accessibility-validation",
       "issue": 12,
       "title": "Check accessibility across the 1.1 workflows",
-      "description": "Larger-text controls are in the beta. Full keyboard, VoiceOver, Voice Control, contrast, and other applicable accessibility checks still need validation before support claims are made.",
+      "description": "Larger-text controls are available in direct 1.1. Full keyboard, VoiceOver, Voice Control, contrast, and other applicable accessibility checks still need validation before support claims are made.",
       "status": "in-progress",
       "area": "Accessibility",
       "release": null,
@@ -169,10 +189,8 @@
       }
     }
   ],
-  "beta": {
+  "directRelease": {
     "version": "1.1",
-    "build": "4",
-    "verifiedAt": "2026-10-12",
-    "status": "IN_BETA_TESTING"
+    "date": "2026-10-14"
   }
 }

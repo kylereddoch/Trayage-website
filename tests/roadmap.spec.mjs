@@ -104,7 +104,11 @@ test('roadmap links open the right GitHub forms and retain private email support
 });
 
 test('verified release and beta delivery survive stale issue snapshots', () => {
- const result=resolveRoadmap(baseline,from([issue(2),issue(3),issue(12)]));
+ const betaBaseline=structuredClone(baseline);
+ const betaItem=betaBaseline.items.find(item=>item.id==='folder-monitoring');
+ betaItem.status=betaItem.delivery.status='beta';
+ betaItem.release=null;
+ const result=resolveRoadmap(betaBaseline,from([issue(2),issue(3),issue(12)]));
  expect(result.items[0].status).toBe('completed');
  expect(result.items[0].release.url).toContain('apps.apple.com');
  expect(result.items[1].status).toBe('beta');

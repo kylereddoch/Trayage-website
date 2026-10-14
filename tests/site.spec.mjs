@@ -60,7 +60,7 @@ test('keyboard: skip link, screenshot link, and native FAQ disclosures work',asy
   await page.keyboard.press('Enter');
   await expect(page.locator('main')).toBeFocused();
   await expect(page.getByRole('link',{name:'View the full Trayage app screenshot'})).toBeVisible();
-  await expect(page.locator('.macbook-screen img')).toHaveJSProperty('naturalWidth',2560);
+  await expect(page.locator('.native-preview img')).toHaveJSProperty('naturalWidth',2560);
   await page.goto(hosts[1].url+'support/');
   const question=page.locator('summary').filter({hasText:'How do I activate my license?'});
   await question.focus();
@@ -104,9 +104,9 @@ test('without JavaScript: content, FAQs, and system dark mode work',async({brows
   const context=await browser.newContext({javaScriptEnabled:false,colorScheme:'dark',viewport:{width:390,height:844}});
   const page=await context.newPage();
   await page.goto(hosts[1].url);
-  await expect(page.locator('.macbook-screen img')).toBeVisible();
+  await expect(page.locator('.native-preview img')).toBeVisible();
   await expect(page.getByLabel('Appearance')).toBeHidden();
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Support',exact:true}).click();
   await page.locator('summary').filter({hasText:'Will I have to buy the next major version?'}).click();
   await expect(page.locator('details[open]')).toContainText(['Where can I download','Will I have to buy']);
@@ -227,11 +227,11 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing.svg');
   const select=page.getByLabel('Appearance');
   await expect(select).toHaveValue('system');
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-light')).toBeHidden();
   await page.emulateMedia({colorScheme:'light'});
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 246, 242)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 245, 252)');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg');
   await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light');
@@ -239,7 +239,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect(page.locator('.launchnest-badge .badge-light')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeHidden();
   await select.selectOption('dark');
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg?theme=dark');
   await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=dark');
@@ -248,16 +248,16 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Privacy',exact:true}).click();
   await expect(select).toHaveValue('dark');
   await page.reload();
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   expect(await page.evaluate(()=>Object.entries(localStorage))).toEqual([['trayage-appearance','dark']]);
   const other=await page.context().newPage();
   await other.goto(hosts[0].url+'terms/');
   await select.selectOption('light');
   await expect(other.getByLabel('Appearance')).toHaveValue('light');
   await page.emulateMedia({colorScheme:'dark'});
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 246, 242)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 245, 252)');
   await select.selectOption('system');
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await expect(other.getByLabel('Appearance')).toHaveValue('system');
   expect(await page.evaluate(()=>localStorage.length)).toBe(0);
   await page.emulateMedia({media:'print'});
@@ -273,9 +273,9 @@ test('appearance selector works when browser storage is unavailable',async({page
   await page.emulateMedia({colorScheme:'light'});
   await page.goto(hosts[1].url+'refunds/');
   await page.getByLabel('Appearance').selectOption('dark');
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 28, 26)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await page.getByLabel('Appearance').selectOption('system');
-  await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 246, 242)');
+  await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 245, 252)');
   expect(errors).toEqual([]);
 });
 
