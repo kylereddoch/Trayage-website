@@ -7,6 +7,25 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
         <title>Trayage</title>
         <item>
             <title>1.1</title>
+            <pubDate>Wed, 14 Oct 2026 18:25:00 -0500</pubDate>
+            <link>https://trayage.app/download/</link>
+            <sparkle:fullReleaseNotesLink>https://trayage.app/changelog/</sparkle:fullReleaseNotesLink>
+            <sparkle:version>9</sparkle:version>
+            <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h2>Trayage 1.1 (9)</h2>
+<p>Trayage now costs US$9.99 once. The seven-day trial and free file review remain available.</p>
+<ul>
+  <li>The direct Buy action opens the updated $9.99 Stripe checkout.</li>
+  <li>Existing direct licenses and local settings continue to work.</li>
+  <li>Trayage 1.1 adds a redesigned overview, Glance and Quick review menu choices, smart filters, and local duplicate checks.</li>
+</ul>
+<p>This direct-download edition supports macOS 14 or later on Apple silicon and Intel Macs. Apple purchases remain separate from direct licenses. Trayage only moves files to Trash after you select and confirm them; it never empties Trash.</p>
+]]></description>
+            <enclosure url="https://github.com/kylereddoch/Trayage-website/releases/download/v1.1-9/Trayage-1.1-9-universal.dmg" length="7921315" type="application/octet-stream" sparkle:edSignature="t9dNkzBiexI2/D9XRMi1ywBnXKJcBiHIrsy/awJvP2QVjYLyEq4AUUEWvNQ0McriMGC5JB/Pokv9kc2LSSV0Ag=="/>
+        </item>
+        <item>
+            <title>1.1</title>
             <pubDate>Wed, 14 Oct 2026 16:26:34 -0500</pubDate>
             <link>https://trayage.app/download/</link>
             <sparkle:fullReleaseNotesLink>https://trayage.app/changelog/</sparkle:fullReleaseNotesLink>
@@ -46,11 +65,11 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
 </ul>
 <p>Your existing settings and direct license stay with your installation. This update does not change your purchase terms.</p>
 ]]></description>
-            <enclosure url="https://github.com/kylereddoch/Trayage-website/releases/download/v1.1-7/Trayage-1.0-4-universal.dmg" length="3458935" type="application/octet-stream" sparkle:edSignature="ZF0TaRycEujgAD46spQn5CPe9kaWgZuqrcr0IOiPr5K+fz3+MGbo2ihbeV4LUY2+arPQbSLM5z1zaBfVxErBBQ=="/>
+            <enclosure url="https://github.com/kylereddoch/Trayage-website/releases/download/v1.0-4/Trayage-1.0-4-universal.dmg" length="3458935" type="application/octet-stream" sparkle:edSignature="ZF0TaRycEujgAD46spQn5CPe9kaWgZuqrcr0IOiPr5K+fz3+MGbo2ihbeV4LUY2+arPQbSLM5z1zaBfVxErBBQ=="/>
         </item>
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: xKzK+SBqqc5ACFkJCu1yXtBCqJbKREDvlXRArIqtyznw+ILzksGPxCnM+ticuC4JPWMJuT1STUhMJNlAmqjxBg==
-length: 3841
+edSignature: EzqWvzVzApNuu0cku9XPAjByNTYzpq8RTz9BKqSdsg4Yt5gJc24HqP+woB5+RkC8P4cwWayDYl3sbzQ4FVnQAQ==
+length: 5324
 -->

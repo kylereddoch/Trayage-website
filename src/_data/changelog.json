@@ -2,6 +2,29 @@
   "entries": [
     {
       "version": "1.1",
+      "build": "9",
+      "title": "A lower one-time price.",
+      "summary": "Trayage now costs US$9.99 once. The direct app opens the updated checkout.",
+      "releaseHistory": {
+        "direct": "2026-10-14"
+      },
+      "highlights": [
+        {
+          "title": "Buy once for US$9.99",
+          "description": "The direct license is now US$9.99 once, for up to three active Macs, including all 1.x updates. The App Store offers a separate US$9.99 one-time unlock in the US; Apple shows local pricing before purchase."
+        },
+        {
+          "title": "Try it before buying",
+          "description": "File review stays free. The optional seven-day cleanup trial ends without an automatic charge."
+        },
+        {
+          "title": "Updated direct checkout",
+          "description": "The Buy action in the direct app opens the new checkout. Existing direct licenses continue to work."
+        }
+      ]
+    },
+    {
+      "version": "1.1",
       "build": "7",
       "title": "Give Downloads a second look.",
       "summary": "A new look shaped by your feedback, with more ways to find files worth reviewing.",

@@ -25,7 +25,7 @@
   },
   "links": {
     "testFlight": "https://testflight.apple.com/join/BtqzAZem",
-    "oneTime": "https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02",
+    "oneTime": "https://buy.stripe.com/8x2dR9evl89WbAh11x73G04",
     "billing": "https://billing.stripe.com/p/login/6oUfZhfzpbm8awd7pV73G00",
     "licenses": "https://portal.keylight.dev",
     "stripePrivacy": "https://stripe.com/privacy",
@@ -45,7 +45,7 @@
     "productHunt": "https://www.producthunt.com/products/trayage"
   },
   "pricing": {
-    "oneTimeUSD": "29.99",
+    "oneTimeUSD": "9.99",
     "trialDays": 7,
     "majorVersion": 1,
     "directDeviceLimit": 3,

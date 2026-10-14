@@ -100,9 +100,9 @@ test('media ZIP contains the same facts, artwork and screenshots as the page',as
   expect(facts).toContain(press.shortDescription);
   expect(facts).toContain(releaseSummary(releases));
   if (channelIsLive(releases,'direct') && !site.checkoutEnabled) expect(facts).toContain('new license purchases are still being finalized');
-  expect(facts).toContain('US$29.99 once');
+  expect(facts).toContain('US$9.99 once');
   expect(facts).toContain('free download and file review');
-  expect(facts).toContain('separate US$29.99 one-time in-app unlock');
+  expect(facts).toContain('separate US$9.99 one-time in-app unlock');
   expect(facts).not.toMatch(/license key:|\/Users\/|Keylight\.local/i);
 });
 
@@ -118,7 +118,7 @@ test('changelog preserves prerelease status, separate channel dates, and older r
   const staggered = {...preparing,direct,appStore:{...appStore,releasedAt:'2026-09-12'}};
   expect(entryReleases(entry,{...preparing,direct})).toEqual({direct:'2026-09-10'});
   expect(entryReleases(entry,staggered)).toEqual({direct:'2026-09-10',appStore:'2026-09-12'});
-  const live = renderChangelog({base:'/',changelog,releases:staggered});
+  const live = renderChangelog({base:'/',changelog:{entries:[entry]},releases:staggered});
   expect(live).not.toContain('Prerelease · Build');
   expect(live).toContain('datetime="2026-09-12"');
   entry.releaseHistory={direct:'2026-09-10'};
@@ -142,7 +142,7 @@ test('changelog and purchase wording retain the publisher and developer distinct
   await page.goto('http://127.0.0.1:4176/Trayage-website/download/');
   await expect(page.locator('#mac-app-store')).toContainText(/free download with in-app purchases/i);
   await expect(page.locator('#mac-app-store')).toContainText('no automatic charge');
-  await expect(page.locator('#mac-app-store')).toContainText('Separate US$29.99 one-time in-app unlock');
+  await expect(page.locator('#mac-app-store')).toContainText('Separate US$9.99 one-time in-app unlock');
   await page.goto('http://127.0.0.1:4176/Trayage-website/terms/');
   await expect(page.locator('#publisher')).toContainText('published by Kyle Reddoch under the RelayByte brand');
   await expect(page.locator('#apple')).toContainText('File review is free.');

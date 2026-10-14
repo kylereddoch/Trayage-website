@@ -81,7 +81,7 @@ test('keyboard: skip link, screenshot link, and native FAQ disclosures work',asy
 
 test('one-time offer uses approved pricing and only enables verified release channels',async({page})=>{
   await page.goto(hosts[0].url);
-  await expect(page.locator('.price')).toContainText(['US$29.99 once']);
+  await expect(page.locator('.price')).toContainText(['US$9.99 once']);
   await expect(page.locator('a[href^="https://buy.stripe.com"]')).toHaveCount(0);
   await expect(page.locator('a[download]')).toHaveCount(0);
   await expect(page.locator('.pricing-strip .button')).toHaveCount(1);
@@ -102,7 +102,7 @@ test('one-time offer uses approved pricing and only enables verified release cha
   await expect(page.locator('.hero-offer')).toHaveCount(0);
   await expect(page.locator('#pricing')).toContainText('7-day cleanup trial');
   await expect(page.locator('#pricing')).toContainText('Optional paid major upgrades');
-  expect(site.links.oneTime).toBe('https://buy.stripe.com/4gM3cv72T0Huawd5hN73G02');
+  expect(site.links.oneTime).toBe('https://buy.stripe.com/8x2dR9evl89WbAh11x73G04');
   expect(()=>validateLaunch(site,true)).not.toThrow();
   expect(()=>validateLaunch({...site,publicationApproved:false},true)).toThrow(/Publication is not approved/);
   expect(()=>validateLaunch({...site,checkoutEnabled:true,releaseReady:false})).toThrow(/Checkout requires/);
@@ -311,7 +311,7 @@ test('policies distinguish direct and Apple purchases and disclose support and s
   await page.goto(hosts[1].url+'terms/');
   await expect(page.locator(`#apple a[href="${site.links.appleEULA}"]`)).toBeVisible();
   await expect(page.locator('#plans')).toContainText('not an App Store device restriction');
-  await expect(page.locator('#plans')).toContainText('US$29.99 once');
+  await expect(page.locator('#plans')).toContainText('US$9.99 once');
   await expect(page.locator('#upgrades')).toContainText('discounted pricing for existing owners');
   await expect(page.locator('#trial')).toContainText('7-day in-app trial');
   for (const route of routes) {
