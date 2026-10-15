@@ -23,7 +23,7 @@ export default function ({ site, releases, base, collections }) {
 
 > ${appDescription}
 
-Trayage reviews files locally in a folder you choose on macOS ${releases.minimumMacOS} or later. Suggestions include installers, possible repeat downloads, and large or older files, with reasons to review them. Suggestions do not mean a file is unnecessary. The direct 1.1 edition can compare likely duplicate contents locally. Matching contents does not mean a copy is unnecessary. The Mac App Store 1.0 edition uses names and sizes without content comparison; its 1.1 update is coming next.
+Trayage reviews files locally in a folder you choose on macOS ${releases.minimumMacOS} or later. Suggestions include installers, possible repeat downloads, and large or older files, with reasons to review them. Suggestions do not mean a file is unnecessary. Trayage 1.1 can compare likely duplicate contents locally. Matching contents does not mean a copy is unnecessary. Current versions for each edition are listed below.
 
 You select files and confirm before Trayage moves them to Trash. Moving to Trash is not permanent deletion. Trayage does not empty the Trash.
 

@@ -41,7 +41,7 @@ export function resolveRoadmap(baseline, snapshot) {
       id: previous?.id || `issue-${issue.number}`,
       title: previous?.delivery ? previous.title : issue.title,
       description: previous?.delivery ? previous.description : issue.description,
-      area: issue.area,
+      area: previous?.delivery ? previous.area : issue.area,
       status: previous?.delivery?.status || issue.status,
       ...(previous?.delivery ? {delivery: previous.delivery} : {}),
       issue: issue.number,

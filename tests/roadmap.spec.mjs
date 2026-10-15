@@ -4,6 +4,7 @@ import {validateRoadmap} from '../src/_lib/releases.js';
 import renderRoadmap from '../src/roadmap.11ty.js';
 import baseline from '../src/_data/roadmap.json' with {type:'json'};
 import snapshot from '../src/_data/roadmapIssues.json' with {type:'json'};
+import releases from '../src/_data/releases.json' with {type:'json'};
 import site from '../src/_data/site.json' with {type:'json'};
 
 const issue = (number, overrides = {}) => ({number, title:'[Idea] A useful improvement', body:'### Summary\n\nMake reviewing files easier.\n\n### Area\n\nFile review\n\n### Anything else?\n\nNot copied onto the website.', labels:[{name:'roadmap'}], state:'open', state_reason:null, updated_at:'2026-09-10T12:00:00Z', ...overrides});
@@ -45,7 +46,7 @@ test('exploratory ideas use the normal cards and follow GitHub status changes', 
   expect(result.items[0].status).toBe('under-consideration');
   expect(result.items[0].release).toBeNull();
   validateRoadmap(result);
-  const html = renderRoadmap({base:'/',site,roadmap:baseline,roadmapIssues:from([exploratory])});
+  const html = renderRoadmap({base:'/',site,releases,roadmap:baseline,roadmapIssues:from([exploratory])});
   expect(html).toContain('href="#under-consideration">Under consideration <span>1</span>');
   expect(html).toContain('id="feature-issue-106"');
   expect(html).toContain(`https://github.com/${issueRepository}/issues/106`);
@@ -60,7 +61,7 @@ test('exploratory ideas use the normal cards and follow GitHub status changes', 
 
 test('issue text is escaped and issue links cannot supply an arbitrary destination', () => {
   const malicious = from([issue(101,{title:'<img src=x onerror=alert(1)>',body:'### Summary\n\n<script>alert(1)</script>\n\n### Area\n\n<script>'})]);
-  const html=renderRoadmap({base:'/',site,roadmap:baseline,roadmapIssues:malicious});
+  const html=renderRoadmap({base:'/',site,releases,roadmap:baseline,roadmapIssues:malicious});
   expect(html).not.toContain('<script>');
   expect(html).not.toContain('<img src=x');
   expect(html).toContain('&lt;script&gt;');
@@ -115,5 +116,19 @@ test('verified release and beta delivery survive stale issue snapshots', () => {
  expect(result.items[1].delivery.version).toBe('1.1');
  expect(result.items[1].release).toBeNull();
  expect(result.items[2].status).toBe('in-progress');
+ expect(result.items[2].area).toBe('Accessibility');
  validateRoadmap(result);
+});
+
+
+test('roadmap release summary follows both channels without changing historical milestones', () => {
+  const current = {...releases, direct:{...releases.direct, version:'1.2'}, appStore:{...releases.appStore, version:'1.1'}};
+  const html = renderRoadmap({base:'/',site,releases:current,roadmap:baseline,roadmapIssues:snapshot});
+  expect(html).toContain('Direct download: v1.2 available now. Mac App Store: v1.1 available now.');
+  expect(html).not.toContain('coming next');
+  expect(html).not.toContain('still offers');
+  expect(html).toContain('The Mac App Store edition launched in 1.0');
+  const preparing = renderRoadmap({base:'/',site,releases:{...current, appStore:{...current.appStore,status:'preparing'}},roadmap:baseline,roadmapIssues:snapshot});
+  expect(preparing).toContain('Mac App Store: not yet available.');
+  expect(preparing).not.toContain('Mac App Store: v1.1 available now.');
 });

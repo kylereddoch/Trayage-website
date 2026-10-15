@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14",
+  "updated": "2026-10-15",
   "items": [
     {
       "id": "direct-launch",
@@ -17,7 +17,7 @@
     {
       "id": "app-store",
       "title": "A Mac App Store edition",
-      "description": "Trayage 1.0 is available on the Mac App Store, with Apple purchases and Restore Purchases.",
+      "description": "The Mac App Store edition launched in 1.0, with Apple purchases and Restore Purchases. Current availability is shown above.",
       "status": "completed",
       "area": "Release",
       "release": {
@@ -159,7 +159,7 @@
     {
       "id": "first-review-clarity",
       "title": "Make the first review clear and safe",
-      "description": "A redesigned overview, clearer file reasons, smart filters, sorting, and Glance or Quick review menu-bar views.",
+      "description": "A redesigned overview, clearer file reasons, 14 smart-filter presets and custom rules, sorting, and Glance or Quick review menu-bar views.",
       "status": "completed",
       "area": "First-run experience",
       "release": {
@@ -178,7 +178,7 @@
       "id": "accessibility-validation",
       "issue": 12,
       "title": "Check accessibility across the 1.1 workflows",
-      "description": "Larger-text controls are available in direct 1.1. Full keyboard, VoiceOver, Voice Control, contrast, and other applicable accessibility checks still need validation before support claims are made.",
+      "description": "Larger-text controls are available in Trayage 1.1. Full keyboard, VoiceOver, Voice Control, contrast, and other applicable accessibility checks still need validation before support claims are made.",
       "status": "in-progress",
       "area": "Accessibility",
       "release": null,
@@ -188,9 +188,5 @@
         "verifiedAt": "2026-10-12"
       }
     }
-  ],
-  "directRelease": {
-    "version": "1.1",
-    "date": "2026-10-14"
-  }
+  ]
 }

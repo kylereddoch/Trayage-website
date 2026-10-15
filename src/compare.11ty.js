@@ -1,11 +1,12 @@
-import { arrow } from './layout.mjs';
+import { releaseVersionSummary } from './_lib/releases.js';
+import { arrow, escape } from './layout.mjs';
 export const data = {
   layout:'base.11ty.js', permalink:'/compare/index.html', path:'compare/',
   title:'Compare Mac cleanup tools', seoTitle:'Trayage vs macOS Storage vs DaisyDisk: Compare Mac Cleanup Tools',
   description:'Compare Trayage, Finder and macOS Storage, and DaisyDisk by workflow, price, and purpose. Find the right approach for Downloads cleanup or disk space analysis.',
   tags:['sitePages'], updated:'2026-10-14', kind:'comparison-page', socialKey:'compare'
 };
-export default function({base,site}) {
+export default function({base,site,releases}) {
 return `<div class="cleanup-compare">
 <header class="wrap compare-header"><p class="eyebrow">A practical comparison</p><h1>A clearer Mac.<br><em>Where should you start?</em></h1><p class="lede">Trayage, macOS Storage, and DaisyDisk take different approaches to cleanup. Choose based on what you need help finding, and how you prefer to work.</p><div class="hero-actions"><a class="button" href="${base}download/">Try Trayage for Mac ${arrow}</a><a class="text-link" href="#options">Compare the options <span aria-hidden="true">↓</span></a></div></header>
 <section class="wrap cleanup-options" id="options" aria-labelledby="options-title"><div class="cleanup-section-heading"><h2 id="options-title">Three ways to find your starting point.</h2><p>Free tools may be all you need. Here’s what changes when you choose a dedicated app.</p></div>
@@ -21,7 +22,7 @@ return `<div class="cleanup-compare">
   <div class="cleanup-source-notes">
     <h2 id="sources-title">Sources &amp; comparison notes</h2>
     <p>Written by <a href="${base}about/">Kyle Reddoch</a>, Trayage’s developer.</p>
-    <p>This compares three approaches to file cleanup, not every Mac utility or feature. Trayage details describe the direct v1.1 edition. The Mac App Store currently offers v1.0; its v1.1 update is coming next.</p>
+    <p>This compares three approaches to file cleanup, not every Mac utility or feature. ${escape(releaseVersionSummary(releases))} Direct licenses and App Store purchases are separate.</p>
   </div>
   <ul class="cleanup-source-links" aria-label="Comparison sources">
     <li><a href="https://support.apple.com/guide/mac-help/find-and-delete-files-on-your-mac-syspf5a64aa6/mac"><span><strong>Apple</strong><span>File and storage guide</span></span>${arrow}</a></li>

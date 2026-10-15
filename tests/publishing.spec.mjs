@@ -78,11 +78,11 @@ test('roadmap completion is separate from a public release', () => {
   const item = source.items.find(i=>i.id==='folder-monitoring');
   item.status='completed';
   item.release=null;
-  let html=renderRoadmap({base:'/',site,roadmap:source});
+  let html=renderRoadmap({base:'/',site,releases,roadmap:source});
   expect(html).toContain('Built · not released');
   item.release={version:'1.1',date:'2026-10-01'};
   validateRoadmap(source);
-  html=renderRoadmap({base:'/',site,roadmap:source});
+  html=renderRoadmap({base:'/',site,releases,roadmap:source});
   expect(html).toContain('Released in 1.1');
   item.status='planned';
   expect(()=>validateRoadmap(source)).toThrow(/completed status/);

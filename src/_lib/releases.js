@@ -15,6 +15,12 @@ export function releaseSummary(releases) {
   return 'Preparing for release · No public download yet';
 }
 
+export function releaseVersionSummary(releases) {
+  return [['direct', 'Direct download'], ['appStore', 'Mac App Store']]
+    .map(([channel, label]) => `${label}: ${channelIsLive(releases, channel) ? `v${releases[channel].version} available now` : 'not yet available'}.`)
+    .join(' ');
+}
+
 export function directPriceSummary(releases, site) {
   const price = `US$${site.pricing.oneTimeUSD} once`;
   if (!channelIsLive(releases, 'direct')) return `${price} at launch`;
