@@ -216,6 +216,36 @@ test('badge clicks keep the moving row stable while keyboard navigation reaches 
   await expect(badges.first()).toHaveCSS('position', 'absolute');
 });
 
+test('different-width badges keep even gaps throughout the scrolling loop', async ({page}) => {
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(hosts[0].url);
+  const badges = page.locator('.launch-badges > a');
+  await expect(page.locator('.launch-strip')).toHaveClass(/is-animated/);
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({width, height:1000});
+    await page.getByRole('button', {name:/featured badges/}).scrollIntoViewIfNeeded();
+    // Let responsive sizing and ResizeObserver settle before sampling the loop.
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    for (const time of [0, 18000, 47000]) {
+      const rects = await badges.evaluateAll((links, time) => {
+        links.forEach(link => link.getAnimations().forEach(animation => {
+          animation.pause();
+          animation.currentTime = time;
+        }));
+        return links.map(link => {
+          const rect = link.getBoundingClientRect();
+          return {left:rect.left, right:rect.right, width:rect.width};
+        }).sort((a,b) => a.left-b.left);
+      }, time);
+      expect(new Set(rects.map(rect => Math.round(rect.width))).size).toBeGreaterThan(3);
+      for (let index=1; index<rects.length; index++) {
+        expect(Math.abs(rects[index].left - rects[index-1].right - 20)).toBeLessThan(1);
+      }
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});
+
 test('appearance follows the system, persists an explicit choice, and resets cleanly',async({page})=>{
   await page.emulateMedia({colorScheme:'dark'});
   await page.goto(hosts[0].url);

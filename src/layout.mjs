@@ -140,7 +140,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <link rel="stylesheet" href="${url('assets/pages.css')}">
   ${path.startsWith('blog/') ? `<link rel="stylesheet" href="${url('assets/blog.css')}?v=${assetVersion('blog.css')}">` : ''}
   <link rel="stylesheet" href="${url('assets/redesign.css')}?v=${redesignVersion}">
-  <script src="${url('assets/featured.js')}" defer></script>
+  <script src="${url('assets/featured.js')}?v=${assetVersion('featured.js')}" defer></script>
   ${isHome ? `<script src="${url('assets/screenshot.js')}?v=${assetVersion('screenshot.js')}" defer></script>` : ''}
   ${article ? `<script src="${url('assets/share.js')}" defer></script>` : ''}
 </head>

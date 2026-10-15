@@ -64,7 +64,11 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
 
 test('Search crawler rules preserve public access and invalid content dates fail clearly', async () => {
   const robots = await readFile('dist-root/robots.txt', 'utf8');
-  for (const bot of ['*', 'OAI-SearchBot', 'PerplexityBot']) expect(robots).toContain(`User-agent: ${bot}\nAllow: /`);
+  for (const bot of ['*', 'OAI-SearchBot', 'PerplexityBot']) {
+    const group = robots.split('\n\n').find(group => group.includes(`User-agent: ${bot}\n`));
+    expect(group).toContain('Allow: /');
+  }
+  expect(robots).toContain('Content-Signal: search=yes, ai-input=yes, ai-train=no');
   expect(robots).not.toContain('Disallow:');
   expect(() => contentDate('not-a-date')).toThrow('Invalid content date');
 });
