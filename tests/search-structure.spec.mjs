@@ -9,7 +9,8 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
     const host = `http://127.0.0.1:${port}${base}`;
     const graph = async () => JSON.parse(await page.locator('script[type="application/ld+json"]').textContent())['@graph'];
     try {
-      await page.goto(`${host}support/`);
+      // Inspect server-rendered content without waiting for external badge images.
+      await page.goto(`${host}support/`, {waitUntil: 'domcontentloaded'});
       const faq = (await graph()).find(node => Array.isArray(node['@type']) && node['@type'].includes('FAQPage'));
       const questions = await page.locator('.faq-list details').evaluateAll(nodes => nodes.map(node => ({ question: node.querySelector('summary').childNodes[0].textContent, answer: node.querySelector('.faq-answer').textContent.trim() })));
       expect(faq.mainEntity.map(q => q.name)).toEqual(questions.map(q => q.question));
@@ -18,7 +19,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         expect(text).toBe(questions[i].answer);
       }
       for (const route of ['blog/', 'blog/guides/', 'blog/product-news/']) {
-        await page.goto(host + route);
+        await page.goto(host + route, {waitUntil: 'domcontentloaded'});
         const nodes = await graph();
         expect(nodes.some(node => node['@type'] === 'CollectionPage')).toBe(true);
         const items = nodes.find(node => node['@type'] === 'ItemList');
@@ -26,7 +27,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         expect(items.numberOfItems).toBe(await page.locator('.blog-card').count());
       }
       for (const slug of ['clean-up-mac-downloads', 'can-you-delete-dmg-files', 'introducing-trayage', 'check-duplicate-files-on-mac']) {
-        await page.goto(`${host}blog/${slug}/`);
+        await page.goto(`${host}blog/${slug}/`, {waitUntil: 'domcontentloaded'});
         const article = (await graph()).find(node => node['@type'] === 'BlogPosting');
         expect(article.headline).toBe(await page.locator('h1').textContent());
         expect(article.author.name).toBe('Kyle Reddoch');
@@ -42,7 +43,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         await expect(page.locator(`.article-body img[src="${image}"]`)).toHaveCount(1);
         expect((await request.get(`http://127.0.0.1:${port}${image}`)).status()).toBe(200);
       }
-      await page.goto(host + 'about/');
+      await page.goto(host + 'about/', {waitUntil: 'domcontentloaded'});
       expect((await graph()).find(node => node['@type'] === 'AboutPage').mainEntity['@id']).toContain('#publisher');
       await expect(page.locator('main')).toContainText('Kyle reviews articles before publication');
       const sitemap = await (await request.get(host + 'sitemap.xml')).text();

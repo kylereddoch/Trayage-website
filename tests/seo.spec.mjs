@@ -13,7 +13,8 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
     const descriptions = new Set();
     try {
       for (const path of routes) {
-        await page.goto(`http://127.0.0.1:${port}${base}${path}`);
+        // Metadata is server-rendered; external badges must not delay these checks.
+        await page.goto(`http://127.0.0.1:${port}${base}${path}`, {waitUntil: 'domcontentloaded'});
         const canonical = `${site.origin}${base}${path}`;
         const title = await page.title();
         const description = await page.locator('meta[name="description"]').getAttribute('content');
