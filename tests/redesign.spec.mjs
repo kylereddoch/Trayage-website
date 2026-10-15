@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { publicPosts } from '../src/_lib/content-index.js';
 import { home } from '../src/home.mjs';
 import site from '../src/_data/site.json' with {type:'json'};
@@ -8,20 +9,21 @@ for (const base of ['http://127.0.0.1:4175/','http://127.0.0.1:4176/Trayage-webs
  test(`Redesign at ${base}: discovery, comparison and visible FAQ stay readable without JavaScript`,async({browser})=>{
   const ctx=await browser.newContext({javaScriptEnabled:false});const page=await ctx.newPage();
   await page.goto(base);
-  await expect(page.locator('h1')).toHaveText('Trayage for Mac. Find downloads you no longer need.');
+  await expect(page.locator('h1')).toHaveText('Give Downloads a second look.');
+  await expect(page.locator('.hero-description')).toContainText('Find downloads you no longer need.');
   await expect(page.locator('.home-post')).toHaveCount(3);
   await expect(page.locator('.home-posts')).toContainText('Guides');
   await expect(page.locator('.home-posts')).toContainText('Product news');
-  await expect(page.locator('.home-faq-grid h3')).toHaveCount(3);
-  await expect(page.locator('.home-faq-grid')).toContainText('macOS Storage or Finder may be enough');
-  await expect(page.locator('.home-faq-grid')).toContainText('no automatic charge');
-  await expect(page.locator('.home-faq-grid')).toContainText('confirm before they move to Trash');
+  await expect(page.locator('.home-faq-list summary')).toHaveCount(3);
+  await expect(page.locator('.home-faq-list')).toContainText('macOS Storage or Finder may be enough');
+  await expect(page.locator('.home-faq-list')).toContainText('no automatic charge');
+  await expect(page.locator('.home-faq-list')).toContainText('confirm before they move to Trash');
   await page.getByText('Read the video transcript',{exact:true}).click();
   await expect(page.locator('.walkthrough-transcript')).toContainText('SHA-256 content check in Trayage 1.1');
   const graph=JSON.parse(await page.locator('script[type="application/ld+json"]').textContent())['@graph'];
   const faq=graph.find(n=>n['@type']==='FAQPage');
-  expect(faq.mainEntity.map(q=>q.name)).toEqual(await page.locator('.home-faq-grid h3').allTextContents());
-  expect(faq.mainEntity.map(q=>q.acceptedAnswer.text)).toEqual(await page.locator('.home-faq-grid p').allTextContents());
+  expect(faq.mainEntity.map(q=>q.name)).toEqual((await page.locator('.home-faq-list summary').allTextContents()).map(text=>text.replace(/\+$/, '').trim()));
+  expect(faq.mainEntity.map(q=>q.acceptedAnswer.text)).toEqual(await page.locator('.home-faq-answer > p').allTextContents());
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Why Trayage?',exact:true}).click();
   await expect(page.locator('h1')).toContainText('Where should you start?');
   await expect(page.locator('#example')).toContainText('Trayage.dmg');
@@ -78,9 +80,39 @@ for (const base of ['http://127.0.0.1:4175/', 'http://127.0.0.1:4176/Trayage-web
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toBeHidden();
   await expect(trigger).toBeFocused();
-  await page.getByRole('link', {name: 'View full screenshot'}).click();
+  await page.getByRole('link', {name: 'View full screenshot',exact:true}).click();
   await page.getByRole('button', {name: 'Close screenshot'}).click();
   await expect(page.getByRole('dialog')).toBeHidden();
   await expect(page).toHaveURL(base);
+ });
+}
+
+for (const scheme of ['light','dark']) {
+ test(`Product cards and compact FAQs work in ${scheme}`, async ({page}) => {
+  await page.emulateMedia({colorScheme:scheme});
+  await page.goto('http://127.0.0.1:4175/');
+  await expect(page.locator('.product-detail')).toHaveCount(3);
+  const sections = await page.locator('#how-it-works, #pricing, #walkthrough, .home-faq').evaluateAll(nodes=>nodes.map(node=>node.id || 'faq'));
+  expect(sections).toEqual(['how-it-works','pricing','walkthrough','faq']);
+  for (const card of await page.locator('.product-detail-image').all()) {
+   await card.click();
+   const dialog=page.getByRole('dialog');
+   await expect(dialog).toBeVisible();
+   expect(await dialog.locator('img').evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
+   await page.keyboard.press('Escape');
+   await expect(card).toBeFocused();
+  }
+  const question=page.locator('.home-faq-list summary').first();
+  await expect(page.locator('.home-faq-answer').first()).toBeHidden();
+  await question.focus(); await page.keyboard.press('Enter');
+  await expect(page.locator('.home-faq-answer').first()).toBeVisible();
+  await expect(page.locator('.walkthrough-video')).toHaveAttribute('preload','none');
+  await expect(page.locator('.walkthrough-video')).not.toHaveAttribute('autoplay');
+  for(const width of [320,768,1440]) {
+   await page.setViewportSize({width,height:900});
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+   const accessibility=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa','best-practice']).analyze();
+   expect(accessibility.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))).toEqual([]);
+  }
  });
 }

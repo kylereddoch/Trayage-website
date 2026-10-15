@@ -146,3 +146,16 @@ The comparison page has now been refocused on Finder and Trayage only, per Kyle�
 ### Product website voice
 
 Use a product-led voice throughout the website: “Trayage” for product behavior and “you” for the customer’s actions and benefits. Avoid developer narration such as “I’m working on,” “my app,” and “tell me.” Use “Contact support” for customer help. Keep factual developer and publisher credits on the About page, article bylines, media materials, and legal disclosures. Reader-perspective FAQ questions can use “I” or “my.” Do not invent a team by mechanically replacing “I” with “we.”
+
+
+## October 14 violet brand refresh
+
+The current local campaign review is `output/marketing/2026-10-08/campaign-v3/index.html`. It supersedes the orange/olive campaign-v2 creative assets. Earlier exports remain archived for reference; use the violet pack for new drafts.
+
+- Brand source: `public/assets/theme.css` and the supplied layered-tray icons in `public/assets/brand-violet/`. Preserve the icon artwork and proportions. Use violet #6D46BB on pale lavender #F7F5FC, plum ink #2C253C; dark layouts use #191524 with #F6F2FF text and #C7AAFF accents. Peach is a secondary accent within the supplied icon, not the primary campaign color.
+- Main benefit: “Find the files in Downloads you no longer need.” Supporting brand line: “Give Downloads a second look.” Pair short brand lines with a concrete product explanation. Use clear sans-serif typography, ordinary language, and a visible free-review invitation.
+- Rebuilt creative families: recognition, review/process, brand, and founder invitation. Each has light/dark landscape, square, and portrait versions. Topic/article cards also have light/dark exports. The supplied new icon replaces the earlier conceptual terracotta tray artwork.
+- Re-rendered local motion drafts use the new icon/palette, moving file illustrations, confirmation sequence, and grouped destination. They remain silent conceptual animations, not product recordings.
+- Product captures from `../Trayage/output/brand-copy-2026-10-14/` are native local 1.1 test-host previews with synthetic files and sizes. Their export labels must remain visible. Do not imply that public 1.0 downloads have this interface or these preview features. Verify the released build before using them as current-product marketing.
+- For Founder Battle, use the refreshed benefit and brand cards for messaging feedback. The separately labeled app-preview cards are optional when explicitly seeking feedback on the upcoming redesign. Each upload PNG is below 8 MB.
+- Reviewer outreach remains draft-only. The updated local outreach page includes all seven tailored messages and the existing contact-source notes. No post, message, website publication, or app release is authorized by this refresh.

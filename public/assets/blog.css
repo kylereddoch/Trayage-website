@@ -27,8 +27,10 @@
   .blog-note { padding-block: 44px 70px; border-top: 1px solid var(--line); }
   .blog-note h2 { margin-block: 18px; }
   .blog-note > p:not(.eyebrow) { max-width: 660px; color: var(--ink-secondary); margin-bottom: 20px; }
-  .article-header { max-width: 920px; padding-block: 52px 42px; }
-  .article-category { display: inline-block; margin-top: 36px; font-size: 12px; color: var(--orange); }
+  .article-header { padding-block: 52px 42px; text-align: left; }
+  .article-header .back-link { margin-bottom: 8px; }
+  .article-header .blog-lede { max-width: none; }
+  .article-category { display: inline-block; margin-top: 16px; font-size: 12px; color: var(--orange); }
   .article-header h1 { font-size: clamp(2.6rem, 4.4vw, 4.4rem); line-height: 1.08; margin-block: 18px 24px; }
   .article-layout { display: grid; grid-template-columns: 225px minmax(0, 750px); gap: 64px; align-items: start; border-top: 1px solid var(--line); padding-top: 42px; }
   .article-toc { position: sticky; top: 30px; }
@@ -45,6 +47,12 @@
   .article-body figure { margin-block: 32px; }
   .article-body figure img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
   .article-body figcaption { margin-top: 10px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .article-menu-views { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 24px; margin-block: 32px; }
+  .article-menu-views figure { margin: 0; min-width: 0; }
+  .article-menu-views picture { display: block; padding: 18px; border-radius: 18px; background: var(--panel-lavender); }
+  .article-menu-views figure img { display: block; border: 0; box-shadow: 0 8px 24px var(--shadow-tint); }
+  .article-menu-views figcaption { font-size: .9rem; margin-top: 16px; }
+  .article-menu-views figcaption strong { color: var(--ink); }
   .guide-download { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 32px; align-items: center; padding: 32px; margin-block: 32px; border: 0; border-radius: 24px; background: var(--panel-lavender); }
   .guide-download img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 4px; }
   .guide-download h3 { margin: 12px 0; font-size: 24px; line-height: 1.2; }
@@ -65,6 +73,8 @@
     .article-toc { position: static; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
   }
   @media (max-width: 600px) {
+    .article-menu-views { grid-template-columns: 1fr; gap: 28px; }
+    .article-menu-views figure { width: 100%; max-width: 360px; margin-inline: auto; }
     .blog-header { padding-block: 44px 32px; }
     .blog-toolbar { align-items: start; flex-direction: column; gap: 0; }
     .blog-featured { grid-template-columns: 1fr; padding: 22px; }
@@ -73,7 +83,6 @@
     .blog-card-symbol { display: none; }
     .blog-lede { font-size: 17px; }
     .article-header { padding-top: 32px; }
-    .article-category { margin-top: 24px; }
     .article-body { font-size: 17px; }
     .article-body ul, .article-body ol { padding-left: 24px; }
     .article-cta { padding: 22px; }

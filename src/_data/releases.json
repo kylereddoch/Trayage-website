@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14",
+  "updated": "2026-10-15",
   "minimumMacOS": "14",
   "direct": {
     "status": "available",
@@ -18,13 +18,11 @@
   "appStore": {
     "status": "available",
     "appId": "6810382134",
-    "build": "3",
-    "version": "1.0",
+    "build": "8",
+    "version": "1.1",
     "url": "https://apps.apple.com/us/app/trayage/id6810382134",
-    "releasedAt": "2026-10-12",
-    "verifiedAt": "2026-10-12",
-    "badgePath": "assets/mac-app-store-badge.svg",
-    "pendingVersion": "1.1",
-    "updateStatus": "coming-next"
+    "releasedAt": "2026-10-15",
+    "verifiedAt": "2026-10-15",
+    "badgePath": "assets/mac-app-store-badge.svg"
   }
 }

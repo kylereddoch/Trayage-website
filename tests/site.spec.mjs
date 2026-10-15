@@ -5,7 +5,7 @@ import releases from '../src/_data/releases.json' with { type: 'json' };
 import { channelIsLive } from '../src/_lib/releases.js';
 import { validateLaunch } from '../src/_lib/validate-launch.js';
 
-const routes = ['', 'support/', 'privacy/', 'terms/', 'refunds/', 'roadmap/', 'download/', 'media-kit/', 'changelog/', '404.html', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/', 'compare/', 'blog/your-first-trayage-review/', 'blog/weekly-downloads-review/', 'blog/trayage-on-the-mac-app-store/'];
+const routes = ['', 'support/', 'privacy/', 'terms/', 'refunds/', 'roadmap/', 'download/', 'media-kit/', 'changelog/', '404.html', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/', 'compare/', 'blog/your-first-trayage-review/', 'blog/weekly-downloads-review/', 'blog/trayage-on-the-mac-app-store/', 'blog/trayage-1-1/', 'blog/trayage-new-look/'];
 const hosts = [
   {name:'domain root', url:'http://127.0.0.1:4175/'},
   {name:'GitHub project path',url:'http://127.0.0.1:4176/Trayage-website/'}
@@ -66,7 +66,7 @@ test('keyboard: skip link, screenshot link, and native FAQ disclosures work',asy
   await screenshotLink.focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.locator('.screenshot-dialog img')).toHaveJSProperty('naturalWidth',2560);
+  await expect(page.locator('.screenshot-dialog:not(.product-detail-dialog) img')).toHaveJSProperty('naturalWidth',2560);
   await page.keyboard.press('Escape');
   await expect(screenshotLink).toBeFocused();
   await page.goto(hosts[1].url+'support/');
@@ -99,7 +99,7 @@ test('one-time offer uses approved pricing and only enables verified release cha
   await expect(page.locator(`a[href="${site.links.billing}"]`)).toHaveCount(1);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow, max-image-preview:large');
   expect(site.links.annual).toBeUndefined();
-  await expect(page.locator('.hero-offer')).toHaveCount(0);
+  await expect(page.locator('.hero-offer')).toContainText('US$9.99 once. No subscription.');
   await expect(page.locator('#pricing')).toContainText('7-day cleanup trial');
   await expect(page.locator('#pricing')).toContainText('Optional paid major upgrades');
   expect(site.links.oneTime).toBe('https://buy.stripe.com/8x2dR9evl89WbAh11x73G04');
@@ -113,7 +113,7 @@ test('without JavaScript: content, FAQs, and system dark mode work',async({brows
   const page=await context.newPage();
   await page.goto(hosts[1].url);
   await expect(page.locator('.native-preview img')).toBeVisible();
-  await expect(page.getByLabel('Appearance')).toBeHidden();
+  await expect(page.locator('.appearance-control')).toBeHidden();
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Support',exact:true}).click();
   await page.locator('summary').filter({hasText:'Will I have to buy the next major version?'}).click();
@@ -233,8 +233,8 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg?theme=dark');
   await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=dark');
   await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing.svg');
-  const select=page.getByLabel('Appearance');
-  await expect(select).toHaveValue('system');
+  const select=page.locator('.appearance-trigger');
+  await expect(select).toHaveAttribute('aria-label','Appearance: System');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-light')).toBeHidden();
@@ -246,7 +246,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing-coral.svg');
   await expect(page.locator('.launchnest-badge .badge-light')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeHidden();
-  await select.selectOption('dark');
+  await chooseAppearance(page, 'dark');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg?theme=dark');
@@ -254,19 +254,19 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing.svg');
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Privacy',exact:true}).click();
-  await expect(select).toHaveValue('dark');
+  await expect(select).toHaveAttribute('aria-label','Appearance: Dark');
   await page.reload();
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   expect(await page.evaluate(()=>Object.entries(localStorage))).toEqual([['trayage-appearance','dark']]);
   const other=await page.context().newPage();
   await other.goto(hosts[0].url+'terms/');
-  await select.selectOption('light');
-  await expect(other.getByLabel('Appearance')).toHaveValue('light');
+  await chooseAppearance(page, 'light');
+  await expect(other.locator('.appearance-trigger')).toHaveAttribute('aria-label','Appearance: Light');
   await page.emulateMedia({colorScheme:'dark'});
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 245, 252)');
-  await select.selectOption('system');
+  await chooseAppearance(page, 'system');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
-  await expect(other.getByLabel('Appearance')).toHaveValue('system');
+  await expect(other.locator('.appearance-trigger')).toHaveAttribute('aria-label','Appearance: System');
   expect(await page.evaluate(()=>localStorage.length)).toBe(0);
   await page.emulateMedia({media:'print'});
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(255, 255, 255)');
@@ -280,9 +280,9 @@ test('appearance selector works when browser storage is unavailable',async({page
   page.on('pageerror',error=>errors.push(error.message));
   await page.emulateMedia({colorScheme:'light'});
   await page.goto(hosts[1].url+'refunds/');
-  await page.getByLabel('Appearance').selectOption('dark');
+  await chooseAppearance(page, 'dark');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
-  await page.getByLabel('Appearance').selectOption('system');
+  await chooseAppearance(page, 'system');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 245, 252)');
   expect(errors).toEqual([]);
 });
@@ -326,4 +326,31 @@ test('policies distinguish direct and Apple purchases and disclose support and s
     await expect(page.locator('main')).not.toContainText(/79\.99|14-day (?:in-app )?trial|renews yearly|yearly plan|annual renewals/i);
     await expect(page.locator('meta[name="description"]')).not.toHaveAttribute('content', /79\.99|yearly|annual renewals/i);
   }
+});
+
+async function chooseAppearance(page, value) {
+  await page.locator('.appearance-trigger').click();
+  await page.locator(`[data-appearance="${value}"]`).click();
+}
+
+test('appearance menu supports keyboard selection and dismissal without overflowing mobile', async ({page}) => {
+  await page.setViewportSize({width:320,height:800});
+  await page.goto(hosts[0].url);
+  const trigger = page.locator('.appearance-trigger');
+  await trigger.focus();
+  await trigger.press('ArrowDown');
+  await expect(page.getByRole('button',{name:'System',exact:true})).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(page.getByRole('button',{name:'Dark',exact:true})).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-label','Appearance: Dark');
+  await trigger.click();
+  await expect(page.getByRole('button',{name:'Dark',exact:true})).toHaveAttribute('aria-pressed','true');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await trigger.press('Escape');
+  await expect(page.locator('.appearance-menu')).toBeHidden();
+  await trigger.click();
+  await page.locator('h1').click();
+  await expect(page.locator('.appearance-menu')).toBeHidden();
 });

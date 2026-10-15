@@ -99,9 +99,9 @@ test('npm run start rebuilds shared templates, data, CSS, and JS with browser re
   try {
     await expect.poll(() => output, { timeout: 20_000 }).toContain(`Server at http://localhost:${port}/`);
     await page.goto(url);
-    await expect(page.getByLabel('Appearance')).toBeVisible();
+    await expect(page.locator('.appearance-trigger')).toBeVisible();
     const homePath = join(cwd, 'src/home.mjs');
-    await writeFile(homePath, (await readFile(homePath, 'utf8')).replace('Find downloads', 'Watching edits.'));
+    await writeFile(homePath, (await readFile(homePath, 'utf8')).replace('Give Downloads', 'Watching edits.'));
     await expect(page.locator('h1')).toContainText('Watching edits.', { timeout: 15_000 });
     const sitePath = join(cwd, 'src/_data/site.json');
     await writeFile(sitePath, (await readFile(sitePath, 'utf8')).replace('"publisher": "Kyle Reddoch"', '"publisher": "Watch verification"'));
