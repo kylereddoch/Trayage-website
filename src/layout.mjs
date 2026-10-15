@@ -7,7 +7,8 @@ import { techTwitterBadge } from './tech-twitter-badge.mjs';
 import { absoluteURL, isIndexable, serializeSchema, structuredData } from './_lib/seo.js';
 export const escape = (value) => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 export const arrow = '<span aria-hidden="true">↗</span>';
-const redesignVersion = createHash('sha256').update(readFileSync(new URL('../public/assets/redesign.css', import.meta.url))).digest('hex').slice(0, 12);
+const assetVersion = file => createHash('sha256').update(readFileSync(new URL(`../public/assets/${file}`, import.meta.url))).digest('hex').slice(0, 12);
+const redesignVersion = assetVersion('redesign.css');
 
 function linkEvent(href, tag, site) {
   if (!site.analytics?.enabled) return null;
@@ -133,14 +134,14 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   ${site.publicationApproved && site.origin ? `<link rel="alternate" type="application/rss+xml" title="Trayage Blog" href="${url('blog/feed.xml')}">` : ''}
   <link rel="icon" type="image/png" sizes="48x48" href="${url('assets/brand-violet/favicon.png')}">
   <link rel="apple-touch-icon" sizes="180x180" href="${url('assets/brand-violet/apple-touch-icon.png')}">
-  <script src="${url('assets/theme.js')}"></script>
+  <script src="${url('assets/theme.js')}?v=${assetVersion('theme.js')}"></script>
   <link rel="stylesheet" href="${url('assets/site.css')}">
-  <link rel="stylesheet" href="${url('assets/theme.css')}">
+  <link rel="stylesheet" href="${url('assets/theme.css')}?v=${assetVersion('theme.css')}">
   <link rel="stylesheet" href="${url('assets/pages.css')}">
-  ${path.startsWith('blog/') ? `<link rel="stylesheet" href="${url('assets/blog.css')}">` : ''}
+  ${path.startsWith('blog/') ? `<link rel="stylesheet" href="${url('assets/blog.css')}?v=${assetVersion('blog.css')}">` : ''}
   <link rel="stylesheet" href="${url('assets/redesign.css')}?v=${redesignVersion}">
   <script src="${url('assets/featured.js')}" defer></script>
-  ${isHome ? `<script src="${url('assets/screenshot.js')}" defer></script>` : ''}
+  ${isHome ? `<script src="${url('assets/screenshot.js')}?v=${assetVersion('screenshot.js')}" defer></script>` : ''}
   ${article ? `<script src="${url('assets/share.js')}" defer></script>` : ''}
 </head>
 <body class="${kind}">
