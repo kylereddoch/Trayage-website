@@ -181,7 +181,7 @@
     .is-animated:hover .launch-badges > a, .is-paused .launch-badges > a { animation-play-state: paused; }
     /* Keyboard navigation restores the natural row so offscreen links can scroll into view. */
     .is-animated .launch-viewport:has(a:focus-visible) { overflow: auto; mask-image: none; }
-    .is-animated .launch-viewport:has(a:focus-visible) .launch-badges { padding-inline: 8px; }
+    .is-animated .launch-viewport:has(a:focus-visible) .launch-badges { width: max-content; min-width: 100%; padding-inline: 8px; }
     .is-animated .launch-viewport:has(a:focus-visible) .launch-badges > a { position: relative; top: auto; animation: none; }
     @keyframes featured-drift { from { transform: translateX(var(--badge-start)); } to { transform: translateX(var(--badge-end)); } }
   }
