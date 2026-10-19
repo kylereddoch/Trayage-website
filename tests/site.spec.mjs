@@ -208,7 +208,14 @@ test('badge clicks keep the moving row stable while keyboard navigation reaches 
     await expect(badges.nth(index)).toBeFocused();
     await expect(viewport).toHaveCSS('overflow-x', 'auto');
     await expect(badges.nth(index)).toHaveCSS('position', 'relative');
-    await expect(badges.nth(index)).toBeInViewport({ratio: 1});
+    await expect(badges.nth(index)).toBeInViewport();
+    // Scroll positions round to pixels; fractional image widths must not fail CI.
+    // Still fail if keyboard navigation leaves more than one pixel clipped.
+    await expect.poll(() => badges.nth(index).evaluate(link => {
+      const badge = link.getBoundingClientRect();
+      const viewport = link.closest('.launch-viewport').getBoundingClientRect();
+      return Math.max(viewport.left - badge.left, badge.right - viewport.right, 0);
+    })).toBeLessThanOrEqual(1);
   }
   await toggle.click();
   await expect(toggle).toHaveAttribute('aria-label', 'Pause featured badges');
