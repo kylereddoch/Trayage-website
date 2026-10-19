@@ -131,11 +131,12 @@ test('default visits load only disclosed analytics and store no visitor state',a
   await page.route('https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="216" height="64"/>'}));
   await page.route('https://buildhop.io/api/badges/launch/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="236" height="52"/>'}));
   await page.route('https://founderbattle.com/badges/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="184" height="48"/>'}));
+  await page.route('https://peerpush.com/p/trayage/badge.png', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="460" height="130"/>'}));
   for(const route of routes){await page.goto(hosts[0].url+route);}
   expect(external).toContain(site.analytics.embedURL);
   expect(external.some(url=>url.includes('viberank.dev'))).toBe(false);
   expect(external.some(url=>url.includes('api.producthunt.com'))).toBe(false);
-  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||url==='https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light'||url==='https://founderbattle.com/badges/competing-coral.svg')).toBe(true);
+  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://peerpush.com/p/trayage/badge.png'||url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||url==='https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light'||url==='https://founderbattle.com/badges/competing-coral.svg')).toBe(true);
   expect(await page.context().cookies()).toEqual([]);
   expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});
 });

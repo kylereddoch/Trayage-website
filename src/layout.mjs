@@ -195,6 +195,9 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
           <img src="https://founderbattle.com/badges/competing-coral.svg" alt="Competing on Founder Battle" width="184" height="48">
         </picture>
       </a>
+      <a class="peerpush-badge" href="https://peerpush.com/p/trayage" target="_blank" rel="noopener">
+        <img src="https://peerpush.com/p/trayage/badge.png" alt="Trayage on PeerPush" style="width: 230px;" />
+      </a>
     </div></div></div>
   </section>
   ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}

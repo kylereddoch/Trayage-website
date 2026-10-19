@@ -172,6 +172,8 @@
   .launch-badges { position: relative; flex-wrap: nowrap; justify-content: flex-start; gap: 20px; margin: 0; min-height: 64px; }
   .launch-badges > a { flex: 0 0 auto; width: max-content; max-width: none; height: 56px; align-items: center; justify-content: center; scroll-margin-inline: 8px; }
   .launch-badges img { height: 48px; width: auto; max-width: none; max-height: 48px; object-fit: contain; }
+  /* Keep PeerPush's embed width intact in HTML while matching the shared badge height and gaps. */
+  .launch-badges .peerpush-badge img { width: auto !important; }
   .launch-badges .tech-twitter-badge img { height: 36px; width: 36px; }
   @media (prefers-reduced-motion: no-preference) {
     .is-animated .launch-viewport { overflow: hidden; mask-image: linear-gradient(to right, transparent, black 18px, black calc(100% - 18px), transparent); }
