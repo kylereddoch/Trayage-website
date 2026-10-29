@@ -1,0 +1,101 @@
+[
+  {
+    "duration": 3,
+    "kind": "review",
+    "source": 2,
+    "span": 3,
+    "label": "DOWNLOADS, WITH CONTEXT",
+    "title": "Give Downloads\na second look.",
+    "detail": "Installers. Possible duplicates. Older files.\nA clear place to start your review.",
+    "note": "You choose what stays.",
+    "focus": "full"
+  },
+  {
+    "duration": 4,
+    "kind": "menus",
+    "source": 0,
+    "span": 0,
+    "label": "GLANCE + QUICK REVIEW",
+    "title": "A quick look.\nA closer look.",
+    "detail": "See your Downloads summary.\nBrowse one suggestion at a time,\nright from the menu bar.",
+    "note": "Open the full review when you’re ready.",
+    "focus": "full"
+  },
+  {
+    "duration": 4.5,
+    "kind": "review",
+    "source": 13.5,
+    "span": 6,
+    "label": "INSTALLER REVIEW",
+    "title": "Installed it?\nCheck the\ninstaller.",
+    "detail": "A matching app appears installed.\nCheck whether you still need\nits disk image.",
+    "note": "A useful reason to review the file.",
+    "focus": "detail"
+  },
+  {
+    "duration": 5.5,
+    "kind": "review",
+    "source": 30,
+    "span": 8,
+    "label": "POSSIBLE DUPLICATES",
+    "title": "Same contents.\nYour choice.",
+    "detail": "SHA-256 content checks identify\nmatching downloads. Compare the\ncopies and decide which to keep.",
+    "note": "Nothing is selected automatically.",
+    "focus": "detail"
+  },
+  {
+    "duration": 3.5,
+    "kind": "review",
+    "source": 44,
+    "span": 3.5,
+    "label": "OLDER FILES",
+    "title": "Old export.\nStill useful?",
+    "detail": "Find files you haven’t modified\nin a while. Check the details\nbefore deciding.",
+    "note": "Age alone doesn’t make a file unwanted.",
+    "focus": "detail"
+  },
+  {
+    "duration": 4.5,
+    "kind": "review",
+    "source": 47,
+    "span": 4.5,
+    "label": "HIDE A SUGGESTION",
+    "title": "Keep the file.\nClear the\nsuggestion.",
+    "detail": "Hide a suggestion to leave its file\nin Downloads. It stays hidden until\nthe file changes or you restore it.",
+    "note": "Restore suggestions in Review Settings.",
+    "focus": "hide"
+  },
+  {
+    "duration": 4,
+    "kind": "confirmation",
+    "source": 4.5,
+    "span": 5,
+    "label": "SELECT WHAT GOES",
+    "title": "Your files.\nYour call.",
+    "detail": "Select only what you no longer need.\nMove to Trash opens a confirmation\nfor your selection.",
+    "note": "A suggestion never moves a file.",
+    "focus": "selection"
+  },
+  {
+    "duration": 5,
+    "kind": "confirmation",
+    "source": 14,
+    "span": 8,
+    "label": "CONFIRM BEFORE MOVING",
+    "title": "One last look.\nThen decide.",
+    "detail": "Check the selected filename.\nConfirm when you’re ready,\nor cancel and keep reviewing.",
+    "note": "Demo ends here, before a file moves.",
+    "focus": "confirm"
+  },
+  {
+    "duration": 4,
+    "kind": "outro",
+    "source": 0,
+    "span": 0,
+    "label": "TRAYAGE FOR MAC",
+    "title": "Less clutter.\nMore control.",
+    "detail": "File review is free. Start at trayage.app.",
+    "note": "Recover files before emptying Trash. Trayage never empties it.",
+    "focus": "full"
+  }
+]

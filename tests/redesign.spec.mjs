@@ -19,7 +19,7 @@ for (const base of ['http://127.0.0.1:4175/','http://127.0.0.1:4176/Trayage-webs
   await expect(page.locator('.home-faq-list')).toContainText('no automatic charge');
   await expect(page.locator('.home-faq-list')).toContainText('confirm before they move to Trash');
   await page.getByText('Read the video transcript',{exact:true}).click();
-  await expect(page.locator('.walkthrough-transcript')).toContainText('SHA-256 content check in Trayage 1.1');
+  await expect(page.locator('.walkthrough-transcript')).toContainText('SHA-256 content checks identify matching downloads.');
   const graph=JSON.parse(await page.locator('script[type="application/ld+json"]').textContent())['@graph'];
   const faq=graph.find(n=>n['@type']==='FAQPage');
   expect(faq.mainEntity.map(q=>q.name)).toEqual((await page.locator('.home-faq-list summary').allTextContents()).map(text=>text.replace(/\+$/, '').trim()));

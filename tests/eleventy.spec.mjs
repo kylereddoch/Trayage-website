@@ -14,7 +14,7 @@ const env = { ...process.env, SITE_BASE_PATH: '', REQUIRE_PUBLICATION_APPROVAL: 
 // Exercise real builds and watch edits in disposable copies, never the user's source.
 async function fixture() {
   const directory = await mkdtemp(join(tmpdir(), 'trayage-eleventy-'));
-  for (const path of ['src', 'public', 'eleventy.config.mjs', 'package.json']) {
+  for (const path of ['src', 'public', 'scripts/walkthrough', 'eleventy.config.mjs', 'package.json']) {
     await cp(join(project, path), join(directory, path), { recursive: true });
   }
   const sitePath = join(directory, 'src/_data/site.json');

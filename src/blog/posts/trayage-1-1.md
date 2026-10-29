@@ -65,6 +65,6 @@ Visit the [download page]({{ base }}download/) for the direct download and Mac A
 
 Already using the direct edition? Choose **Check for Updates** in Trayage. For the App Store edition, update through the Mac App Store. The [updating instructions]({{ base }}download/#updating) cover older direct builds without an update checker.
 
-Start with a few files you recognize and review the reasons beside them. The [45-second walkthrough]({{ base }}#walkthrough) shows a review in the actual app, through to the confirmation. The [changelog]({{ base }}changelog/) has the release details.
+Start with a few files you recognize and review the reasons beside them. The [38-second walkthrough]({{ base }}#walkthrough) shows a review in the actual app, through to the confirmation. The [changelog]({{ base }}changelog/) has the release details.
 
 Have feedback on the update? [Contact Trayage support]({{ base }}support/).

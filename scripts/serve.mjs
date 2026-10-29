@@ -21,7 +21,24 @@ createServer(async (req,res)=>{
       file=resolve(file,'index.html');
     }
     const data=await readFile(file);
-    res.writeHead(200,{'Content-Type':types[extname(file)]||'application/octet-stream','Cache-Control':'no-store'});
+    const headers={'Content-Type':types[extname(file)]||'application/octet-stream','Cache-Control':'no-store','Content-Length':data.length};
+    if(extname(file)==='.mp4') {
+      headers['Accept-Ranges']='bytes';
+      const range=req.headers.range;
+      if(range && req.method==='GET') {
+        const match=/^bytes=(\d*)-(\d*)$/.exec(range);
+        if(match && (match[1] || match[2])) {
+          const start=match[1] ? Number(match[1]) : Math.max(0,data.length-Number(match[2]));
+          const end=match[1] && match[2] ? Math.min(Number(match[2]),data.length-1) : data.length-1;
+          if(!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start>end || start>=data.length) {
+            res.writeHead(416,{'Content-Range':`bytes */${data.length}`});res.end();return;
+          }
+          res.writeHead(206,{...headers,'Content-Range':`bytes ${start}-${end}/${data.length}`,'Content-Length':end-start+1});
+          res.end(data.subarray(start,end+1));return;
+        }
+      }
+    }
+    res.writeHead(200,headers);
     res.end(req.method==='HEAD'?undefined:data);
   } catch {
     res.writeHead(404,{'Content-Type':'text/html; charset=utf-8'});
