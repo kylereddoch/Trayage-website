@@ -12,6 +12,8 @@ const hosts = [
 ];
 for (const host of hosts) {
   test(`${host.name}: every internal link, fragment, asset, and 404 resolves`, async ({page,request})=>{
+    // This single test visits every public route and its internal links.
+    test.setTimeout(120_000);
     const checked = new Set();
     for (const route of routes) {
       const errors=[];
@@ -42,6 +44,8 @@ for (const host of hosts) {
 
 for(const colorScheme of ['light','dark']) for(const width of [320,390,768,1440]) {
   test(`${colorScheme}, ${width}px: all pages fit and pass axe WCAG 2.2 AA checks`,async({page})=>{
+    // Allow the complete route sweep to finish on shared CI runners.
+    test.setTimeout(120_000);
     await page.emulateMedia({colorScheme});
     await page.setViewportSize({width,height:1000});
     for(const route of routes) {
