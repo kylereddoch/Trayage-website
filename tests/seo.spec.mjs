@@ -4,7 +4,7 @@ import releases from '../src/_data/releases.json' with { type: 'json' };
 import socialCards from '../src/_data/socialCards.json' with { type: 'json' };
 import { layout } from '../src/layout.mjs';
 
-const routes = ['', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/', 'compare/', 'blog/your-first-trayage-review/', 'blog/weekly-downloads-review/', 'blog/trayage-on-the-mac-app-store/', 'blog/trayage-1-1/', 'blog/trayage-new-look/'];
+const routes = ['', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/', 'compare/', 'blog/your-first-trayage-review/', 'blog/weekly-downloads-review/', 'blog/trayage-on-the-mac-app-store/', 'blog/trayage-1-1/', 'blog/trayage-new-look/', 'blog/how-to-use-trayage-smart-filters/'];
 for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
   test(`SEO at ${base}: all public pages expose consistent server-rendered metadata`, async ({ browser, request }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });

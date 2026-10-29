@@ -9,11 +9,11 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
     const host = `http://127.0.0.1:${port}${base}`;
     try {
       await page.goto(`${host}blog/`);
-      await expect(page.locator('.blog-card')).toHaveCount(9);
+      await expect(page.locator('.blog-card')).toHaveCount(10);
       await expect(page.locator('.blog-featured h2')).toContainText('without losing important files');
       if (base === '/') await page.screenshot({ path: 'artifacts/blog-preview.png' });
       await page.getByRole('navigation', { name: 'Blog categories' }).getByRole('link', { name: 'Guides', exact: true }).click();
-      await expect(page.locator('.blog-card')).toHaveCount(5);
+      await expect(page.locator('.blog-card')).toHaveCount(6);
       await expect(page.locator('.blog-list')).not.toContainText('Meet Trayage 1.0');
       await page.getByRole('navigation', { name: 'Blog categories' }).getByRole('link', { name: 'Product news' }).click();
       await expect(page.locator('.blog-card')).toHaveCount(4);
@@ -34,7 +34,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         return { errors: doc.querySelectorAll('parsererror').length, links: [...doc.querySelectorAll('item > link')].map(node => node.textContent) };
       }, feed);
       expect(parsed.errors).toBe(0);
-      expect(parsed.links.sort()).toEqual(['can-you-delete-dmg-files', 'clean-up-mac-downloads', 'introducing-trayage', 'check-duplicate-files-on-mac', 'your-first-trayage-review', 'weekly-downloads-review', 'trayage-on-the-mac-app-store', 'trayage-1-1', 'trayage-new-look'].map(slug => `${site.origin}${base}blog/${slug}/`).sort());
+      expect(parsed.links.sort()).toEqual(['can-you-delete-dmg-files', 'clean-up-mac-downloads', 'introducing-trayage', 'check-duplicate-files-on-mac', 'your-first-trayage-review', 'weekly-downloads-review', 'trayage-on-the-mac-app-store', 'trayage-1-1', 'trayage-new-look', 'how-to-use-trayage-smart-filters'].map(slug => `${site.origin}${base}blog/${slug}/`).sort());
       await page.goto(`${host}blog/check-duplicate-files-on-mac/`);
       await expect(page.getByRole('link', { name: 'download the Trayage installer for Mac (DMG)', exact: true })).toHaveAttribute('href', releases.direct.url);
       await expect(page.locator('.article-body')).toContainText('It does not compare their contents.');

@@ -5,7 +5,7 @@ import releases from '../src/_data/releases.json' with { type: 'json' };
 import { channelIsLive } from '../src/_lib/releases.js';
 import { validateLaunch } from '../src/_lib/validate-launch.js';
 
-const routes = ['', 'support/', 'privacy/', 'terms/', 'refunds/', 'roadmap/', 'download/', 'media-kit/', 'changelog/', '404.html', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/', 'compare/', 'blog/your-first-trayage-review/', 'blog/weekly-downloads-review/', 'blog/trayage-on-the-mac-app-store/', 'blog/trayage-1-1/', 'blog/trayage-new-look/'];
+const routes = ['', 'support/', 'privacy/', 'terms/', 'refunds/', 'roadmap/', 'download/', 'media-kit/', 'changelog/', '404.html', 'blog/', 'blog/guides/', 'blog/product-news/', 'blog/clean-up-mac-downloads/', 'blog/can-you-delete-dmg-files/', 'blog/introducing-trayage/', 'blog/check-duplicate-files-on-mac/', 'about/', 'compare/', 'blog/your-first-trayage-review/', 'blog/weekly-downloads-review/', 'blog/trayage-on-the-mac-app-store/', 'blog/trayage-1-1/', 'blog/trayage-new-look/', 'blog/how-to-use-trayage-smart-filters/'];
 const hosts = [
   {name:'domain root', url:'http://127.0.0.1:4175/'},
   {name:'GitHub project path',url:'http://127.0.0.1:4176/Trayage-website/'}
