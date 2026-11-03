@@ -43,6 +43,12 @@ ${link('Compare Mac cleanup tools', 'compare/', 'Trayage, Finder and macOS Stora
 ${link('Purchase terms', 'terms/', 'License, included updates, and separate purchase channels.')}
 ${link('Refund policy', 'refunds/', 'Direct purchase policy and Apple-managed refunds.')}
 
+## Workflows
+
+${link('Trayage for freelancers', 'for-freelancers/', 'Review client downloads while keeping project files under your control.')}
+${link('Trayage for students', 'for-students/', 'A course-file review routine for a Mac Downloads folder.')}
+${link('Trayage for Mac developers', 'for-developers/', 'Review Mac installers and possible repeat downloads, with version and offline checks.')}
+
 ## Help and product status
 
 ${link('Support', 'support/', 'File review, licenses, updates, and support contact.')}

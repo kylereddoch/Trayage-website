@@ -8,7 +8,7 @@ export const absoluteURL = (site, base, path = '') => new URL(`${base}${path}`, 
 // JSON is embedded in HTML: a literal closing script tag must never end the block.
 export const serializeSchema = value => JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026');
 
-export function structuredData({ site, releases, base, path, title, description, article, published, updated, category, collections, faqs, articleImage, articleText }) {
+export function structuredData({ site, releases, base, path, title, description, article, published, updated, category, collections, faqs, articleImage, articleText, landingPage = false }) {
   const url = part => absoluteURL(site, base, part);
   const home = url('');
   const canonical = url(path);
@@ -57,7 +57,7 @@ export function structuredData({ site, releases, base, path, title, description,
     page.mainEntity = { '@id': post['@id'] };
     graph.push(post);
   }
-  if (path) {
+  if (path && !landingPage) {
     const breadcrumb = {
       '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`,
       itemListElement: breadcrumbItems(path, title, category).map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: url(item.path) }))

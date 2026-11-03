@@ -769,3 +769,53 @@
     .optional-walkthrough { margin-top: 16px; }
   }
 }
+
+/* The freelancer cards contain a short paragraph, not comparison-table rows. */
+.freelancer-page .cleanup-option {
+  display: block;
+  min-width: 0;
+}
+.freelancer-page .cleanup-option h3 { margin-block: 14px 20px; }
+.freelancer-page .cleanup-option > p:last-child { overflow-wrap: anywhere; }
+.freelancer-page .cleanup-section-heading > * { min-width: 0; }
+@media (max-width: 760px) {
+  .freelancer-page .cleanup-option h3 { margin-block: 16px; }
+}
+
+.landing-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px 24px; color: var(--muted); font-size: .875rem; }
+.landing-footer nav { display: flex; flex-wrap: wrap; gap: 12px 20px; }
+.landing-footer a { color: inherit; text-underline-offset: .2em; }
+.audience-routine { padding-block: 48px; }
+.audience-answer + .audience-answer { margin-top: 24px; }
+.audience-answer h3 { font-size: 1.1rem; line-height: 1.35; margin-bottom: 8px; }
+.audience-answer p { color: var(--muted); font-size: .96rem; }
+.audience-answers > div > p:last-child { margin-top: 24px; }
+/* Each audience gets a distinct way into its own workflow. */
+.audience-landing .hero-copy { min-width: 0; }
+.audience-landing .hero h1 em { white-space: normal; }
+.student-preview { min-width: 0; margin: 0; padding: clamp(20px, 3vw, 32px); border-radius: 24px; background: var(--surface-raised); }
+.student-preview-heading { margin-bottom: 18px; }
+.student-preview-heading > p:last-child { margin-top: 6px; font-size: 1.05rem; font-weight: 600; }
+.student-preview picture, .student-preview img { display: block; width: 100%; }
+.student-preview img { height: auto; border-radius: 10px; box-shadow: 0 12px 30px var(--shadow-tint); }
+.student-preview figcaption { margin-top: 12px; color: var(--muted); font-size: .78rem; }
+.student-steps { border-top: 1px solid var(--line); }
+.student-steps article { display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 24px; border-bottom: 1px solid var(--line); padding: 28px 0; }
+.student-steps article > span { color: var(--orange); font-size: 2rem; font-weight: 700; }
+.student-steps h3, .developer-steps h3 { margin: 8px 0; font-size: 1.45rem; }
+.student-steps article p:last-child, .developer-steps article p:last-child { color: var(--muted); max-width: 65ch; }
+.developer-steps { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.developer-steps article { min-width: 0; padding: 28px; background: var(--surface-raised); border: 1px solid var(--line); border-radius: 18px; }
+.developer-step-number { display: inline-block; font-size: .85rem; color: var(--muted); margin-bottom: 26px; font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) {
+  .student-preview { width: min(100%, 640px); margin-inline: auto; text-align: left; }
+  .student-steps article { grid-template-columns: 42px minmax(0,1fr); gap: 12px; }
+  .developer-steps { grid-template-columns: 1fr; }
+}
+.audience-discovery { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 36px; padding-block: 60px; }
+.audience-discovery h2 { margin-block: 12px; font-size: clamp(1.8rem,3vw,2.5rem); }
+.audience-discovery > div > p:last-child { color: var(--muted); }
+.audience-discovery nav { display: grid; }
+.audience-discovery nav a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 15px; border-bottom: 1px solid var(--line); text-decoration: none; font-weight: 600; }
+.audience-discovery nav a:hover { text-decoration: underline; text-underline-offset: .2em; }
+@media (max-width: 760px) { .audience-discovery { grid-template-columns: 1fr; gap: 16px; padding-block: 40px; } }

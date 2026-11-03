@@ -3,6 +3,7 @@
 import { chromium } from '@playwright/test';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 const root = new URL('../', import.meta.url);
 const icon = `data:image/png;base64,${(await readFile(new URL('public/assets/brand-violet/trayage-app-icon.png', root))).toString('base64')}`;
 const cards = JSON.parse(await readFile(new URL('src/_data/socialCards.json',root),'utf8'));
@@ -29,7 +30,7 @@ await mkdir(new URL('artifacts/seo/',root),{recursive:true});
 const browser = await chromium.launch(process.env.PLAYWRIGHT_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_EXECUTABLE_PATH}:{});
 try {
  const page=await browser.newPage({viewport:{width:1200,height:630},deviceScaleFactor:1});
- for(const card of [{key:'home',category:'DOWNLOADS CLEANUP FOR MAC',title:'Find downloads|you no longer need.',subtitle:'Flag installers, likely duplicates, and large or older files. Review free. Confirm before cleanup.',art:'app'},...Object.values(cards)]){
+ for(const card of [{key:'home',category:'DOWNLOADS CLEANUP FOR MAC',title:'Find downloads|you no longer need.',subtitle:'Flag installers, likely duplicates, and large or older files. Review free. Confirm before cleanup.',art:'app'},...Object.values(cards).filter(card => card.art !== 'audience')]){
   const html=cardHTML(card);
   await writeFile(new URL(`artifacts/seo/${card.key}.html`,root),html);
   await page.setContent(html);
@@ -41,3 +42,6 @@ try {
   console.log(`Created ${path} (1200 × 630)`);
  }
 } finally {await browser.close();}
+
+// Audience cards use a dedicated, product-screenshot design.
+execFileSync('python3', [fileURLToPath(new URL('scripts/audience-social.py', root))], { stdio: 'inherit' });

@@ -92,7 +92,7 @@ export function icon(name, className = '') {
   };
   return `<svg class="icon ${className}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.tray}</svg>`;
 }
-export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false, article = false, published, updated, category, collections, faqs, articleImage, articleText, socialKey }) {
+export function layout({ title, seoTitle, description, path = '', body, base, site, releases, kind = '', noindex = false, article = false, published, updated, category, collections, faqs, articleImage, articleText, socialKey, landingPage = false }) {
   const url = (part = '') => `${base}${part}`;
   const isHome = path === '';
   const publisherBrand = escape(site.publisherBrand || site.publisher);
@@ -135,7 +135,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <meta name="twitter:title" content="${escape(fullTitle)}">
   <meta name="twitter:description" content="${escape(description)}">
   ${socialImage ? `<meta name="twitter:image" content="${escape(socialImage)}"><meta name="twitter:image:alt" content="${escape(socialAlt)}">` : ''}
-  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title, description, article, published, updated, category, collections, faqs, articleImage, articleText, socialKey }))}</script>` : ''}
+  ${indexable ? `<script type="application/ld+json">${serializeSchema(structuredData({ site, releases, base, path, title, description, article, published, updated, category, collections, faqs, articleImage, articleText, socialKey, landingPage }))}</script>` : ''}
   ${site.publicationApproved && site.origin ? `<link rel="alternate" type="application/rss+xml" title="Trayage Blog" href="${url('blog/feed.xml')}">` : ''}
   <link rel="icon" type="image/png" sizes="48x48" href="${url('assets/brand-violet/favicon.png')}">
   <link rel="apple-touch-icon" sizes="180x180" href="${url('assets/brand-violet/apple-touch-icon.png')}">
@@ -153,16 +153,16 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="brand" href="${url()}" aria-label="Trayage home"><picture><source data-dark-source media="(prefers-color-scheme: dark)" srcset="${url('assets/brand-violet/trayage-app-icon-dark-96.png')}"><img src="${url('assets/brand-violet/trayage-app-icon-96.png')}" width="43" height="43" alt=""></picture><span>Trayage<span class="brand-dot">.</span></span></a>
-    <nav aria-label="Main navigation">
+    ${landingPage ? '' : `<nav aria-label="Main navigation">
       <a href="${url('#how-it-works')}">How it works</a>
       <a href="${url('#pricing')}">Pricing</a>
       <a href="${url('blog/')}"${path.startsWith('blog/') ? ' aria-current="page"' : ''}>Blog</a>
       <a href="${url('support/')}"${path === 'support/' ? ' aria-current="page"' : ''}>Support</a>
-    </nav>
+    </nav>`}
     <div class="header-actions"><a class="header-cta" data-analytics-placement="header" href="${url('download/')}">${hasDownload(releases) ? 'Try Trayage for Mac' : 'Coming to Mac'} ${arrow}</a><details class="appearance-control" hidden><summary class="appearance-trigger" aria-label="Appearance: System"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg><span class="appearance-value">System</span><svg class="appearance-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg></summary><div class="appearance-menu" role="group" aria-label="Appearance"><p class="appearance-heading">Appearance</p>${['System','Light','Dark'].map(name=>`<button type="button" data-appearance="${name.toLowerCase()}" aria-pressed="${name==='System'}"><span>${name}</span><span class="appearance-check" aria-hidden="true">✓</span></button>`).join('')}</div></details></div>
   </header>
-  <main id="main" tabindex="-1">${path && path !== '404.html' ? `<nav class="wrap breadcrumbs" aria-label="Breadcrumb"><ol>${breadcrumbItems(path, title, category).map((item, index, items) => `<li>${index === items.length - 1 ? `<span aria-current="page">${escape(item.name)}</span>` : `<a href="${url(item.path)}">${escape(item.name)}</a>`}</li>`).join('')}</ol></nav>` : ''}${body}</main>
-  <footer class="site-footer wrap">
+  <main id="main" tabindex="-1">${!landingPage && path && path !== '404.html' ? `<nav class="wrap breadcrumbs" aria-label="Breadcrumb"><ol>${breadcrumbItems(path, title, category).map((item, index, items) => `<li>${index === items.length - 1 ? `<span aria-current="page">${escape(item.name)}</span>` : `<a href="${url(item.path)}">${escape(item.name)}</a>`}</li>`).join('')}</ol></nav>` : ''}${body}</main>
+  ${landingPage ? `<footer class="site-footer landing-footer wrap"><p>© 2026 ${publisherBrand} · Made by ${escape(site.publisher)}</p><nav aria-label="Footer navigation"><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav></footer>` : `<footer class="site-footer wrap">
     <div class="footer-top"><div><a class="brand" href="${url()}"><picture><source data-dark-source media="(prefers-color-scheme: dark)" srcset="${url('assets/brand-violet/trayage-app-icon-dark-96.png')}"><img src="${url('assets/brand-violet/trayage-app-icon-96.png')}" width="36" height="36" alt=""></picture><span>Trayage<span class="brand-dot">.</span></span></a><p>Give Downloads a second look.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
     <div class="footer-bottom"><p>© 2026 <a href="${escape(site.publisherURL)}">${publisherBrand}</a></p><nav aria-label="Footer navigation"><a href="${url('compare/')}">Why Trayage?</a><a data-analytics-placement="footer" href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Planned features</a><a href="${url('blog/')}">Blog</a><a href="${url('about/')}">About</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
     ${!site.publicationApproved ? '<p class="preview-footer">Local review preview · Not published · Policy text remains a draft</p>' : ''}
@@ -211,6 +211,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
       </a>
     </div></div></div>
   </section>
+  `}
   ${site.analytics?.enabled ? `<script src="${url('assets/analytics.js')}?v=${assetVersion('analytics.js')}" data-analytics-origin="${escape(site.origin)}" data-analytics-embed="${escape(site.analytics.embedURL)}" defer></script>` : ''}
 </body>
 </html>`;

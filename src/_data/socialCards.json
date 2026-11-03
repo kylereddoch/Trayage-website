@@ -54,5 +54,26 @@
     "title": "Trayage is now on|the Mac App Store.",
     "subtitle": "Free file review. Optional 7-day cleanup trial. One-time unlock.",
     "art": "app"
+  },
+  "for-freelancers": {
+    "key": "for-freelancers",
+    "category": "FOR FREELANCERS",
+    "title": "Clear the clutter.|Keep the client work.",
+    "subtitle": "A calmer way to review your Mac Downloads.",
+    "art": "audience"
+  },
+  "for-students": {
+    "key": "for-students",
+    "category": "FOR STUDENTS",
+    "title": "Make room for class.|Keep what matters.",
+    "subtitle": "Review course downloads without losing important work.",
+    "art": "audience"
+  },
+  "for-developers": {
+    "key": "for-developers",
+    "category": "FOR MAC DEVELOPERS",
+    "title": "Less installer clutter.|More room to build.",
+    "subtitle": "Review installers and repeat downloads on your Mac.",
+    "art": "audience"
   }
 }
