@@ -15,6 +15,8 @@ function linkEvent(href, tag, site) {
   const decodedHref = href.replaceAll('&amp;', '&');
   // Preserve TinyShelf's required embed HTML exactly, including the link attributes.
   if (decodedHref === 'https://www.tinyshelf.co/?ref=trayage.app') return null;
+  if (/\bdata-screenshot(?:=|\s|>)/.test(tag)) return ['demo.screenshot', tag.match(/data-screenshot="([^"]+)"/)?.[1] || 'overview'];
+  if (decodedHref === '#walkthrough') return ['demo.view', 'walkthrough'];
   const download = /(?:^|\s)download(?:[\s=>]|$)/i.test(tag);
   if (download) {
     const filename = decodedHref.split(/[?#]/, 1)[0].split('/').pop() || 'download';
@@ -42,6 +44,7 @@ function linkEvent(href, tag, site) {
   if (decodedHref === site.links.x) return ['social.x', 'trayage'];
   if (decodedHref === site.links.mastodon) return ['social.mastodon', 'trayage'];
   if (decodedHref === site.publisherURL) return ['publisher.visit', 'relaybyte'];
+  if (destination.hostname === 'testflight.apple.com') return ['beta.view', 'testflight'];
   if (destination.hostname === 'apps.apple.com') return ['store.view', 'mac-app-store'];
   if (destination.hostname === 'reportaproblem.apple.com') return ['refund.apple', 'report-a-problem'];
   if (destination.hostname === 'github.com' && destination.pathname.includes('/releases/download/')) {
@@ -68,6 +71,8 @@ export function addLinkTracking(html, site) {
     if (tag.includes('data-tinylytics-event=')) return tag;
     const event = linkEvent(href, tag, site);
     if (!event) return tag;
+    const placement = tag.match(/data-analytics-placement="([a-z0-9-]+)"/)?.[1];
+    if (placement) event[1] += `:${placement}`;
     return tag.replace(/>$/, ` data-tinylytics-event="${escape(event[0])}" data-tinylytics-event-value="${escape(event[1])}">`);
   });
 }
@@ -154,12 +159,12 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
       <a href="${url('blog/')}"${path.startsWith('blog/') ? ' aria-current="page"' : ''}>Blog</a>
       <a href="${url('support/')}"${path === 'support/' ? ' aria-current="page"' : ''}>Support</a>
     </nav>
-    <div class="header-actions"><a class="header-cta" href="${url('download/')}">${hasDownload(releases) ? 'Try Trayage for Mac' : 'Coming to Mac'} ${arrow}</a><details class="appearance-control" hidden><summary class="appearance-trigger" aria-label="Appearance: System"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg><span class="appearance-value">System</span><svg class="appearance-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg></summary><div class="appearance-menu" role="group" aria-label="Appearance"><p class="appearance-heading">Appearance</p>${['System','Light','Dark'].map(name=>`<button type="button" data-appearance="${name.toLowerCase()}" aria-pressed="${name==='System'}"><span>${name}</span><span class="appearance-check" aria-hidden="true">✓</span></button>`).join('')}</div></details></div>
+    <div class="header-actions"><a class="header-cta" data-analytics-placement="header" href="${url('download/')}">${hasDownload(releases) ? 'Try Trayage for Mac' : 'Coming to Mac'} ${arrow}</a><details class="appearance-control" hidden><summary class="appearance-trigger" aria-label="Appearance: System"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg><span class="appearance-value">System</span><svg class="appearance-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg></summary><div class="appearance-menu" role="group" aria-label="Appearance"><p class="appearance-heading">Appearance</p>${['System','Light','Dark'].map(name=>`<button type="button" data-appearance="${name.toLowerCase()}" aria-pressed="${name==='System'}"><span>${name}</span><span class="appearance-check" aria-hidden="true">✓</span></button>`).join('')}</div></details></div>
   </header>
   <main id="main" tabindex="-1">${path && path !== '404.html' ? `<nav class="wrap breadcrumbs" aria-label="Breadcrumb"><ol>${breadcrumbItems(path, title, category).map((item, index, items) => `<li>${index === items.length - 1 ? `<span aria-current="page">${escape(item.name)}</span>` : `<a href="${url(item.path)}">${escape(item.name)}</a>`}</li>`).join('')}</ol></nav>` : ''}${body}</main>
   <footer class="site-footer wrap">
     <div class="footer-top"><div><a class="brand" href="${url()}"><picture><source data-dark-source media="(prefers-color-scheme: dark)" srcset="${url('assets/brand-violet/trayage-app-icon-dark-96.png')}"><img src="${url('assets/brand-violet/trayage-app-icon-96.png')}" width="36" height="36" alt=""></picture><span>Trayage<span class="brand-dot">.</span></span></a><p>Give Downloads a second look.</p></div><p class="publisher">A ${publisherCredit} app.<br>Made by ${escape(site.publisher)}.</p></div>
-    <div class="footer-bottom"><p>© 2026 <a href="${escape(site.publisherURL)}">${publisherBrand}</a></p><nav aria-label="Footer navigation"><a href="${url('compare/')}">Why Trayage?</a><a href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Planned features</a><a href="${url('blog/')}">Blog</a><a href="${url('about/')}">About</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
+    <div class="footer-bottom"><p>© 2026 <a href="${escape(site.publisherURL)}">${publisherBrand}</a></p><nav aria-label="Footer navigation"><a href="${url('compare/')}">Why Trayage?</a><a data-analytics-placement="footer" href="${url('download/')}">Get Trayage</a><a href="${url('roadmap/')}">Planned features</a><a href="${url('blog/')}">Blog</a><a href="${url('about/')}">About</a><a href="${url('changelog/')}">Changelog</a><a href="${url('media-kit/')}">Media kit</a><a href="${url('support/')}">Support</a><a href="${url('privacy/')}">Privacy</a><a href="${url('terms/')}">Purchase terms</a><a href="${url('refunds/')}">Refunds</a></nav><div class="footer-contact">${site.links.x ? `<a href="${escape(site.links.x)}" rel="me" aria-label="Trayage on X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932zm-1.29 19.49h2.039L6.487 3.24H4.3z"/></svg> X</a>` : ''}${site.links.productHunt ? `<a href="${escape(site.links.productHunt)}">Product Hunt ${arrow}</a>` : ''}${site.links.mastodon && site.mastodonReady?`<a href="${escape(site.links.mastodon)}" rel="me">Mastodon ${arrow}</a>`:''}<a href="mailto:trayage@relaybyte.dev">Say hello ${arrow}</a></div></div>
     ${!site.publicationApproved ? '<p class="preview-footer">Local review preview · Not published · Policy text remains a draft</p>' : ''}
   </footer>
   <section class="launch-area wrap" aria-labelledby="launch-title">
@@ -200,7 +205,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
       </a>
     </div></div></div>
   </section>
-  ${site.analytics?.enabled ? `<script src="${escape(site.analytics.embedURL)}" defer></script>` : ''}
+  ${site.analytics?.enabled ? `<script src="${url('assets/analytics.js')}?v=${assetVersion('analytics.js')}" data-analytics-origin="${escape(site.origin)}" data-analytics-embed="${escape(site.analytics.embedURL)}" defer></script>` : ''}
 </body>
 </html>`;
   return addLinkTracking(html, site);

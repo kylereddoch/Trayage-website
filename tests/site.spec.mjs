@@ -137,7 +137,7 @@ test('default visits load only disclosed analytics and store no visitor state',a
   await page.route('https://founderbattle.com/badges/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="184" height="48"/>'}));
   await page.route('https://peerpush.com/p/trayage/badge.png', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="460" height="130"/>'}));
   for(const route of routes){await page.goto(hosts[0].url+route);}
-  expect(external).toContain(site.analytics.embedURL);
+  expect(external).not.toContain(site.analytics.embedURL);
   expect(external.some(url=>url.includes('viberank.dev'))).toBe(false);
   expect(external.some(url=>url.includes('api.producthunt.com'))).toBe(false);
   expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://peerpush.com/p/trayage/badge.png'||url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||url==='https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light'||url==='https://founderbattle.com/badges/competing-coral.svg')).toBe(true);
@@ -149,7 +149,7 @@ test('Tinylytics event tracking covers outbound, contact, and download links',as
   await page.route('https://tinylytics.app/**', route=>route.fulfill({status:200,contentType:'application/javascript',body:''}));
   for (const route of routes) {
     await page.goto(hosts[0].url+route);
-    await expect(page.locator(`script[src="${site.analytics.embedURL}"][defer]`)).toHaveCount(1);
+    await expect(page.locator(`script[data-analytics-embed="${site.analytics.embedURL}"][defer]`)).toHaveCount(1);
     const untracked = await page.locator('a[href]').evaluateAll(links => links.filter(link => {
       const href = link.getAttribute('href') || '';
       if (href === 'https://www.tinyshelf.co/?ref=trayage.app') return false;
