@@ -202,8 +202,8 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
       </a>
       <a class="macbase-badge" href="https://macbase.app/apps/trayage?ref=badge" target="_blank" rel="noopener">
         <picture>
-          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://macbase.app/badge/featured-on-macbase-dark.svg">
-          <img src="https://macbase.app/badge/featured-on-macbase.svg" alt="Trayage is featured on MacBase" width="313" height="100" />
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="${url('assets/badges/macbase-dark.svg')}">
+          <img src="${url('assets/badges/macbase-light.svg')}" alt="Trayage is featured on MacBase" width="313" height="100" />
         </picture>
       </a>
       <a class="peerpush-badge" href="https://peerpush.com/p/trayage" target="_blank" rel="noopener">
