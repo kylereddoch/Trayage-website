@@ -1,6 +1,33 @@
 {
   "entries": [
     {
+      "version": "1.1.1",
+      "build": "10",
+      "title": "Help shape what comes next.",
+      "summary": "Optional usage analytics and clearer privacy controls, starting with the direct edition.",
+      "releaseHistory": {
+        "direct": "2026-11-03"
+      },
+      "highlights": [
+        {
+          "title": "Your choice to share",
+          "description": "A one-time invitation explains optional usage analytics. Sharing stays off until you opt in, and file names, paths and contents are never included."
+        },
+        {
+          "title": "Privacy controls within reach",
+          "description": "Change your choice anytime in Settings → General → Privacy. Turning sharing off stops further collection and clears the local analytics identifier."
+        },
+        {
+          "title": "More comfortable navigation",
+          "description": "Invitation actions remain accessible at larger text sizes, and Settings tabs return to their headings when selected."
+        },
+        {
+          "title": "Your existing purchase stays with you",
+          "description": "File review stays free, with the optional seven-day cleanup trial and US$9.99 one-time unlock unchanged. Existing direct licenses continue to work. The Mac App Store edition remains at version 1.1 until its update is released."
+        }
+      ]
+    },
+    {
       "version": "1.1",
       "build": "9",
       "title": "A lower one-time price.",
