@@ -200,6 +200,12 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
           <img src="https://founderbattle.com/badges/competing-coral.svg" alt="Competing on Founder Battle" width="184" height="48">
         </picture>
       </a>
+      <a class="macbase-badge" href="https://macbase.app/apps/trayage?ref=badge" target="_blank" rel="noopener">
+        <picture>
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://macbase.app/badge/featured-on-macbase-dark.svg">
+          <img src="https://macbase.app/badge/featured-on-macbase.svg" alt="Trayage is featured on MacBase" width="313" height="100" />
+        </picture>
+      </a>
       <a class="peerpush-badge" href="https://peerpush.com/p/trayage" target="_blank" rel="noopener">
         <img src="https://peerpush.com/p/trayage/badge.png" alt="Trayage on PeerPush" style="width: 230px;" />
       </a>
