@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { contentDate } from '../src/_lib/content-index.js';
+import { publishedPosts } from './helpers/blog-posts.mjs';
 
 for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
   test(`Search structure at ${base}: visible facts, author, categories, dates, and images agree`, async ({ browser, request }) => {
@@ -51,14 +52,11 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         const doc = new DOMParser().parseFromString(xml, 'application/xml');
         return [...doc.querySelectorAll('url')].map(node => ({ url: node.querySelector('loc').textContent, modified: node.querySelector('lastmod')?.textContent }));
       }, sitemap);
+      const articleDates = new Map(publishedPosts.map(post => [`https://trayage.app${base}${post.path}`, post.modified]));
       for (const entry of dates) {
-        if (['clean-up-mac-downloads', 'can-you-delete-dmg-files', 'introducing-trayage', 'check-duplicate-files-on-mac'].some(slug => entry.url.includes(slug))) expect(entry.modified).toBe('2026-10-07T00:00:00.000Z');
-        else if (['trayage-1-1/', 'trayage-new-look/'].some(slug => entry.url.endsWith(slug))) expect(entry.modified).toBe('2026-10-15T00:00:00.000Z');
-        else if (entry.url.endsWith('how-to-use-trayage-smart-filters/')) expect(entry.modified).toBe('2026-10-29T00:00:00.000Z');
+        if (articleDates.has(entry.url)) expect(entry.modified, entry.url).toBe(articleDates.get(entry.url));
         else if (['for-freelancers/', 'for-students/', 'for-developers/'].some(slug => entry.url.endsWith(slug))) expect(entry.modified).toBe('2026-11-03T00:00:00.000Z');
         else if (entry.url.endsWith('compare/')) expect(entry.modified).toBe('2026-10-14T00:00:00.000Z');
-        else if (['trayage-on-the-mac-app-store/'].some(slug => entry.url.endsWith(slug))) expect(entry.modified).toBe('2026-10-12T00:00:00.000Z');
-        else if (['your-first-trayage-review/', 'weekly-downloads-review/'].some(slug => entry.url.endsWith(slug))) expect(entry.modified).toBe('2026-10-09T00:00:00.000Z');
         else expect(entry.modified).toBeUndefined();
       }
     } finally { await context.close(); }
