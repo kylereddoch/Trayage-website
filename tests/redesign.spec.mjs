@@ -98,7 +98,7 @@ for (const scheme of ['light','dark']) {
    await card.click();
    const dialog=page.getByRole('dialog');
    await expect(dialog).toBeVisible();
-   expect(await dialog.locator('img').evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
+   await expect.poll(() => dialog.locator('img').evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
    await page.keyboard.press('Escape');
    await expect(card).toBeFocused();
   }

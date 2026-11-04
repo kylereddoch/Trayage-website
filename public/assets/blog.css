@@ -30,6 +30,9 @@
   .article-header { padding-block: 52px 42px; text-align: left; }
   .article-header .back-link { margin-bottom: 8px; }
   .article-header .blog-lede { max-width: none; }
+  .article-banner { margin: 32px 0 0; }
+  .article-banner img { display: block; width: 100%; height: auto; border-radius: 8px; }
+  .article-banner figcaption { margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.6; }
   .article-category { display: inline-block; margin-top: 16px; font-size: 12px; color: var(--orange); }
   .article-header h1 { font-size: clamp(2.6rem, 4.4vw, 4.4rem); line-height: 1.08; margin-block: 18px 24px; }
   .article-layout { display: grid; grid-template-columns: 225px minmax(0, 750px); gap: 64px; align-items: start; border-top: 1px solid var(--line); padding-top: 42px; }
