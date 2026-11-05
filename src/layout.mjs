@@ -209,6 +209,10 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
       <a class="peerpush-badge" href="https://peerpush.com/p/trayage" target="_blank" rel="noopener">
         <img src="https://peerpush.com/p/trayage/badge.png" alt="Trayage on PeerPush" style="width: 230px;" />
       </a>
+      <a class="launched-tools-badge" href="https://launched.tools/tools/trayage" target="_blank" rel="noopener">
+        <span class="launched-tools-icon" aria-hidden="true"><svg width="13" height="13" viewBox="128 120 264 264"><path d="M214 120 L392 120 L392 298 Z" fill="#15170F"/><path d="M156 356 L322 190" stroke="#15170F" stroke-width="78" fill="none"/></svg></span>
+        <span class="launched-tools-copy"><span class="launched-tools-title">Featured on launched.tools</span><span class="launched-tools-status">REVIEWED ✓</span></span>
+      </a>
     </div></div></div>
   </section>
   `}

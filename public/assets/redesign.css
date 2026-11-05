@@ -175,6 +175,16 @@
   /* Keep PeerPush's embed width intact in HTML while matching the shared badge height and gaps. */
   .launch-badges .peerpush-badge img { width: auto !important; }
   .launch-badges .tech-twitter-badge img { height: 36px; width: 36px; }
+  /* Official launched.tools mark, with local styles for CSP and site appearance. */
+  .launch-badges .launched-tools-badge { --launched-bg: #fff; --launched-ink: #15170F; --launched-muted: #6B705D; gap: 8px; background: var(--launched-bg); border: 1px solid #D4D7C9; border-radius: 10px; padding: 8px 12px; text-decoration: none; font-family: sans-serif; white-space: nowrap; }
+  .launched-tools-icon { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 22px; width: 22px; height: 22px; border-radius: 6px; background: #C6F94E; }
+  .launched-tools-copy { display: flex; flex-direction: column; line-height: 1.2; }
+  .launched-tools-title { font-weight: 700; font-size: 12px; color: var(--launched-ink); }
+  .launched-tools-status { font-size: 10px; color: var(--launched-muted); }
+  :root[data-theme="dark"] .launched-tools-badge { --launched-bg: #15170F; --launched-ink: #F5F6F0; --launched-muted: #878C79; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .launched-tools-badge { --launched-bg: #15170F; --launched-ink: #F5F6F0; --launched-muted: #878C79; }
+  }
   @media (prefers-reduced-motion: no-preference) {
     .is-animated .launch-viewport { overflow: hidden; mask-image: linear-gradient(to right, transparent, black 18px, black calc(100% - 18px), transparent); }
     .is-animated .launch-badges > a { position: absolute; left: 0; top: 4px; animation: featured-drift var(--badge-duration) linear infinite; animation-delay: var(--badge-delay); }

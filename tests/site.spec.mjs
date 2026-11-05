@@ -270,6 +270,10 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   const buildHop = page.getByAltText('Trending on BuildHop: Trayage');
   const founderBattle = page.getByAltText('Competing on Founder Battle');
   const macbase = page.getByAltText('Trayage is featured on MacBase');
+  const launchedTools = page.getByRole('link', {name:'Featured on launched.tools REVIEWED ✓', exact:true});
+  await expect(launchedTools).toHaveAttribute('href', 'https://launched.tools/tools/trayage');
+  await expect(launchedTools).toHaveCSS('background-color', 'rgb(21, 23, 15)');
+  await expect(launchedTools.locator('.launched-tools-title')).toHaveCSS('color', 'rgb(245, 246, 240)');
   await expect(macbase.locator('xpath=ancestor::a')).toHaveAttribute('href', 'https://macbase.app/apps/trayage?ref=badge');
   await page.getByRole('button', {name:'Pause featured badges', exact:true}).click();
   await scrollLaunch.scrollIntoViewIfNeeded();
@@ -293,7 +297,10 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect.poll(() => macbase.evaluate(img => img.currentSrc)).toBe(hosts[0].url+'assets/badges/macbase-light.svg');
   await expect(page.locator('.launchnest-badge .badge-light')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeHidden();
+  await expect(launchedTools).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(launchedTools.locator('.launched-tools-title')).toHaveCSS('color', 'rgb(21, 23, 15)');
   await chooseAppearance(page, 'dark');
+  await expect(launchedTools).toHaveCSS('background-color', 'rgb(21, 23, 15)');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await expect.poll(() => scrollLaunch.evaluate(img => img.currentSrc)).toBe('https://www.scrolllaunch.com/api/badge/trayage?theme=dark');
   await expect.poll(() => letsLaunch.evaluate(img => img.currentSrc)).toBe('https://letslaunch.today/badge/trayage.svg?theme=dark');
@@ -312,7 +319,9 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect(other.locator('.appearance-trigger')).toHaveAttribute('aria-label','Appearance: Light');
   await page.emulateMedia({colorScheme:'dark'});
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(247, 245, 252)');
+  await expect(launchedTools).toHaveCSS('background-color', 'rgb(255, 255, 255)');
   await chooseAppearance(page, 'system');
+  await expect(launchedTools).toHaveCSS('background-color', 'rgb(21, 23, 15)');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
   await expect(other.locator('.appearance-trigger')).toHaveAttribute('aria-label','Appearance: System');
   expect(await page.evaluate(()=>localStorage.length)).toBe(0);
