@@ -7,6 +7,7 @@ import { postRoutes } from './helpers/blog-posts.mjs';
 
 const landingRoutes = ['for-freelancers/', 'for-students/', 'for-developers/'];
 const routes = [...landingRoutes, '', 'download/', 'support/', 'roadmap/', 'changelog/', 'media-kit/', 'privacy/', 'terms/', 'refunds/', 'blog/', 'blog/guides/', 'blog/product-news/', 'about/', 'compare/', ...postRoutes];
+const previewVideo = 'assets/media/trayage-walkthrough-2026-10-preview-v1.mp4';
 for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
   test(`SEO at ${base}: all public pages expose consistent server-rendered metadata`, async ({ browser, request }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
@@ -42,6 +43,22 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         expect([bytes.readUInt32BE(16), bytes.readUInt32BE(20)]).toEqual([1200, 630]);
         expect(bytes.length).toBeLessThan(1_000_000);
         await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+        if (!path) {
+          const videoURL = `${site.origin}${base}${previewVideo}`;
+          const videoMetadata = {
+            'og:video': videoURL,
+            'og:video:secure_url': videoURL,
+            'og:video:type': 'video/mp4',
+            'og:video:width': '1280',
+            'og:video:height': '720'
+          };
+          for (const [property, content] of Object.entries(videoMetadata)) {
+            await expect(page.locator(`meta[property="${property}"]`)).toHaveCount(1);
+            await expect(page.locator(`meta[property="${property}"]`)).toHaveAttribute('content', content);
+          }
+        } else {
+          await expect(page.locator('meta[property^="og:video"]')).toHaveCount(0);
+        }
         await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow, max-image-preview:large');
         const schema = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
         expect(schema['@context']).toBe('https://schema.org');
@@ -94,6 +111,58 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
     } finally { await context.close(); }
   });
 
+  test(`SEO at ${base}: Messages video downloads within the preview resource budget`, async ({ page, request }) => {
+    const origin = `http://127.0.0.1:${port}`;
+    const response = await request.get(`${origin}${base}`);
+    expect(response.status()).toBe(200);
+    const html = await response.body();
+    expect(html.length).toBeLessThan(1_000_000);
+    // Parse the response without executing page scripts, as Messages does.
+    const resources = await page.evaluate(source => {
+      const head = new DOMParser().parseFromString(source, 'text/html').head;
+      return [...head.querySelectorAll('meta[property="og:video"], meta[property="og:image"], link[rel~="icon"], link[rel="apple-touch-icon"]')]
+        .map(node => node.getAttribute('content') || node.getAttribute('href'));
+    }, html.toString());
+    expect(resources).toContain(`${site.origin}${base}${previewVideo}`);
+    let resourceBytes = 0;
+    let video;
+    for (const resource of new Set(resources)) {
+      const url = new URL(resource, `${site.origin}${base}`);
+      expect(url.origin).toBe(site.origin);
+      const asset = await request.get(`${origin}${url.pathname}`);
+      expect(asset.status(), resource).toBe(200);
+      const bytes = await asset.body();
+      resourceBytes += bytes.length;
+      if (url.pathname === `${base}${previewVideo}`) {
+        expect(asset.headers()['content-type']).toBe('video/mp4');
+        expect(asset.headers()['accept-ranges']).toBe('bytes');
+        video = bytes;
+      }
+    }
+    // Apple's 10 MB guideline covers video, preview image, and icons together.
+    expect(resourceBytes).toBeLessThan(10_000_000);
+    expect(video).toBeDefined();
+    const atoms = [];
+    for (let offset = 0; offset < video.length;) {
+      expect(offset + 8).toBeLessThanOrEqual(video.length);
+      const size = video.readUInt32BE(offset);
+      const atomSize = size === 1 ? Number(video.readBigUInt64BE(offset + 8)) : size || video.length - offset;
+      expect(atomSize).toBeGreaterThanOrEqual(size === 1 ? 16 : 8);
+      expect(offset + atomSize).toBeLessThanOrEqual(video.length);
+      atoms.push(video.toString('ascii', offset + 4, offset + 8));
+      offset += atomSize;
+    }
+    expect(atoms).toContain('ftyp');
+    expect(atoms).toContain('moov');
+    expect(atoms).toContain('mdat');
+    expect(atoms.indexOf('moov')).toBeLessThan(atoms.indexOf('mdat'));
+    const range = await request.get(`${origin}${base}${previewVideo}`, { headers: { Range: 'bytes=0-99' } });
+    expect(range.status()).toBe(206);
+    expect(range.headers()['content-type']).toBe('video/mp4');
+    expect(range.headers()['content-range']).toBe(`bytes 0-99/${video.length}`);
+    expect(await range.body()).toEqual(video.subarray(0, 100));
+  });
+
   test(`SEO at ${base}: sitemap matches canonical pages and missing pages stay excluded`, async ({ page, request }) => {
     const host = `http://127.0.0.1:${port}${base}`;
     const robots = await (await request.get(`${host}robots.txt`)).text();
@@ -133,6 +202,8 @@ test('SEO guards omit unpublished identities and unavailable purchase offers', a
   expect(unavailable.softwareVersion).toBeUndefined();
   expect(unavailable.installUrl).toBeUndefined();
   expect(unavailable.sameAs).not.toContain(releases.appStore.url);
+  await page.setContent(render({ site: { ...site, origin: '' } }));
+  await expect(page.locator('meta[property^="og:video"]')).toHaveCount(0);
 });
 
 test('structured data safely preserves punctuation and script-like text', async ({ page }) => {

@@ -104,6 +104,9 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   const social = socialCards[socialKey || path.replace(/^blog\//, '').replace(/\/$/, '')];
   const socialImage = site.origin ? absoluteURL(site, base, social ? `${site.seo.socialDirectory}/${social.key}.png` : site.seo.image) : '';
   const socialAlt = social ? `${social.title.replaceAll('|', ' ')} — Trayage` : site.seo.imageAlt;
+  // Messages needs a direct media URL in the initial HTML (Apple TN3156).
+  // Keep this lightweight share export separate from the full on-page walkthrough.
+  const socialVideo = isHome && site.origin ? absoluteURL(site, base, 'assets/media/trayage-walkthrough-2026-10-preview-v1.mp4') : '';
   const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -130,6 +133,11 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <meta property="og:image:width" content="${site.seo.imageWidth}">
   <meta property="og:image:height" content="${site.seo.imageHeight}">
   <meta property="og:image:alt" content="${escape(socialAlt)}">` : ''}
+  ${socialVideo ? `<meta property="og:video" content="${escape(socialVideo)}">
+  <meta property="og:video:secure_url" content="${escape(socialVideo)}">
+  <meta property="og:video:type" content="video/mp4">
+  <meta property="og:video:width" content="1280">
+  <meta property="og:video:height" content="720">` : ''}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="${escape(site.seo.twitterSite)}">
   <meta name="twitter:title" content="${escape(fullTitle)}">

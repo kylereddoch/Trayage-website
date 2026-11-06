@@ -48,6 +48,42 @@ node scripts/serve.mjs --port 4192
 
 Review `http://127.0.0.1:4192/#walkthrough`. The comparison page uses the same export. Playback is user initiated, with no sound required and a text transcript on the homepage.
 
+## Messages link preview
+
+The homepage's server-rendered `og:video` tags point to the separate
+`trayage-walkthrough-2026-10-preview-v1.mp4` export. The original on-page video,
+captions, transcript, and static social image remain unchanged. Other pages keep
+their existing social previews.
+
+[Apple TN3156](https://developer.apple.com/documentation/technotes/tn3156-create-rich-previews-for-messages)
+requires a direct playable media URL for inline video and recommends keeping all
+preview resources (video, image, and icons together) below 10 MB. This export is
+38 seconds, 1280 × 720, 30 fps, silent H.264 High / yuv420p, with the MP4 `moov`
+atom before `mdat` for fast start. It is 3,592,279 bytes; together with the current
+social image and icons, the preview resources total 3,827,875 bytes.
+
+To regenerate with FFmpeg 8.0.1 and its `libopenh264` encoder, run from the repo
+root. The command refuses to overwrite an existing export; use a new versioned
+filename for a replacement and update the metadata dimensions/path as needed.
+
+```sh
+ffmpeg -hide_banner -nostdin -n \
+  -i public/assets/media/trayage-walkthrough-2026-10.mp4 \
+  -map 0:v:0 -an -sn -dn \
+  -vf 'scale=1280:720:flags=lanczos,setsar=1' \
+  -c:v libopenh264 -profile:v high -pix_fmt yuv420p \
+  -b:v 1300k -maxrate 1500k -bufsize 3000k -rc_mode bitrate -g 60 \
+  -movflags +faststart -map_metadata -1 \
+  public/assets/media/trayage-walkthrough-2026-10-preview-v1.mp4
+```
+
+After rebuilding, check the initial homepage HTML for absolute HTTPS video URLs,
+the MP4's `Content-Type: video/mp4`, and a `206` response to `Range: bytes=0-1023`.
+The SEO tests check both root and project-path builds, the combined resource
+budget, and fast-start layout. Verify playback in Messages with a newly shared
+URL after deployment. Previously sent previews may remain cached; a new query
+string is a diagnostic, not a guaranteed cache refresh.
+
 ## Verified locally
 
 - AVFoundation reports 38.0 seconds and one video track; export is silent.
