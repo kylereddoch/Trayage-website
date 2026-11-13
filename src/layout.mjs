@@ -221,6 +221,12 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
         <span class="launched-tools-icon" aria-hidden="true"><svg width="13" height="13" viewBox="128 120 264 264"><path d="M214 120 L392 120 L392 298 Z" fill="#15170F"/><path d="M156 356 L322 190" stroke="#15170F" stroke-width="78" fill="none"/></svg></span>
         <span class="launched-tools-copy"><span class="launched-tools-title">Featured on launched.tools</span><span class="launched-tools-status">REVIEWED ✓</span></span>
       </a>
+      <a class="macpip-badge" href="https://macpip.com/apps/trayage?ref=badge" target="_blank" rel="noopener">
+        <picture>
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://macpip.com/badge-dark.svg">
+          <img src="https://macpip.com/badge-listed.svg" width="190" height="52" alt="Listed on MacPip">
+        </picture>
+      </a>
     </div></div></div>
   </section>
   `}
