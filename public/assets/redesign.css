@@ -95,7 +95,7 @@
   .pricing-strip + .home-blog { border-top: 0; padding-top: 48px; }
   .home-blog { border-top: 0; }
   .home-faq + .home-blog { padding-top: 0; }
-  .section-topline { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 35px; }
+  .section-topline { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 35px; }
   .section-topline h2 { font-size: clamp(2rem,3vw,2.65rem); margin-top: 12px; }
   .section-topline > .text-link { flex-shrink: 0; color: var(--orange); }
   .home-posts { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; }
