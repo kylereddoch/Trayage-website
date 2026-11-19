@@ -3,10 +3,13 @@ title: Trayage is now on the Mac App Store
 seoTitle: Trayage 1.0 Is Now on the Mac App Store
 description: Trayage 1.0 is available on the Mac App Store. Review Downloads free, try cleanup for 7 days, and choose an optional one-time in-app unlock.
 date: 2026-10-12
+updated: 2026-11-09
 category: Product news
 articleImage: assets/media/trayage-review-dark.png
 draft: false
 ---
+**Current-version note:** This post records the Trayage 1.0 App Store launch. Trayage 1.1 adds local content comparison for likely duplicates, enabled by default in both editions. See the [updated duplicate-file guide]({{ base }}blog/check-duplicate-files-on-mac/) and [download page]({{ base }}download/) for current behavior and availability.
+
 Trayage 1.0 is now available on the Mac App Store. If you prefer getting your Mac apps through Apple, you can download Trayage there and give your Downloads folder a second look.
 
 This is a new way to get Trayage alongside the existing direct download. The idea is the same: see what has accumulated, decide what you still need, and confirm before anything moves to Trash.
@@ -22,7 +25,7 @@ Old installers, repeated downloads, and large files are easy to forget about. Tr
 
 Choose Downloads or another folder. Browse installer disk images, possible duplicates, older or larger files, and recent downloads. Inspect each file's details and the reason it appeared before deciding what to keep.
 
-Possible duplicates are based on filename and size patterns. Their contents are not compared, so these are suggestions to check rather than proof that two files are identical.
+In Trayage 1.0, possible duplicates were based on filename and size patterns without content comparison. Those suggestions were clues to check, rather than verification that two files were identical.
 
 ## You decide what goes
 

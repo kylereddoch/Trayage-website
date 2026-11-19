@@ -34,11 +34,13 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
         expect(article.author.name).toBe('Kyle Reddoch');
         expect(article.author.url).toBe(`https://trayage.app${base}about/`);
         await expect(page.locator('[rel="author"]')).toHaveAttribute('href', `${base}about/`);
-        expect(article.dateModified).toBe('2026-10-07T00:00:00.000Z');
-        if (slug === 'check-duplicate-files-on-mac') {
-          expect(article.datePublished).toBe('2026-10-07T00:00:00.000Z');
-          await expect(page.locator('.blog-meta')).not.toContainText('Updated');
-        } else await expect(page.locator('.blog-meta')).toContainText('Updated October 7, 2026');
+        const post = publishedPosts.find(post => post.path === `blog/${slug}/`);
+        expect(article.dateModified).toBe(post.modified);
+        expect(article.datePublished).toBe(new Date(post.date).toISOString());
+        if (post.updated) {
+          await expect(page.locator('.blog-meta')).toContainText('Updated');
+          await expect(page.locator('.blog-meta span time')).toHaveAttribute('datetime', new Date(post.updated).toISOString());
+        } else await expect(page.locator('.blog-meta')).not.toContainText('Updated');
         expect(article.wordCount).toBeGreaterThan(200);
         const image = new URL(article.image).pathname;
         await expect(page.locator(`.article-body img[src="${image}"]`)).toHaveCount(1);

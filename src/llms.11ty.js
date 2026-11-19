@@ -23,7 +23,7 @@ export default function ({ site, releases, base, collections }) {
 
 > ${appDescription}
 
-Trayage reviews files locally in a folder you choose on macOS ${releases.minimumMacOS} or later. Suggestions include installers, possible repeat downloads, and large or older files, with reasons to review them. Suggestions do not mean a file is unnecessary. Trayage 1.1 can compare likely duplicate contents locally. Matching contents does not mean a copy is unnecessary. Current versions for each edition are listed below.
+Trayage reviews files locally in a folder you choose on macOS ${releases.minimumMacOS} or later. Suggestions include installers, possible repeat downloads, and large or older files, with reasons to review them. Suggestions do not mean a file is unnecessary. Trayage 1.1 groups likely duplicates by normalized filename and size, then compares their contents locally with SHA-256 when content comparison is enabled. This is on by default in both editions and can be turned off in Review Settings. An unavailable comparison is not a verified match. This is not a whole-disk or exhaustive duplicate search. Matching contents does not mean a copy is unnecessary. Current versions for each edition are listed below.
 
 You select files and confirm before Trayage moves them to Trash. Moving to Trash is not permanent deletion. Trayage does not empty the Trash.
 

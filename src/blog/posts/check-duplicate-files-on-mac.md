@@ -3,6 +3,7 @@ title: Are those files really duplicates? What to check before deleting
 seoTitle: How to Check Duplicate Files on Mac Before Deleting — Trayage
 description: Learn how to review possible duplicate files on your Mac, compare more than filenames and sizes, and choose which copies to keep before moving files to Trash.
 date: 2026-10-07
+updated: 2026-11-09
 category: Guides
 articleImage: assets/media/trayage-review-light.png
 ---
@@ -48,14 +49,18 @@ A visual comparison can help you make a practical decision, but it does not prov
 
 Trayage brings likely duplicates, installers, and old or large downloads into a focused review. You can inspect a candidate and reveal it in Finder to take a closer look before selecting anything for cleanup.
 
-**The direct-download edition described here, Trayage 1.0, identifies likely duplicates using normalized filenames and file sizes. It does not compare their contents.** Its suggestions help you find files to inspect; they are not verification that the files are identical.
+**Trayage 1.1 first finds likely duplicates using normalized filenames and file sizes, then compares candidate contents locally with SHA-256.** Content comparison is enabled by default in both the direct and Mac App Store editions. You can turn **Compare likely duplicate contents** off in Review Settings.
+
+Check the comparison result for each candidate. If a file cannot be read, has changed, or is not fully downloaded, Trayage may report that comparison is unavailable; it does not treat that result as a verified match. If comparison is turned off, the suggestions remain filename-and-size clues. Matching contents still does not tell you whether both copies are needed.
+
+This is not an exhaustive duplicate search: the content checks apply within likely filename-and-size groups, so identical files with unrelated names may not be found. Trayage 1.0 did not compare contents; this guide now describes version 1.1.
 
 <figure>
   <img src="{{ base }}assets/media/trayage-review-light.png" alt="Trayage’s review window showing sample Downloads files and review categories, including likely duplicates." width="2560" height="1600" loading="lazy" decoding="async">
-  <figcaption>Trayage’s prerelease Mac App Store review window with sample files. This guide describes the duplicate checks in the direct 1.0 edition; the editions can differ.</figcaption>
+  <figcaption>An earlier prerelease Mac App Store review window with sample files. Trayage 1.1 also includes the local content checks described above.</figcaption>
 </figure>
 
-The current direct scanner reviews top-level files in the folder you choose, rather than recursively searching every subfolder. File analysis happens on your Mac. You choose the files to remove and confirm the move to Trash; Trayage never empties it. The [privacy page]({{ base }}privacy/) explains licensing and other service connections.
+The scanner reviews top-level files in the folder you choose, rather than recursively searching every subfolder. File analysis happens on your Mac. You choose the files to remove and confirm the move to Trash; Trayage never empties it. The [privacy page]({{ base }}privacy/) explains licensing and other service connections.
 
 {% if site.releaseReady and releases.direct.status == "available" %}
 To try this workflow, [download the Trayage installer for Mac (DMG)]({{ releases.direct.url }}). It supports Apple silicon and Intel Macs running macOS {{ releases.minimumMacOS }} or later. See the [installation instructions and trial details]({{ base }}download/) before your first cleanup.

@@ -3,10 +3,12 @@ title: Meet Trayage 1.0. A little order for your Downloads.
 seoTitle: Meet Trayage 1.0 — A Little Order for Your Downloads
 description: Meet the Mac app that brings installers, likely duplicates, and old or large downloads together for a thoughtful review before cleanup.
 date: 2026-10-06
-updated: 2026-10-07
+updated: 2026-11-09
 articleImage: assets/media/trayage-review-dark.png
 category: Product news
 ---
+**Current-version note:** This post records the Trayage 1.0 launch. Trayage 1.1 adds local content comparison for likely duplicates, enabled by default in both editions. See the [updated duplicate-file guide]({{ base }}blog/check-duplicate-files-on-mac/) and [download page]({{ base }}download/) for current behavior and availability.
+
 An installer you used last month. Several similarly named PDFs. A large archive you meant to come back to. Downloads collects files faster than most of us make decisions about them.
 
 Trayage 1.0 is available as a direct download for Mac. It brings those files into a focused review, helps you see why each one stands out, and lets you choose what should stay.
@@ -18,7 +20,7 @@ Trayage lives in the menu bar, with a full review window when you want more room
 The review brings together a few useful signals:
 
 - **Disk images and installers:** including a check for a similarly named app in Applications.
-- **Likely duplicates:** candidates identified by normalized filename and file size. Their contents have not been compared.
+- **Likely duplicates in 1.0:** candidates identified by normalized filename and file size. That version did not compare their contents.
 - **Old or large files:** a starting point for deciding what still matters.
 - **Recent downloads:** the files you may still be working with.
 

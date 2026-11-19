@@ -3,6 +3,7 @@ title: A small weekly habit for a clearer Downloads folder
 seoTitle: A Weekly Downloads Folder Routine for Mac — Trayage
 description: A simple end-of-week review for receipts, client files, repeated downloads, and installers. Keep what matters without trying to empty everything.
 date: 2026-10-09
+updated: 2026-11-09
 articleImage: assets/media/trayage-home-dark.jpg
 ---
 A useful weekly Downloads review has three parts: **give important files a permanent home, inspect a small group of leftovers, and stop when you are unsure.** The goal is to make the next file easier to find, not to leave the folder empty.
@@ -50,7 +51,7 @@ Trayage groups installers, likely duplicates, and old or large files for a focus
   <figcaption>Review suggestions are clues for your own decisions, shown here with sample files.</figcaption>
 </figure>
 
-You choose what moves to Trash and confirm before cleanup. The app never empties Trash. Its likely-duplicate suggestions use filenames and sizes, without comparing contents. See [your first Trayage review]({{ base }}blog/your-first-trayage-review/) for the full sequence.
+You choose what moves to Trash and confirm before cleanup. The app never empties Trash. Trayage 1.1 finds likely duplicates by filename and size, with local content comparison enabled by default. Check the comparison result before choosing a copy; matching contents does not mean a file is unnecessary. See [your first Trayage review]({{ base }}blog/your-first-trayage-review/) for the full sequence.
 
 If you would rather automate filing rules or explore storage across a disk, our [Mac utility comparison]({{ base }}compare/) explains where other tools fit.
 

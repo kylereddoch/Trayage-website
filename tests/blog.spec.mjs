@@ -43,7 +43,7 @@ for (const [port, base] of [[4175, '/'], [4176, '/Trayage-website/']]) {
       expect(parsed.links.sort()).toEqual(postRoutes.map(path => `${site.origin}${base}${path}`).sort());
       await page.goto(`${host}blog/check-duplicate-files-on-mac/`);
       await expect(page.getByRole('link', { name: 'download the Trayage installer for Mac (DMG)', exact: true })).toHaveAttribute('href', releases.direct.url);
-      await expect(page.locator('.article-body')).toContainText('It does not compare their contents.');
+      await expect(page.locator('.article-body')).toContainText('This is not an exhaustive duplicate search:');
     } finally { await context.close(); }
   });
 }

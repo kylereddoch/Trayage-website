@@ -3,6 +3,7 @@ title: What happens when you clean up with Trayage?
 seoTitle: Your First Trayage Review — Downloads Cleanup for Mac
 description: Walk through choosing a folder, checking a suggestion, and confirming what moves to Trash. A plain-language introduction to Trayage for Mac.
 date: 2026-10-09
+updated: 2026-11-09
 articleImage: assets/media/trayage-home-dark.jpg
 ---
 Trayage helps you review files in your Mac’s Downloads folder. It shows suggestions, explains why files stand out, and lets you choose what to remove. **Nothing moves to Trash just because you review a folder. You select files and confirm the cleanup.**
@@ -38,7 +39,7 @@ Select a file to read its details. Use **Reveal in Finder** when you need to fin
 
 For an installer, check that the app is installed and works independently of the downloaded disk image. Our [DMG guide]({{ base }}blog/can-you-delete-dmg-files/) explains what to look for.
 
-For likely duplicates, compare the actual files. Trayage uses filenames and file sizes to flag candidates; it does not compare their contents. The [duplicate-file guide]({{ base }}blog/check-duplicate-files-on-mac/) explains why matching names are not enough.
+For likely duplicates, check the comparison result and review the actual files. Trayage 1.1 uses filenames and file sizes to flag candidates, then compares their contents locally with SHA-256. Content comparison is on by default and can be turned off in Review Settings. An unavailable comparison does not verify a match, and matching contents does not mean you no longer need a copy. The [duplicate-file guide]({{ base }}blog/check-duplicate-files-on-mac/) explains what to check.
 
 Files you want to keep do not need to be selected. You can ignore a suggestion for the current review and come back to the decision later.
 
