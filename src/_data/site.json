@@ -39,7 +39,6 @@
     "issues": "https://github.com/kylereddoch/Trayage-website/issues",
     "featureIdea": "https://github.com/kylereddoch/Trayage-website/issues/new?template=feature-idea.yml",
     "bugReport": "https://github.com/kylereddoch/Trayage-website/issues/new?template=bug-report.yml",
-    "mastodon": "https://indieapps.space/@trayage",
     "x": "https://x.com/TrayageForMac",
     "launchNest": "https://launchnest.io/p/trayage",
     "productHunt": "https://www.producthunt.com/products/trayage"
@@ -55,6 +54,5 @@
   "publisherURL": "https://relaybyte.dev",
   "publisherMark": "assets/relaybyte-symbol.svg",
   "studioEmail": "kyle@relaybyte.dev",
-  "effective": "September 10, 2026",
-  "mastodonReady": false
+  "effective": "September 10, 2026"
 }

@@ -75,7 +75,7 @@ export function structuredData({ site, releases, base, path, title, description,
       mainEntityOfPage: { '@id': `${home}#webpage` },
       author: { '@id': publisher['@id'] },
       publisher: { '@id': publisher['@id'] },
-      sameAs: [site.links.x, site.mastodonReady && site.links.mastodon, site.links.productHunt].filter(Boolean),
+      sameAs: [site.links.x, site.links.productHunt].filter(Boolean),
       featureList: ['Free Downloads folder review', 'Disk image and installer review', 'Likely duplicate candidates by filename and size', 'Local duplicate-content comparison with SHA-256, enabled by default', 'Old and large file review', 'Local file analysis', 'Move selected files to Trash after confirmation']
     };
     if (channelIsLive(releases, 'direct')) {
