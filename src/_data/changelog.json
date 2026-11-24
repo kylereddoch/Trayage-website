@@ -1,6 +1,44 @@
 {
   "entries": [
     {
+      "version": "1.1.3",
+      "build": "14",
+      "title": "A smoother Review Cleanup window.",
+      "summary": "Fixes title-bar dragging and improves title readability in the direct edition.",
+      "releaseHistory": {
+        "direct": "2026-11-24"
+      },
+      "highlights": [
+        {
+          "title": "Move the review window",
+          "description": "Fixes an issue that could prevent moving the Review Cleanup window by dragging its title bar."
+        },
+        {
+          "title": "A clearer title bar",
+          "description": "Improves title-bar readability in light and dark appearance, including with larger text."
+        }
+      ]
+    },
+    {
+      "version": "1.1.2",
+      "build": "12",
+      "title": "Redeem offers through Apple.",
+      "summary": "Offer-code redemption and a clearer Billing screen in the Mac App Store edition.",
+      "releaseHistory": {
+        "appStore": "2026-11-05"
+      },
+      "highlights": [
+        {
+          "title": "Redeem from Billing",
+          "description": "Open Apple’s offer-code redemption window from Settings → Billing and review the offer before confirming. Requires macOS 15 or later."
+        },
+        {
+          "title": "Purchase controls together",
+          "description": "Find purchase controls in a cleaner Billing screen, with support and legal links kept in About."
+        }
+      ]
+    },
+    {
       "version": "1.1.1",
       "build": "10",
       "title": "Help shape what comes next.",
