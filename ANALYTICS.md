@@ -1,6 +1,6 @@
 # Website measurement and attribution
 
-The November 3 implementation was published. The November 25 placement extension is implemented and tested locally, awaiting publication approval; see [PLACEMENT-TRACKING.md](PLACEMENT-TRACKING.md) for its link catalog, Stripe verification, reporting definitions, and release status. Tinylytics site 3768; this document describes measurement, not an observed conversion funnel.
+The November 3 implementation was published. Kyle authorized publication of the tested November 25 placement extension; see [PLACEMENT-TRACKING.md](PLACEMENT-TRACKING.md) for its link catalog, Stripe verification, reporting definitions, and release status. Tinylytics site 3768; this document describes measurement, not an observed conversion funnel.
 
 ## Audit evidence
 

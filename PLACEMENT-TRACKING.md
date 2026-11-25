@@ -2,8 +2,8 @@
 
 ## Release status
 
-Implemented and tested on `codex/placement-attribution`; website publication is
-pending Kyle's approval. Existing posts and directory submissions have not been
+Implemented and tested on `codex/placement-attribution`; Kyle authorized website
+publication on November 25, 2026. Existing posts and directory submissions have not been
 edited. The new website links require this version to be deployed first.
 The direct Stripe links already use a supported Payment Link parameter.
 
