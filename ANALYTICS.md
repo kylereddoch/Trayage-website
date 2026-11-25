@@ -1,6 +1,6 @@
 # Website measurement and attribution
 
-Implementation reviewed and publication authorized November 3, 2026. Verify the deployment and live behavior separately from the local checks below. Tinylytics site 3768; this document describes measurement, not an observed conversion funnel.
+The November 3 implementation was published. The November 25 placement extension is implemented and tested locally, awaiting publication approval; see [PLACEMENT-TRACKING.md](PLACEMENT-TRACKING.md) for its link catalog, Stripe verification, reporting definitions, and release status. Tinylytics site 3768; this document describes measurement, not an observed conversion funnel.
 
 ## Audit evidence
 
@@ -29,7 +29,7 @@ Video events are deduplicated in memory per page load. Replays/reloads are not u
 
 ## Acquisition links
 
-Use lowercase, stable labels; never names, emails, license keys or user IDs. Use one campaign name across placements and vary `utm_content`. Maintain these on incoming links only, not internal navigation (which can misattribute acquisition) or Stripe, GitHub downloads, or Apple destinations.
+Use lowercase, stable labels; never names, emails, license keys or user IDs. Use one campaign name across placements and vary `utm_content`. The November 25 extension carries only a registered `via` label through internal navigation, adds it to selected click values, and sets Stripe's `client_reference_id`. UTMs remain on the landing URL. GitHub downloads and Apple destinations are not decorated. Generate new links from the registry with `npm run tracking:links`.
 
 Proposed examples, not published campaign links:
 
@@ -38,7 +38,7 @@ Proposed examples, not published campaign links:
 - Product X bio: `https://trayage.app/?utm_source=x&utm_medium=social&utm_campaign=profile&utm_content=product_bio`
 - Newsletter: `https://trayage.app/?utm_source=relaybyte&utm_medium=email&utm_campaign=trayage_2026_11&utm_content=newsletter`
 
-Tinylytics reads campaign/ref parameters from the full landing URL. Confirm which UTM fields its current reports expose before promising content-level reporting. The site does not persist campaign state between pages; an outbound click on `/download/` may have no original UTM parameters. Same-day provider journeys/segments may help explore movement, but do not assume reliable end-to-end campaign-to-sale matching. Referrer suppression, copied links, apps and untagged campaigns all contribute to direct/unknown traffic; unknown is not evidence of brand familiarity.
+Tinylytics reads campaign/ref parameters from the full landing URL. Registered labels in event values provide placement-level click reporting even after navigation. Stripe separately stores the same label on Checkout Sessions. This joins aggregate link labels, not visitor identities. Referrer suppression, copied links, apps and untagged campaigns still contribute to unknown traffic; unknown is not evidence of brand familiarity. The older proposed examples above are not automatically registered placements.
 
 ## What to review weekly
 
@@ -48,13 +48,13 @@ Existing baseline is being handled in the Trayage app chat; no analytics API que
 
 ## Privacy and release steps
 
-The revised website disclosure explicitly distinguishes clicks from completed outcomes, explains placement/video labels and incoming campaign labels, and adds a browser opt-out link. No new cookies, visitor IDs, session storage, cross-device join or app-file information is introduced. The opt-out uses the existing `tinylytics_ignore` local-storage flag. These implementation facts do not by themselves settle consent requirements for every audience/jurisdiction; any future persistent attribution or app telemetry needs a separate disclosure/consent review.
+The website disclosure distinguishes clicks from completed outcomes and describes placement/video labels and browser opt-out. The November 25 extension also discloses carrying public placement labels through website links and into Stripe records. No new cookies, visitor IDs, session storage, cross-device join or app-file information is introduced. The opt-out uses the existing `tinylytics_ignore` local-storage flag and suppresses attribution decoration too.
 
 Before release, review the local privacy copy and effective date. After explicit publication approval: deploy through the normal repository flow; verify build/deployment and live origin guard/markup/CSP separately. Keep `tinylytics.app` allowed in script-src and connect-src. Use intercepted collection for browser verification; do not send fake campaign conversions into production. Check subsequent real traffic for the new values. Keep legacy `?events&beacon` while this tested embed is in use; do not toggle live settings from the misleading flags alone. Configure any dashboard goals separately, with names such as “Direct download click” or “Checkout click,” never “Installed” or “Purchased.”
 
 Sources: [Tinylytics events](https://tinylytics.app/docs/analytics/events), [custom collector and ignore behavior](https://tinylytics.app/docs/developer/custom-script), [Overview and journey limitations](https://tinylytics.app/docs/analytics/overview).
 
-## Validation completed locally
+## Historical November 3 validation
 
 - `npm run check`: 71 tests passed, including all existing root/project-path, accessibility, responsive, privacy, publishing and link checks.
 - Six new analytics tests cover placement values, the captured provider's actual nested-element click payload and page view, beacon/fetch fallback, video deduplication and played-range threshold, provider blocking, existing/URL opt-out, and zero Tinylytics requests on local root/project-path previews.

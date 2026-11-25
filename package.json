@@ -17,6 +17,7 @@
     "test": "playwright test",
     "check": "npm run build && npm test",
     "social:build": "node scripts/social-card.mjs",
+    "tracking:links": "node scripts/placement-links.mjs",
     "roadmap:sync": "node scripts/sync-roadmap.mjs"
   },
   "devDependencies": {

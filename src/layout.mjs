@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import socialCards from './_data/socialCards.json' with { type: 'json' };
+import placements from './_data/placements.json' with { type: 'json' };
 import { breadcrumbItems } from './_lib/content-index.js';
 import { hasDownload } from './_lib/releases.js';
 import { techTwitterBadge } from './tech-twitter-badge.mjs';
@@ -228,7 +229,8 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
     </div></div></div>
   </section>
   `}
-  ${site.analytics?.enabled ? `<script src="${url('assets/analytics.js')}?v=${assetVersion('analytics.js')}" data-analytics-origin="${escape(site.origin)}" data-analytics-embed="${escape(site.analytics.embedURL)}" defer></script>` : ''}
+  ${site.analytics?.enabled ? `<script src="${url('assets/attribution.js')}?v=${assetVersion('attribution.js')}" data-attribution-origin="${escape(site.origin)}" data-attribution-base="${escape(base)}" data-attribution-checkout="${escape(site.links.oneTime)}" data-attribution-placements="${escape(JSON.stringify(placements))}" defer></script>
+  <script src="${url('assets/analytics.js')}?v=${assetVersion('analytics.js')}" data-analytics-origin="${escape(site.origin)}" data-analytics-embed="${escape(site.analytics.embedURL)}" defer></script>` : ''}
 </body>
 </html>`;
   return addLinkTracking(html, site);

@@ -1,0 +1,69 @@
+{
+  "bf2026_x_personal_reminder": {
+    "label": "Black Friday — personal X reminder",
+    "source": "x",
+    "medium": "social",
+    "campaign": "black_friday_2026",
+    "content": "personal_reminder",
+    "path": "blog/trayage-black-friday-2026/"
+  },
+  "bf2026_x_trayage_reminder": {
+    "label": "Black Friday — Trayage X reminder",
+    "source": "x",
+    "medium": "social",
+    "campaign": "black_friday_2026",
+    "content": "trayage_reminder",
+    "path": "blog/trayage-black-friday-2026/"
+  },
+  "bf2026_macbase_deal": {
+    "label": "Black Friday — MacBase deal link",
+    "source": "macbase",
+    "medium": "directory",
+    "campaign": "black_friday_2026",
+    "content": "deal_listing",
+    "path": "blog/trayage-black-friday-2026/"
+  },
+  "bf2026_macapp_supply_deal": {
+    "label": "Black Friday — Mac App Supply deal link",
+    "source": "macapp_supply",
+    "medium": "directory",
+    "campaign": "black_friday_2026",
+    "content": "deal_listing",
+    "path": "blog/trayage-black-friday-2026/"
+  },
+  "bf2026_indieappsales_deal": {
+    "label": "Black Friday — Indie App Sales deal link",
+    "source": "indieappsales",
+    "medium": "directory",
+    "campaign": "black_friday_2026",
+    "content": "deal_listing",
+    "path": "blog/trayage-indie-app-sales-black-friday-2026/"
+  },
+  "macbase_listing": {
+    "label": "MacBase referral — exact post unknown",
+    "source": "macbase",
+    "medium": "directory",
+    "campaign": "directory_listings",
+    "content": "listing",
+    "path": "",
+    "refs": ["macbase.app"]
+  },
+  "macapp_supply_listing": {
+    "label": "Mac App Supply referral — exact post unknown",
+    "source": "macapp_supply",
+    "medium": "directory",
+    "campaign": "directory_listings",
+    "content": "listing",
+    "path": "",
+    "refs": ["macapp.supply"]
+  },
+  "macpip_listing": {
+    "label": "MacPip referral — exact post unknown",
+    "source": "macpip",
+    "medium": "directory",
+    "campaign": "directory_listings",
+    "content": "listing",
+    "path": "",
+    "refs": ["macpip", "macpip.com"]
+  }
+}
