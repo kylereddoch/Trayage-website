@@ -226,6 +226,12 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
           <img src="https://macpip.com/badge-listed.svg" width="190" height="52" alt="Listed on MacPip">
         </picture>
       </a>
+      <a href="https://macbrowse.com/utilities/trayage" target="_blank" rel="noopener">
+        <picture>
+          <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://macbrowse.com/badge/listed-dark.svg?claim=macbrowse-verify-d04fc5623aaa2b5d9b2f9994">
+          <img src="https://macbrowse.com/badge/listed-light.svg?claim=macbrowse-verify-d04fc5623aaa2b5d9b2f9994" alt="Listed on Mac Browse" width="220" height="48">
+        </picture>
+      </a>
       <a class="dropyoururl-badge" href="https://dropyoururl.app/?ref=_l5B-z1a0oqQ5Lhs" target="_blank" rel="noopener" title="Dropped on dropyoururl">
         <picture>
           <source data-dark-source media="(prefers-color-scheme: dark)" srcset="https://dropyoururl.app/badge/_l5B-z1a0oqQ5Lhs.svg?theme=dark">

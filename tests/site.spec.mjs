@@ -6,6 +6,9 @@ import { channelIsLive } from '../src/_lib/releases.js';
 import { validateLaunch } from '../src/_lib/validate-launch.js';
 import { postRoutes } from './helpers/blog-posts.mjs';
 
+const macBrowseLight = 'https://macbrowse.com/badge/listed-light.svg?claim=macbrowse-verify-d04fc5623aaa2b5d9b2f9994';
+const macBrowseDark = 'https://macbrowse.com/badge/listed-dark.svg?claim=macbrowse-verify-d04fc5623aaa2b5d9b2f9994';
+
 const routes = ['for-freelancers/', 'for-students/', 'for-developers/', '', 'support/', 'privacy/', 'terms/', 'refunds/', 'roadmap/', 'download/', 'media-kit/', 'changelog/', '404.html', 'blog/', 'blog/guides/', 'blog/product-news/', 'about/', 'compare/', ...postRoutes];
 const hosts = [
   {name:'domain root', url:'http://127.0.0.1:4175/'},
@@ -137,13 +140,14 @@ test('default visits load only disclosed analytics and store no visitor state',a
   await page.route('https://buildhop.io/api/badges/launch/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="236" height="52"/>'}));
   await page.route('https://founderbattle.com/badges/**', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="184" height="48"/>'}));
   await page.route('https://peerpush.com/p/trayage/badge.png', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="460" height="130"/>'}));
+  await page.route(macBrowseLight, route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="220" height="48"/>'}));
   await page.route('https://macpip.com/badge-listed.svg', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="190" height="52"/>'}));
   await page.route('https://dropyoururl.app/badge/_l5B-z1a0oqQ5Lhs.svg*', route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="168" height="48"/>'}));
   for(const route of routes){await page.goto(hosts[0].url+route);}
   expect(external).not.toContain(site.analytics.embedURL);
   expect(external.some(url=>url.includes('viberank.dev'))).toBe(false);
   expect(external.some(url=>url.includes('api.producthunt.com'))).toBe(false);
-  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url==='https://dropyoururl.app/badge/_l5B-z1a0oqQ5Lhs.svg'||url==='https://macpip.com/badge-listed.svg'||url==='https://peerpush.com/p/trayage/badge.png'||url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||url==='https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light'||url==='https://founderbattle.com/badges/competing-coral.svg')).toBe(true);
+  expect(external.filter(url=>url!==site.analytics.embedURL).every(url=>url===macBrowseLight||url==='https://dropyoururl.app/badge/_l5B-z1a0oqQ5Lhs.svg'||url==='https://macpip.com/badge-listed.svg'||url==='https://peerpush.com/p/trayage/badge.png'||url==='https://letslaunch.today/badge/trayage.svg'||url==='https://www.tinyshelf.co/badge/tinyshelf-badge-dark-f4d1216a.svg'||url==='https://www.scrolllaunch.com/api/badge/trayage'||/^https:\/\/launchnest\.io\/badge\/trayage\.svg\?variant=featured(?:&theme=light)?$/.test(url)||url==='https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light'||url==='https://founderbattle.com/badges/competing-coral.svg')).toBe(true);
   expect(await page.context().cookies()).toEqual([]);
   expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});
 });
@@ -271,6 +275,9 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   const scrollLaunch = page.getByAltText('Featured on ScrollLaunch');
   const buildHop = page.getByAltText('Trending on BuildHop: Trayage');
   const founderBattle = page.getByAltText('Competing on Founder Battle');
+  const macBrowse = page.locator('.launch-badges').getByRole('link', {name:'Listed on Mac Browse'});
+  await expect(macBrowse).toHaveAttribute('href', 'https://macbrowse.com/utilities/trayage');
+  const macBrowseImage = macBrowse.locator('img');
   const macbase = page.getByAltText('Trayage is featured on MacBase');
   const launchedTools = page.getByRole('link', {name:'Featured on launched.tools REVIEWED ✓', exact:true});
   await expect(launchedTools).toHaveAttribute('href', 'https://launched.tools/tools/trayage');
@@ -285,6 +292,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=dark');
   await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing.svg');
   await expect.poll(() => macbase.evaluate(img => img.currentSrc)).toBe(hosts[0].url+'assets/badges/macbase-dark.svg');
+  await expect.poll(() => macBrowseImage.evaluate(img => img.currentSrc)).toBe(macBrowseDark);
   const select=page.locator('.appearance-trigger');
   await expect(select).toHaveAttribute('aria-label','Appearance: System');
   await expect(page.locator('body')).toHaveCSS('background-color','rgb(25, 21, 36)');
@@ -297,6 +305,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=light');
   await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing-coral.svg');
   await expect.poll(() => macbase.evaluate(img => img.currentSrc)).toBe(hosts[0].url+'assets/badges/macbase-light.svg');
+  await expect.poll(() => macBrowseImage.evaluate(img => img.currentSrc)).toBe(macBrowseLight);
   await expect(page.locator('.launchnest-badge .badge-light')).toBeVisible();
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeHidden();
   await expect(launchedTools).toHaveCSS('background-color', 'rgb(255, 255, 255)');
@@ -309,6 +318,7 @@ test('appearance follows the system, persists an explicit choice, and resets cle
   await expect.poll(() => buildHop.evaluate(img => img.currentSrc)).toBe('https://buildhop.io/api/badges/launch/c561c9c6-60cc-4549-81b2-83da959e4fba?theme=dark');
   await expect.poll(() => founderBattle.evaluate(img => img.currentSrc)).toBe('https://founderbattle.com/badges/competing.svg');
   await expect.poll(() => macbase.evaluate(img => img.currentSrc)).toBe(hosts[0].url+'assets/badges/macbase-dark.svg');
+  await expect.poll(() => macBrowseImage.evaluate(img => img.currentSrc)).toBe(macBrowseDark);
   await expect(page.locator('.launchnest-badge .badge-dark')).toBeVisible();
   await page.getByRole('navigation',{name:'Footer navigation'}).getByRole('link',{name:'Privacy',exact:true}).click();
   await expect(select).toHaveAttribute('aria-label','Appearance: Dark');
