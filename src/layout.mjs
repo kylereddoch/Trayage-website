@@ -138,6 +138,7 @@ export function layout({ title, seoTitle, description, path = '', body, base, si
   <meta property="og:video:width" content="1280">
   <meta property="og:video:height" content="720">` : ''}
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@thecyberseckyle">
   <meta name="twitter:site" content="${escape(site.seo.twitterSite)}">
   <meta name="twitter:title" content="${escape(fullTitle)}">
   <meta name="twitter:description" content="${escape(description)}">
